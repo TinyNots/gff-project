@@ -29,9 +29,10 @@ public class StartButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 四つのボタンのうちどれか押したらメニューを表示する
+        // 四つのボタンのうちどれか押したらメニューを表示する(デバック用にキーも対応)
         if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") 
-            || Input.GetButtonDown("Fire3") || Input.GetButtonDown("Jump"))
+            || Input.GetButtonDown("Fire3") || Input.GetButtonDown("Jump")
+            || Input.GetKeyDown(KeyCode.A))
         {
             PushButton();
         }
