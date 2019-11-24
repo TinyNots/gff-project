@@ -11,14 +11,23 @@ public class EnemyJump : IState<Enemy>
 
     public void Execute(Enemy enemy)
     {
-        if (!enemy.IsJumping())
+        Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, enemy.transform.position.y);
+        if (!enemy.IsJumping() && enemy.GetRigidbody().velocity == new Vector2(0,0))
         {
-            enemy.GetRigidbody().AddForce(new Vector3(0.0f, 5.0f, 0.0f), ForceMode2D.Impulse);
-            jumpCnt++;
+            if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
+            {
+                enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
+                Debug.Log("ChangeToPatrol");
+                enemy.ChangeState(new EnemyPatrol());
+                return;
+            }
+            enemy.GetRigidbody().AddForce(new Vector2(enemy.GetMoveDir().x * 3.0f, 3.0f), ForceMode2D.Impulse);
+
+            Debug.Log(enemy.GetRigidbody().velocity);
         }
-      
-            enemy.ChangeState(new EnemyPatrol());
         
+        //enemy.ChangeState(new EnemyPatrol());
+
     }
     public void Exit(Enemy enemy)
     {

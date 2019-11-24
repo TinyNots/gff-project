@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyPatrol : IState<Enemy>
 {
-    static int destPoint = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,21 +13,20 @@ public class EnemyPatrol : IState<Enemy>
 
     public void Enter(Enemy enemy)
     {
-        if (Vector3.Distance(enemy.transform.position, enemy.dest[destPoint]) < 0.5f)
-        {
-            destPoint++;
-        }
+
     }
 
     public void Execute(Enemy enemy)
     {
-      enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, enemy.dest[destPoint], 5f * Time.deltaTime);
-      if (Vector3.Distance(enemy.transform.position, enemy.dest[destPoint]) < 0.5f)
+        Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, enemy.transform.position.y);
+      enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir().x *0.1f, 0.0f, 0.0f);
+      if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
       {
-           destPoint++;
-           enemy.ChangeState(new EnemyJump());
+           enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
+           Debug.Log("ChangeToJump");
+            enemy.ChangeState(new EnemyJump());
       }
-      destPoint = destPoint % enemy.dest.Length;
+
     }
     public void Exit(Enemy enemy)
     {
@@ -37,6 +36,7 @@ public class EnemyPatrol : IState<Enemy>
     // Update is called once per frame
     void Update()
     {
+        
     }
 
     void MoveState()
