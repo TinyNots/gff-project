@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float _speed = 5.0f;
     private bool _isEableMove = true;
+    [SerializeField]
+    private Animator animator;
 
     // Use this for initialization
     void Start()
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isEableMove)
         {
             depth += _speed * gamepad.GetStickL().Y * Time.deltaTime;
+            animator.SetFloat("Speed", Mathf.Abs(gamepad.GetStickL().X + gamepad.GetStickL().Y));
         }
 
         depth = Mathf.Clamp(depth, -4.2f, 2f);
@@ -42,7 +45,13 @@ public class PlayerMovement : MonoBehaviour
         // test jump code
         if (gamepad.GetButtonDown("A"))
         {
-            //GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
+            //GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);\
+        }
+
+        if(gamepad.GetButtonDown("X"))
+        {
+            animator.SetBool("IsAttacking", true);
+            _isEableMove = false;
         }
     }
 

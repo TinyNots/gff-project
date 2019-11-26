@@ -23,19 +23,23 @@ public class Jump : MonoBehaviour
         {
             _currentVelocity = _jumpVelocity;
             _isGrounded = false;
+            GetComponent<Animator>().SetBool("IsJumping", true);
         }
 
         if(!_isGrounded)
         {
-            _currentVelocity -= 10f * 0.2f;
+            _currentVelocity -= 5f * 0.2f;
             transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
 
-            if(_currentVelocity <= -_jumpVelocity)
+            GetComponent<Animator>().SetFloat("JumpVelocity", _currentVelocity);
+
+            if (_currentVelocity <= -_jumpVelocity)
             {
                 transform.localPosition = new Vector2(0, 0);
                 _currentVelocity = 0;
                 _isGrounded = true;
                 StartCoroutine("JumpWait");
+                GetComponent<Animator>().SetBool("IsJumping", false);
             }
         }
     }
@@ -46,6 +50,12 @@ public class Jump : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
+        player.EableMove = true;
+    }
+
+    public void ResetAttack()
+    {
+        GetComponent<Animator>().SetBool("IsAttacking", false);
         player.EableMove = true;
     }
 }
