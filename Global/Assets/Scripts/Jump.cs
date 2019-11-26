@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
-    private float _jumpVelocity = 20f;
+    private float _jumpVelocity = 30f;
     private float _currentVelocity = 0;
     private bool _isGrounded = true;
     [SerializeField]
@@ -32,7 +32,7 @@ public class Jump : MonoBehaviour
 
             if(_currentVelocity <= -_jumpVelocity)
             {
-                transform.position = new Vector2(transform.position.x, player.GetDepth());
+                transform.localPosition = new Vector2(0, 0);
                 _currentVelocity = 0;
                 _isGrounded = true;
                 StartCoroutine("JumpWait");

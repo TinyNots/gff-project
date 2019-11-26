@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float halfScreen = Screen.width / 2f;
-        Debug.DrawLine(new Vector3(-halfScreen, 0), new Vector3(halfScreen, 0), Color.white);
+        Debug.DrawLine(new Vector3(-halfScreen, 2f), new Vector3(halfScreen, 2f), Color.white);
         // Obtain the desired gamepad from GamepadManager
         gamepad = GamePadManager.Instance.GetGamepad(1);
 
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
             depth += _speed * gamepad.GetStickL().Y * Time.deltaTime;
         }
 
-        depth = Mathf.Clamp(depth, -4.2f, 0.2f);
+        depth = Mathf.Clamp(depth, -4.2f, 2f);
 
         // test jump code
         if (gamepad.GetButtonDown("A"))
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(movement);
 
             Vector2 position = transform.position;
-            position.y = Mathf.Clamp(position.y, -4.2f, 0.2f);
+            position.y = Mathf.Clamp(position.y, -4.2f, 2f);
             transform.position = position;
         }
     }
