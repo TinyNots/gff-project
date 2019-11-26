@@ -24,7 +24,10 @@ public class EnemyPatrol : IState<Enemy>
       {
            enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
            Debug.Log("ChangeToJump");
-            enemy.ChangeState(new EnemyJump());
+            if (Random.Range(0, 2) == 0)
+            { 
+                enemy.ChangeState(new EnemyJump());
+            }
       }
 
     }
