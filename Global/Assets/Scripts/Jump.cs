@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
-    private float _jumpVelocity = 30f;
+    [SerializeField]
+    private float _jumpVelocity = 10f;
     private float _currentVelocity = 0;
     private bool _isGrounded = true;
     [SerializeField]
@@ -28,7 +29,7 @@ public class Jump : MonoBehaviour
 
         if(!_isGrounded)
         {
-            _currentVelocity -= 5f * 0.2f;
+            _currentVelocity -= 10f * Time.deltaTime;
             transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
 
             GetComponent<Animator>().SetFloat("JumpVelocity", _currentVelocity);
@@ -41,6 +42,15 @@ public class Jump : MonoBehaviour
                 StartCoroutine("JumpWait");
                 GetComponent<Animator>().SetBool("IsJumping", false);
             }
+        }
+
+        if (GamePadManager.Instance.GetGamepad(1).GetStickL().X < -0.01f)
+        {
+            transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else if (GamePadManager.Instance.GetGamepad(1).GetStickL().X > 0.01f)
+        {
+            transform.localRotation = Quaternion.Euler(0f, 0, 0f);
         }
     }
 
