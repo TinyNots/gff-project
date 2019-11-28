@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance = null;
@@ -21,10 +22,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private AudioSource _audioSource = null;
-    [SerializeField]
-    private AudioClip _audioClip = null;
+    private AudioSource _audioSource;
+    private Coroutine _coroutine;
+    // 最後に再生した音
+    private AudioClip _clip;
 
     private void Awake()
     {
@@ -40,36 +41,63 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void PlaySE()
+    // Start is called before the first frame update
+    void Start()
     {
-        _audioSource.PlayOneShot(_audioClip);
+        _audioSource = GetComponent<AudioSource>();
+        _clip = _audioSource.clip;
+        PlayBGM(_clip);
+    }
+    private void PlaySE(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip);
     }
 
-    private void PlayBGM()
+    private void PlayBGM(AudioClip clip)
     {
-
+        if (_coroutine == null)
+        {
+            _coroutine = StartCoroutine(SoundLoop(clip));
+        }
     }
 
-    IEnumerator Sound()
+    private void StopBGM()
+    {
+        if(_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+            _audioSource.Stop();
+            _coroutine = null;
+        }
+    }
+
+    IEnumerator SoundLoop(AudioClip clip)
     {
         while(true)
         {
             if(_audioSource.isPlaying == false)
             {
-                _audioSource.PlayOneShot(_audioClip);
+                Debug.Log("再生されていないので再生を行います");
+                _audioSource.PlayOneShot(clip);
             }
+            yield return null;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            PlaySE(_clip);
+        }
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            PlayBGM(_clip);
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            StopBGM();
+        }
     }
 }

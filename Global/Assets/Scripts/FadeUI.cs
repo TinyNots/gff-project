@@ -28,7 +28,6 @@ public class FadeUI : MonoBehaviour
     void Start()
     {
         _alpha = 1;
-        _loopFlag = false;
         _image = GetComponent<Image>();
     }
 
