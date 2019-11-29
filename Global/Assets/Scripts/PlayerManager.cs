@@ -33,11 +33,15 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int currentIndex = GamePadManager.Instance.GetControllerByButton("Start");
-        if(currentIndex != 0)
+        if(_playerTotalIndex < 4)
         {
-            _playerGroup[_playerTotalIndex].GetComponent<PlayerMovement>().SetControllerIndex(currentIndex);
-            _playerTotalIndex++;
+            int currentIndex = GamePadManager.Instance.GetControllerByButton("Start");
+            if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
+            {
+                GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
+                _playerGroup[_playerTotalIndex].GetComponent<PlayerMovement>().SetControllerIndex(currentIndex);
+                _playerTotalIndex++;
+            }
         }
     }
 }

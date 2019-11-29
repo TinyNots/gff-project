@@ -60,6 +60,7 @@ public class Controller
 
         _inputMap = new Dictionary<string, B_State>();
         _rumbleEvents = new List<Rumble>();
+        _haveTarget = false;
     }
 
     public void Update()
@@ -244,5 +245,11 @@ public class Controller
     public bool GetTriggerTapR()
     {
         return (RT.nowValue >= 0.1f && RT.oldValue == 0f) ? true : false;
+    }
+
+    public bool HaveTarget
+    {
+        get { return _haveTarget; }
+        set { _haveTarget = value; }
     }
 }

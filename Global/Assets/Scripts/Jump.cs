@@ -15,14 +15,22 @@ public class Jump : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_controllerIndex = gameObject.transform.parent.GetComponent<PlayerMovement>().GetControllerIndex();
-        _controllerIndex = 1;
+        player = gameObject.GetComponentInParent<PlayerMovement>();
+        _controllerIndex = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GamePadManager.Instance.GetGamepad(_controllerIndex).GetButtonDown("A") && _isGrounded == true)
+        if(_controllerIndex == 0)
+        {
+            _controllerIndex = player.GetControllerIndex();
+            return;
+        }
+
+        GetComponent<SpriteRenderer>().sortingOrder = (int)(transform.position.y * -100);
+
+        if (GamePadManager.Instance.GetGamepad(_controllerIndex).GetButtonDown("A") && _isGrounded == true)
         {
             _currentVelocity = _jumpVelocity;
             _isGrounded = false;
