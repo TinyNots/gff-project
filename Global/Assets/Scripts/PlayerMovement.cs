@@ -11,20 +11,26 @@ public class PlayerMovement : MonoBehaviour
     private bool _isEableMove = true;
     [SerializeField]
     private Animator animator;
+    private int _controllerIndex;
 
     // Use this for initialization
     void Start()
     {
-
+        _controllerIndex = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(_controllerIndex == 0)
+        {
+            return;
+        }
+
         float halfScreen = Screen.width / 2f;
         Debug.DrawLine(new Vector3(-halfScreen, 2f), new Vector3(halfScreen, 2f), Color.white);
         // Obtain the desired gamepad from GamepadManager
-        gamepad = GamePadManager.Instance.GetGamepad(1);
+        gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
 
         // Sample code to test button input and rumble
         if (gamepad.GetButtonDown("A"))
@@ -57,7 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_isEableMove)
+        if (_controllerIndex == 0)
+        {
+            return;
+        }
+
+        if (_isEableMove)
         {
             Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y) * _speed * Time.deltaTime;
             transform.Translate(movement);
@@ -84,5 +95,15 @@ public class PlayerMovement : MonoBehaviour
     {
         get { return _isEableMove; }
         set { _isEableMove = value; }
+    }
+
+    public void SetControllerIndex(int index)
+    {
+        _controllerIndex = index;
+    }
+
+    public int GetControllerIndex()
+    {
+        return _controllerIndex;
     }
 }

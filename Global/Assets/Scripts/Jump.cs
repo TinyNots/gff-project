@@ -10,17 +10,19 @@ public class Jump : MonoBehaviour
     private bool _isGrounded = true;
     [SerializeField]
     private PlayerMovement player;
+    private int _controllerIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //_controllerIndex = gameObject.transform.parent.GetComponent<PlayerMovement>().GetControllerIndex();
+        _controllerIndex = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GamePadManager.Instance.GetGamepad(1).GetButtonDown("A") && _isGrounded == true)
+        if(GamePadManager.Instance.GetGamepad(_controllerIndex).GetButtonDown("A") && _isGrounded == true)
         {
             _currentVelocity = _jumpVelocity;
             _isGrounded = false;
@@ -44,11 +46,11 @@ public class Jump : MonoBehaviour
             }
         }
 
-        if (GamePadManager.Instance.GetGamepad(1).GetStickL().X < -0.01f)
+        if (GamePadManager.Instance.GetGamepad(_controllerIndex).GetStickL().X < -0.01f)
         {
             transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
         }
-        else if (GamePadManager.Instance.GetGamepad(1).GetStickL().X > 0.01f)
+        else if (GamePadManager.Instance.GetGamepad(_controllerIndex).GetStickL().X > 0.01f)
         {
             transform.localRotation = Quaternion.Euler(0f, 0, 0f);
         }

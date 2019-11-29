@@ -50,6 +50,8 @@ public class Controller
     private B_State LB, RB;
     private T_State LT, RT;
 
+    private bool _haveTarget;
+
     // コンストラクタ
     public Controller(int index)
     {

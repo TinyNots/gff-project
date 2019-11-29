@@ -5,7 +5,7 @@ using UnityEngine;
 public class GamePadManager : MonoBehaviour
 {
     [SerializeField]
-    private int _gamepadCount = 2;
+    private int _gamepadCount = 4;
 
     private List<Controller> _gamepads;
     private static GamePadManager _instance;
@@ -117,5 +117,17 @@ public class GamePadManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public int GetControllerByButton(string button)
+    {
+        for (int i = 0; i < _gamepads.Count; ++i)
+        {
+            if (_gamepads[i].IsConnected && _gamepads[i].GetButtonDown(button))
+            {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 }
