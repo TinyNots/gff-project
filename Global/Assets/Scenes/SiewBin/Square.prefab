@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 874835923193469389}
   - component: {fileID: 2432215321497343221}
   - component: {fileID: 2432215321497343220}
+  - component: {fileID: 2773771306889475482}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -49,6 +50,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -96,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307b3163b91e14b4a9cfbb0a43c32a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
   dest:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -153,9 +154,23 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &2773771306889475482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432215321497343224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
+  dmgImage: {fileID: 0}

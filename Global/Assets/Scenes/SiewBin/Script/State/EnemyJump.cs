@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemyJump : IState<Enemy>
 {
-    int jumpCnt = 0;
+    private float _jumpVelocity = 10f;
+    private float _currentVelocity = 0;
+
     public void Enter(Enemy enemy)
     {
     }
@@ -12,7 +14,7 @@ public class EnemyJump : IState<Enemy>
     public void Execute(Enemy enemy)
     {
         Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, enemy.transform.position.y);
-        if (!enemy.IsJumping() && enemy.GetRigidbody().velocity == new Vector2(0,0))
+        if (!enemy.IsJumping)
         {
             if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
             {
@@ -21,14 +23,26 @@ public class EnemyJump : IState<Enemy>
                 enemy.ChangeState(new EnemyPatrol());
                 return;
             }
-            enemy.GetRigidbody().AddForce(new Vector2(enemy.GetMoveDir().x * 3.0f, 3.0f), ForceMode2D.Impulse);
-
-            Debug.Log(enemy.GetRigidbody().velocity);
+            Debug.Log(_currentVelocity);
+            enemy.IsJumping = true;
+            _currentVelocity = _jumpVelocity;
+            //enemy.transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
+   
         }
+        else
+        {
+            _currentVelocity -= 10f * Time.deltaTime;
+        }
+        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(enemy.dest[enemy.CurrentDest]).x * 0.05f, 0.5f * _currentVelocity * Time.deltaTime, 0.0f);
+
+        //enemy.transform.position += enemy.transform.TransformDirection( 0.0f, 0.1f, 0.0f);
+        
+        //}
         
         //enemy.ChangeState(new EnemyPatrol());
 
     }
+
     public void Exit(Enemy enemy)
     {
 

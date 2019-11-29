@@ -5,17 +5,24 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private int hp = 1;
+
     private int curDest = 0;
     bool isJumping = true;
     Rigidbody2D rb;
     public Vector3[] dest;
     private StateMachine<Enemy> stateMachine;
+    private Health health;
+
+    private Vector3 shadowPos;
+    private Vector3 offset;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        offset = new Vector3(GetComponent<BoxCollider2D>().size.x / 2, GetComponent<BoxCollider2D>().size.y / 2, 0);
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
         dest[0]  = new Vector3(wsize.x, transform.position.y,0);
         dest[1] = new Vector3(-8, transform.position.y, 0);
@@ -27,6 +34,21 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
+        if (!IsJumping)
+        {
+            shadowPos = transform.position - offset;
+        }
+        else
+        {
+            shadowPos = new Vector3(transform.position.x, shadowPos.y, 0);
+        }
+        if (transform.position.y - offset.y <= shadowPos.y)
+        {
+            IsJumping = false;
+            shadowPos = transform.position - offset;
+
+        }
+        Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 1, shadowPos.y, 0), Color.red);
     }
     
     public Rigidbody2D GetRigidbody()
@@ -39,25 +61,11 @@ public class Enemy : MonoBehaviour
         stateMachine.ChangeState(state);
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.collider.tag == "Ground")
-        {
-            isJumping = false;
-        }
-    }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    public bool IsJumping
     {
-        if (collision.collider.tag == "Ground")
-        {
-            isJumping = true;
-        }
-    }
-
-    public bool IsJumping()
-    {
-        return isJumping;
+        get { return isJumping; }
+        set { isJumping = value; }
     }
 
     public int CurrentDest
@@ -66,9 +74,14 @@ public class Enemy : MonoBehaviour
         set { curDest = value; }
     }
 
-    public Vector3 GetMoveDir()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        var heading = dest[CurrentDest] - transform.position;
+        health.ReceiveDmg(10);
+    }
+
+    public Vector3 GetMoveDir(Vector3 dest)
+    {
+        var heading = dest - transform.position;
         var direction = heading.normalized; // This is now the normalized direction.
         direction.x = direction.x >= 0f ? 1f : -1f;
         direction.y = direction.y >= 0f ? 1f : -1f;
