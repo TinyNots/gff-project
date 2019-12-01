@@ -322,6 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpVelocity: 7
   player: {fileID: 8037631129625168123}
+  _slash: {fileID: 6916187901351970423, guid: d64e480a0180df44fb3eca9beec91261, type: 3}
 --- !u!95 &8037631129651972513
 Animator:
   serializedVersion: 3

@@ -11,6 +11,9 @@ public class Jump : MonoBehaviour
     [SerializeField]
     private PlayerMovement player;
     private int _controllerIndex;
+    [SerializeField]
+    private GameObject _slash;
+    private GameObject _tmpSlash;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +79,18 @@ public class Jump : MonoBehaviour
     public void ResetAttack()
     {
         GetComponent<Animator>().SetBool("IsAttacking", false);
+        Destroy(_tmpSlash);
         player.EableMove = true;
+    }
+
+    public void ResetHurt()
+    {
+        GetComponent<Animator>().SetBool("IsHurt", false);
+        player.EableMove = true;
+    }
+
+    public void SpawnSlash()
+    {
+        _tmpSlash = Instantiate(_slash, transform);
     }
 }

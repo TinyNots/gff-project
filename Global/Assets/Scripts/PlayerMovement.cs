@@ -32,12 +32,6 @@ public class PlayerMovement : MonoBehaviour
         // Obtain the desired gamepad from GamepadManager
         gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
 
-        // Sample code to test button input and rumble
-        if (gamepad.GetButtonDown("A"))
-        {
-            TestRumble();
-            Debug.Log("A down");
-        }
 
         //transform.Translate(Vector2.right * gamepad.GetStickL().X * Time.deltaTime * 5f);
         if (_isEableMove)
@@ -54,10 +48,20 @@ public class PlayerMovement : MonoBehaviour
             //GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);\
         }
 
-        if(gamepad.GetButtonDown("X"))
+        if(_isEableMove)
         {
-            animator.SetBool("IsAttacking", true);
-            _isEableMove = false;
+            if (gamepad.GetButtonDown("X"))
+            {
+                animator.SetBool("IsAttacking", true);
+                _isEableMove = false;
+            }
+
+            if (gamepad.GetButtonDown("B"))
+            {
+                animator.SetBool("IsHurt", true);
+                gamepad.AddRumble(0.5f, 0, new Vector2(0.8f, 0.8f));
+                _isEableMove = false;
+            }
         }
     }
 
@@ -77,13 +81,6 @@ public class PlayerMovement : MonoBehaviour
             position.y = Mathf.Clamp(position.y, -4.2f, 2f);
             transform.position = position;
         }
-    }
-
-    // Send some rumble events to the gamepad
-    void TestRumble()
-    {
-        gamepad.AddRumble(0.5f, 0.0f, new Vector2(1f, 1f));
-        //gamepad.AddRumble(2.5f, 0.2f, new Vector2(0.5f, 0.5f));
     }
 
     public float GetDepth()
