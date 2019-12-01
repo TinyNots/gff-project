@@ -12,12 +12,12 @@ public class EnemyPatrol : IState<Enemy>
     {
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
         destY = wsize.y;
-
+        
     }
 
     public void Enter(Enemy enemy)
     {
-
+        enemy.GetComponent<Animator>().SetBool("Running", true);
     }
 
     public void Execute(Enemy enemy)
@@ -27,30 +27,40 @@ public class EnemyPatrol : IState<Enemy>
         Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, destY);
         Vector3 dest = new Vector3(enemy.transform.position.x, destY);
 
-        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(enemy.dest[enemy.CurrentDest]).x *0.05f, 0.0f, 0.0f);
-        enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(dest).y * 0.1f, 0.0f);
+        Vector3 playerPos = enemy.FindClosestPlayer().transform.position;
+       
 
-        if (Vector3.Distance(enemy.transform.position, dest) < 0.5f)
+        if (Vector3.Distance(enemy.transform.position, playerPos) < 2.0f)
         {
-            if (dest.y > 0)
+            if (Mathf.Abs(enemy.transform.position.y - playerPos.y) < 0.5f)
             {
-                destY = -4.8f;
+                Debug.Log("Enemy Attack");
+                enemy.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemyAttack());
+                return;
             }
             else
             {
-                destY = wsize.y;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(playerPos).y * 0.1f, 0.0f);
             }
         }
-
-        if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
+        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(playerPos).x * 0.05f, 0.0f, 0.0f);
+        if (Mathf.Abs(enemy.transform.position.y - playerPos.y) >0.3f)
         {
-           enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
-           Debug.Log("ChangeToJump");
-            if (Random.Range(0, 2) == 0)
-            { 
-               enemy.ChangeState(new EnemyJump());
-            }
-      }
+            enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(playerPos).y * 0.1f, 0.0f);
+        }
+
+
+
+        //if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
+        //{
+        //   enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
+        //   Debug.Log("ChangeToJump");
+        //    if (Random.Range(0, 2) == 0)
+        //    { 
+        //       enemy.ChangeState(new EnemyJump());
+        //    }
+        //}
 
     }
     public void Exit(Enemy enemy)
@@ -69,6 +79,7 @@ public class EnemyPatrol : IState<Enemy>
 
     }
 
+    
 
 
 }

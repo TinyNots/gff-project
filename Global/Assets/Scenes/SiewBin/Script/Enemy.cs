@@ -15,11 +15,12 @@ public class Enemy : MonoBehaviour
 
     private Vector3 shadowPos;
     private Vector3 offset;
-
+    bool isAttack = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<BoxCollider2D>().isTrigger = false;
         offset = new Vector3(GetComponent<BoxCollider2D>().size.x / 2, GetComponent<BoxCollider2D>().size.y / 2, 0);
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
@@ -49,8 +50,15 @@ public class Enemy : MonoBehaviour
 
         }
         Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 1, shadowPos.y, 0), Color.red);
+        Damage();
     }
-    
+
+    private void LateUpdate()
+    {
+        IsAttack = false;
+
+
+    }
     public Rigidbody2D GetRigidbody()
     {
         return rb;
@@ -59,8 +67,14 @@ public class Enemy : MonoBehaviour
     public void ChangeState(IState<Enemy> state)
     {
         stateMachine.ChangeState(state);
+        Debug.Log(stateMachine.GetCurrentState);
     }
 
+    public bool IsAttack
+    {
+        get { return isAttack; }
+        set { isAttack = value; }
+    }
 
     public bool IsJumping
     {
@@ -74,9 +88,13 @@ public class Enemy : MonoBehaviour
         set { curDest = value; }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        health.ReceiveDmg(10);
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Health>().ReceiveDmg(10);
+            GetComponent<BoxCollider2D>().isTrigger = false;
+        }
     }
 
     public Vector3 GetMoveDir(Vector3 dest)
@@ -89,6 +107,34 @@ public class Enemy : MonoBehaviour
 
         return direction;
     }
+     public GameObject FindClosestPlayer()
+    {
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject player in players)
+        {
+            Vector3 diff = player.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = player;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    private void Damage()
+    {
+        if (Input.anyKeyDown)
+        {
+            GetComponent<Animator>().SetTrigger("Hit");
+            ChangeState(new EnemyGetHit());
 
 
+        }
+    }
 }

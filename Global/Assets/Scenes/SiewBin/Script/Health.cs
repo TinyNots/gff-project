@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField]
-    private float hp = 100;
+    static private float hp = 100;
     [SerializeField]
     private GameObject dmgImage;
     private GameObject prefab = null; 
