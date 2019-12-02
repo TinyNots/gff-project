@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator animator;
     private int _controllerIndex;
+    [SerializeField]
+    [Range(0, 1f)]
+    private float _speedPercent = 0.5f;
 
     // Use this for initialization
     void Start()
@@ -32,8 +35,6 @@ public class PlayerMovement : MonoBehaviour
         // Obtain the desired gamepad from GamepadManager
         gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
 
-
-        //transform.Translate(Vector2.right * gamepad.GetStickL().X * Time.deltaTime * 5f);
         if (_isEableMove)
         {
             depth += _speed * gamepad.GetStickL().Y * Time.deltaTime;
@@ -41,12 +42,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         depth = Mathf.Clamp(depth, -4.2f, 2f);
-
-        // test jump code
-        if (gamepad.GetButtonDown("A"))
-        {
-            //GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);\
-        }
 
         if(_isEableMove)
         {
@@ -59,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             if (gamepad.GetButtonDown("B"))
             {
                 animator.SetBool("IsHurt", true);
-                gamepad.AddRumble(0.5f, 0, new Vector2(0.8f, 0.8f));
+                gamepad.AddRumble(0.5f, 0, new Vector2(1f, 1f));
                 _isEableMove = false;
             }
         }
@@ -74,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (_isEableMove)
         {
-            Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y) * _speed * Time.deltaTime;
+            Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y * _speedPercent) * _speed * Time.deltaTime;
             transform.Translate(movement);
 
             Vector2 position = transform.position;
