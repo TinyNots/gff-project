@@ -51,6 +51,16 @@ public class Enemy : MonoBehaviour
         }
         Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 1, shadowPos.y, 0), Color.red);
         Damage();
+        if (Input.anyKeyDown)
+        {
+            transform.RotateAround(transform.position, transform.up, 180f);
+        }
+        //}
+        //else
+        //{
+        //    transform.RotateAround(transform.position, transform.up, 0f);
+
+        //}
     }
 
     private void LateUpdate()
@@ -103,7 +113,7 @@ public class Enemy : MonoBehaviour
         var direction = heading.normalized; // This is now the normalized direction.
         direction.x = direction.x >= 0f ? 1f : -1f;
         direction.y = direction.y >= 0f ? 1f : -1f;
-
+        
 
         return direction;
     }

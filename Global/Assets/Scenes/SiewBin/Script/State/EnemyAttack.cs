@@ -15,8 +15,7 @@ public class EnemyAttack : IState<Enemy>
 
 
         Vector3 playerPos = enemy.FindClosestPlayer().transform.position;
-        //enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(playerPos).x * 0.05f, 0.0f, 0.0f);
-        //enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(playerPos).y * 0.1f, 0.0f);
+        
    
         
         var anim = enemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
