@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    private int curDest = 0;
+    private Vector3 curDest;
     bool isJumping = true;
     Rigidbody2D rb;
     public Vector3[] dest;
@@ -51,22 +51,20 @@ public class Enemy : MonoBehaviour
         }
         Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 1, shadowPos.y, 0), Color.red);
         Damage();
-        if (Input.anyKeyDown)
+        if (GetMoveDir(CurrentDest).x < 0)
         {
-            transform.RotateAround(transform.position, transform.up, 180f);
-        }
-        //}
-        //else
-        //{
-        //    transform.RotateAround(transform.position, transform.up, 0f);
+           transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-        //}
+        }
+        else
+        {
+           transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+
     }
 
     private void LateUpdate()
     {
-        IsAttack = false;
-
 
     }
     public Rigidbody2D GetRigidbody()
@@ -92,7 +90,7 @@ public class Enemy : MonoBehaviour
         set { isJumping = value; }
     }
 
-    public int CurrentDest
+    public Vector3 CurrentDest
     {
         get { return curDest; }
         set { curDest = value; }
@@ -107,13 +105,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        health.ReceiveDmg(10);
+    }
+
     public Vector3 GetMoveDir(Vector3 dest)
     {
         var heading = dest - transform.position;
         var direction = heading.normalized; // This is now the normalized direction.
         direction.x = direction.x >= 0f ? 1f : -1f;
         direction.y = direction.y >= 0f ? 1f : -1f;
-        
 
         return direction;
     }

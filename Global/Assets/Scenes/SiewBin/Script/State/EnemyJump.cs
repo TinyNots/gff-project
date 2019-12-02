@@ -13,12 +13,12 @@ public class EnemyJump : IState<Enemy>
 
     public void Execute(Enemy enemy)
     {
-        Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, enemy.transform.position.y);
+        enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
+
         if (!enemy.IsJumping)
         {
-            if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
+            if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 0.5f)
             {
-                enemy.CurrentDest = (enemy.CurrentDest + 1) % enemy.dest.Length;
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
                 return;
@@ -33,7 +33,7 @@ public class EnemyJump : IState<Enemy>
         {
             _currentVelocity -= 10f * Time.deltaTime;
         }
-        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(enemy.dest[enemy.CurrentDest]).x * 0.05f, 0.5f * _currentVelocity * Time.deltaTime, 0.0f);
+        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(enemy.CurrentDest).x * 0.05f, 0.5f * _currentVelocity * Time.deltaTime, 0.0f);
 
         //enemy.transform.position += enemy.transform.TransformDirection( 0.0f, 0.1f, 0.0f);
         

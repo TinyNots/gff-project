@@ -24,15 +24,12 @@ public class EnemyPatrol : IState<Enemy>
     {
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        Vector3 destX = new Vector3(enemy.dest[enemy.CurrentDest].x, destY);
-        Vector3 dest = new Vector3(enemy.transform.position.x, destY);
-
-        Vector3 playerPos = enemy.FindClosestPlayer().transform.position;
+        enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
        
 
-        if (Vector3.Distance(enemy.transform.position, playerPos) < 2.0f)
+        if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 2.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - playerPos.y) < 0.5f)
+            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
             {
                 Debug.Log("Enemy Attack");
                 enemy.GetComponent<Animator>().SetBool("Running", false);
@@ -41,16 +38,16 @@ public class EnemyPatrol : IState<Enemy>
             }
             else
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(playerPos).y * 0.1f, 0.0f);
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
             }
         }
-        enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(playerPos).x * 0.05f, 0.0f, 0.0f);
-        if (Mathf.Abs(enemy.transform.position.y - playerPos.y) >0.3f)
+        enemy.transform.position += enemy.transform.TransformDirection( 0.1f, 0.0f, 0.0f);
+        if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) >0.3f)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(playerPos).y * 0.1f, 0.0f);
+            enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
         }
 
-
+      
 
         //if (Vector3.Distance(enemy.transform.position, destX) < 0.5f)
         //{
