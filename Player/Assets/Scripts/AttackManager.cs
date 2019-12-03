@@ -5,7 +5,6 @@ using UnityEngine;
 public class AttackManager : MonoBehaviour
 {
     private Animator _animator;
-    private bool _eableInput = true;
 
     [SerializeField]
     private float _waitTime = 0.25f;
