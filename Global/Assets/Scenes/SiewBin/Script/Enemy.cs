@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
 
     private Vector3 curDest;
-    bool isJumping = true;
+    bool isJumping = false;
     Rigidbody2D rb;
     public Vector3[] dest;
     private StateMachine<Enemy> stateMachine;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         GetComponent<BoxCollider2D>().isTrigger = false;
-        offset = new Vector3(GetComponent<BoxCollider2D>().size.x / 2, GetComponent<BoxCollider2D>().size.y / 2, 0);
+        offset = new Vector3(GetComponent<BoxCollider2D>().size.x , GetComponent<BoxCollider2D>().size.y , 0);
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
         dest[1] = new Vector3(-8, transform.position.y, 0);
         stateMachine = new StateMachine<Enemy>();
         stateMachine.Setup(this, new EnemyPatrol());
+        shadowPos = transform.position - offset;
+
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class Enemy : MonoBehaviour
             shadowPos = transform.position - offset;
 
         }
-        Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 1, shadowPos.y, 0), Color.red);
+        Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
         Damage();
         if (GetMoveDir(CurrentDest).x < 0)
         {
@@ -94,6 +96,10 @@ public class Enemy : MonoBehaviour
     {
         get { return curDest; }
         set { curDest = value; }
+    }
+    public Vector3 OffSet
+    {
+        get { return offset; }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
