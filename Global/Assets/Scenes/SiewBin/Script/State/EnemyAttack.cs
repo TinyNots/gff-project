@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyAttack : IState<Enemy>
 {
+
     float attTime = 0;
     public void Enter(Enemy enemy)
     {
@@ -35,6 +36,9 @@ public class EnemyAttack : IState<Enemy>
             attTime = Time.time;
         }
     }
+
+    
+
     public void Exit(Enemy enemy)
     {
         enemy.GetComponent<BoxCollider2D>().isTrigger = false;

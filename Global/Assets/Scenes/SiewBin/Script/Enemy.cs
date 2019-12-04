@@ -15,7 +15,10 @@ public class Enemy : MonoBehaviour
 
     private Vector3 shadowPos;
     private Vector3 offset;
-    bool isAttack = false;
+    [SerializeField]
+    private GameObject attackBox;
+    private GameObject tmpSlash;
+
 
     // Start is called before the first frame update
     void Start()
@@ -80,12 +83,6 @@ public class Enemy : MonoBehaviour
         Debug.Log(stateMachine.GetCurrentState);
     }
 
-    public bool IsAttack
-    {
-        get { return isAttack; }
-        set { isAttack = value; }
-    }
-
     public bool IsJumping
     {
         get { return isJumping; }
@@ -100,6 +97,11 @@ public class Enemy : MonoBehaviour
     public Vector3 OffSet
     {
         get { return offset; }
+    }
+
+    public GameObject AttackBox
+    {
+        get { return attackBox; }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -149,10 +151,23 @@ public class Enemy : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            GetComponent<Animator>().SetTrigger("Hit");
-            ChangeState(new EnemyGetHit());
-
-
+            ChangeState(new EnemyDie());
         }
+    }
+
+    void SpawnAttack()
+    {
+        tmpSlash = Instantiate(AttackBox, transform);
+        tmpSlash.SetActive(true);
+    }
+
+    void ResetAttack()
+    {
+        Destroy(tmpSlash);
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(this);
     }
 }
