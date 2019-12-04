@@ -29,6 +29,16 @@ public class AttackManager : MonoBehaviour
             {
                 _animator.SetTrigger("Attack");
             }
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                _animator.SetBool("IsJumping", true);
+            }
+
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                _animator.SetBool("IsRuning", !_animator.GetBool("IsRuning"));
+            }
         }
     }
 
@@ -37,5 +47,10 @@ public class AttackManager : MonoBehaviour
         _animator.SetBool("Moveable", false);
         yield return new WaitForSeconds(_waitTime);
         _animator.SetBool("Moveable", true);
+    }
+
+    public void ResetJump()
+    {
+        _animator.SetBool("IsJumping", false);
     }
 }
