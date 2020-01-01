@@ -27,7 +27,7 @@ public class EnemyPatrol : IState<Enemy>
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
        
 
-        if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 2.0f)
+        if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 1.0f)
         {
             if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
             {
@@ -36,15 +36,23 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.ChangeState(new EnemyAttack());
                 return;
             }
-            else
+            //else
+            //{
+                
+            //     enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
+                
+            //}
+        }
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 0.5f)
+        {
+            enemy.transform.position += enemy.transform.TransformDirection(0.1f, 0.0f, 0.0f);
+        }
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 6.0f)
+        {
+            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.3f)
             {
                 enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
             }
-        }
-        enemy.transform.position += enemy.transform.TransformDirection( 0.1f, 0.0f, 0.0f);
-        if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) >0.3f)
-        {
-            enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
         }
 
       

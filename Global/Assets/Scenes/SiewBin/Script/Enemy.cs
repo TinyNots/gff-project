@@ -18,11 +18,12 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject attackBox;
     private GameObject tmpSlash;
-
+    private GetHit getHitObj;
 
     // Start is called before the first frame update
     void Start()
     {
+        getHitObj = GetComponent<GetHit>();
         GetComponent<BoxCollider2D>().isTrigger = false;
         offset = new Vector3(GetComponent<BoxCollider2D>().size.x , GetComponent<BoxCollider2D>().size.y , 0);
         rb = GetComponent<Rigidbody2D>();
@@ -31,7 +32,7 @@ public class Enemy : MonoBehaviour
         dest[0]  = new Vector3(wsize.x, transform.position.y,0);
         dest[1] = new Vector3(-8, transform.position.y, 0);
         stateMachine = new StateMachine<Enemy>();
-        stateMachine.Setup(this, new EnemyPatrol());
+        stateMachine.Setup(this, new EnemySpawnDelay());
         shadowPos = transform.position - offset;
 
     }
@@ -104,18 +105,17 @@ public class Enemy : MonoBehaviour
         get { return attackBox; }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    public GetHit GetHitObj
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<Health>().ReceiveDmg(10);
-            GetComponent<BoxCollider2D>().isTrigger = false;
-        }
+        get { return getHitObj; }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        health.ReceiveDmg(10);
+        if (collision.gameObject.tag == "Player")
+        {
+            health.ReceiveDmg(10);
+        }
     }
 
     public Vector3 GetMoveDir(Vector3 dest)
@@ -151,7 +151,7 @@ public class Enemy : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            ChangeState(new EnemyDie());
+            ChangeState(new EnemyGetHit());
         }
     }
 

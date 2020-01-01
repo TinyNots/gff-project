@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2432215321497343220}
   - component: {fileID: 2773771306889475482}
   - component: {fileID: 2329927763317378310}
+  - component: {fileID: 7766074246326253941}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -103,7 +104,7 @@ MonoBehaviour:
   dest:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  attackBox: {fileID: 0}
+  attackBox: {fileID: 4296888492626209324}
 --- !u!114 &874835923193469389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +197,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7766074246326253941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432215321497343224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4f3093f7dea274ebda8c714176fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 1
 --- !u!1 &4296888492626209324
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +222,7 @@ GameObject:
   - component: {fileID: 8785411517099101951}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

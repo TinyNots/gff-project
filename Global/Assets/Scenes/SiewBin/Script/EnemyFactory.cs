@@ -20,6 +20,8 @@ public class EnemyFactory : MonoBehaviour
     SpawnType spawnType;
     int curCnt = 0;
     int maxCnt = 10;
+    float timer = 0;
+    float spawnTime = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -31,23 +33,34 @@ public class EnemyFactory : MonoBehaviour
     {
         if (curCnt < maxCnt)
         {
-            switch (spawnType)
+            if (timer >= spawnTime)
             {
-                case SpawnType.Side:
-                    SideSpawn(fromRight);
-                    break;
-                case SpawnType.OneTime:
-                    OneTimeSpawn(fromRight);
-                    break;
-                case SpawnType.Top:
-                    TopSpawn();
-                    break;
-                default:
-                    Debug.Log("Spawn Null");
-                    break;
 
+                switch (spawnType)
+                {
+                    case SpawnType.Side:
+                        SideSpawn(fromRight);
+                        break;
+                    case SpawnType.OneTime:
+                        OneTimeSpawn(fromRight);
+                        break;
+                    case SpawnType.Top:
+                        TopSpawn();
+                        break;
+                    default:
+                        Debug.Log("Spawn Null");
+                        break;
+
+                }
+                curCnt++;
+                timer = 0;
+                if (Random.Range(0, 2) == 1)
+                {
+                    fromRight = !fromRight;
+                }
             }
-            curCnt++;
+            timer += Time.deltaTime;
+            
         }
         
     }
@@ -64,11 +77,11 @@ public class EnemyFactory : MonoBehaviour
 
         if (fromRight)
         {
-            enemy.transform.position = new Vector3(wsize.x + 1, Random.Range(0 - wsize.y / 2, 0 + wsize.y), 0);
+            enemy.transform.position = new Vector3(wsize.x + 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
         }
         else
         {
-            enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 0 + wsize.y), 0);
+            enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
         Debug.Log("Side Spawn");

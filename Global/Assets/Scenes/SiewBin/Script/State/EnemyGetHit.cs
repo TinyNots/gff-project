@@ -12,24 +12,15 @@ public class EnemyGetHit : IState<Enemy>
         enemy.GetComponent<Animator>().SetTrigger("Hit");
         hitTime = Time.time;
         hitLen = enemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
+
         tiltLen = 2;
+        enemy.GetHitObj.GetHitInit(hitLen);
+
     }
 
     public void Execute(Enemy enemy)
     {
-        switch (tiltLen % 2)
-        {
-            case 0:
-                enemy.transform.position += enemy.transform.TransformDirection(0.1f,0f,0f);
-                tiltLen--;
-                break;
-            case 1:
-                enemy.transform.position -= enemy.transform.TransformDirection(0.1f, 0f,0f);
-                tiltLen--;
-
-                break;
-        }
-        if (Time.time > hitTime + hitLen)
+        if (enemy.GetHitObj.Moveable)
         {
             enemy.ChangeState(new EnemyPatrol());
             return;
