@@ -9,19 +9,19 @@ public class EnemyFactory : MonoBehaviour
     Enemy prototype;
     public enum SpawnType
     {
-        Side,
-        OneTime,
-        Top
+        Side,   //左右から生成
+        OneTime,//一度だけ生成
+        Top     //上から生成
     }
     [SerializeField]
-    bool fromRight = true;
-    bool isSpawned = false;
+    bool fromRight = true; //右から生成
+    bool isSpawned = false; //生成したか
     [SerializeField]
-    SpawnType spawnType;
-    int curCnt = 0;
-    int maxCnt = 10;
-    float timer = 0;
-    float spawnTime = 1;
+    SpawnType spawnType;    //生成する方法
+    int curCnt = 0;         //現在の敵数
+    int maxCnt = 10;        //最大生成数
+    float timer = 0;        //次の生成までの時間カウンター
+    float spawnTime = 3;    //生成要る時間
 
     // Start is called before the first frame update
     void Start()

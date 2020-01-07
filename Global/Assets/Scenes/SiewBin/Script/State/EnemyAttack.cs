@@ -6,8 +6,11 @@ public class EnemyAttack : IState<Enemy>
 {
 
     float attTime = 0;
+    private AnimationClip anim;
     public void Enter(Enemy enemy)
     {
+        //攻撃アニメ
+        anim = enemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
     }
 
     public void Execute(Enemy enemy)
@@ -16,25 +19,16 @@ public class EnemyAttack : IState<Enemy>
 
 
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
-
-        var distX = enemy.transform.position.x - enemy.CurrentDest.x;
-        var distY = enemy.transform.position.y - enemy.CurrentDest.y;
-
-
-        var anim = enemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
-        if (Time.time > attTime + anim.length)
+        if (enemy.IsRanged)
         {
-            if (Mathf.Abs(distX) > 0.5f && Mathf.Abs(distY) > 0.3f)
-            {
-                Debug.Log("ChangeToPatrol");
-                enemy.ChangeState(new EnemyPatrol());
-                return;
-            }
-            Debug.Log("Attack");
-            enemy.GetComponent<BoxCollider2D>().isTrigger = true;
-            enemy.GetComponent<Animator>().SetTrigger("Attack");
-            attTime = Time.time;
+            RangedAttack(enemy);
+
         }
+        else
+        {
+            MeleeAttack(enemy);
+        }
+    
     }
 
     
@@ -48,12 +42,55 @@ public class EnemyAttack : IState<Enemy>
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void MeleeAttack(Enemy enemy)
+    {
+        var distX = enemy.transform.position.x - enemy.CurrentDest.x;
+        var distY = enemy.transform.position.y - enemy.CurrentDest.y;
+
+      
+        if (Time.time > attTime + anim.length)
+        {
+            //目標が攻撃範囲から離れた
+            if (Mathf.Abs(distX) > 0.5f && Mathf.Abs(distY) > 0.3f)
+            {
+                Debug.Log("ChangeToPatrol");
+                enemy.ChangeState(new EnemyPatrol());
+                return;
+            }
+            Debug.Log("Attack");
+            enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            enemy.GetComponent<Animator>().SetTrigger("Attack");
+            attTime = Time.time;
+        }
+    }
+
+    void RangedAttack (Enemy enemy)
+    {
+        var distX = enemy.transform.position.x - enemy.CurrentDest.x;
+        var distY = enemy.transform.position.y - enemy.CurrentDest.y;
+
+        if (Time.time > attTime + anim.length)
+        {
+            if (Mathf.Abs(distX) > 7.0f && Mathf.Abs(distY) > 0.3f)
+            {
+                //目標が攻撃範囲から離れた
+                Debug.Log("ChangeToPatrol");
+                enemy.ChangeState(new EnemyPatrol());
+                return;
+            }
+            Debug.Log("Attack");
+            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            enemy.GetComponent<Animator>().SetTrigger("Attack");
+            attTime = Time.time;
+        }
     }
 }

@@ -6,26 +6,32 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    private Vector3 curDest;
-    bool isJumping = false;
-    Rigidbody2D rb;
-    public Vector3[] dest;
-    private StateMachine<Enemy> stateMachine;
-    private Health health;
+    private Vector3 curDest;    //現在の目的地
+    bool isJumping = false;     //跳んでるか
+    Rigidbody2D rb;             
+    public Vector3[] dest;      
+    private StateMachine<Enemy> stateMachine;   //有限オートマトン
+    private Health health;      //HPの情報
 
-    private Vector3 shadowPos;
-    private Vector3 offset;
+    private Vector3 shadowPos;  //立ってる高さ
+    private Vector3 offset;     //画像のサイズ
     [SerializeField]
-    private GameObject attackBox;
-    private GameObject tmpSlash;
-    private GetHit getHitObj;
+    private GameObject attackBox;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
+    private GameObject tmpSlash;    //プロトタイプを複製
+    private GetHit getHitObj;       //攻撃される時の挙動
+    [SerializeField]
+    private bool isRanged = false;  //遠攻撃できるか
 
     // Start is called before the first frame update
     void Start()
     {
         getHitObj = GetComponent<GetHit>();
         GetComponent<BoxCollider2D>().isTrigger = false;
-        offset = new Vector3(GetComponent<BoxCollider2D>().size.x , GetComponent<BoxCollider2D>().size.y , 0);
+        offset = new Vector3(GetComponent<BoxCollider2D>().size.x , GetComponent<BoxCollider2D>().size.y, 0);
+        //if (isRanged)
+        //{
+        //    offset.y += 0.2f;
+        //}
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
@@ -40,6 +46,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ステートの更新
         stateMachine.Update();
         if (!IsJumping)
         {
@@ -57,6 +64,7 @@ public class Enemy : MonoBehaviour
         }
         Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
         Damage();
+        //画像の回転
         if (GetMoveDir(CurrentDest).x < 0)
         {
            transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
@@ -66,7 +74,7 @@ public class Enemy : MonoBehaviour
         {
            transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
-
+       
     }
 
     private void LateUpdate()
@@ -110,14 +118,21 @@ public class Enemy : MonoBehaviour
         get { return getHitObj; }
     }
 
+    public bool IsRanged
+    {
+        get { return isRanged; }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerAttack")
         {
             health.ReceiveDmg(10);
+            ChangeState(new EnemyGetHit());
         }
     }
 
+    //移動してる方向
     public Vector3 GetMoveDir(Vector3 dest)
     {
         var heading = dest - transform.position;
@@ -127,6 +142,8 @@ public class Enemy : MonoBehaviour
 
         return direction;
     }
+
+    //最近くのプレイヤー
      public GameObject FindClosestPlayer()
     {
         GameObject[] players;
@@ -155,12 +172,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //攻撃する
     void SpawnAttack()
     {
         tmpSlash = Instantiate(AttackBox, transform);
         tmpSlash.SetActive(true);
     }
 
+    //攻撃終わる
     void ResetAttack()
     {
         Destroy(tmpSlash);
