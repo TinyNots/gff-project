@@ -15,10 +15,13 @@ public class Character : MonoBehaviour
     [SerializeField]
     [Range(0, 1f)]
     private float _speedPercentZ = 0.5f;
+    [SerializeField]
+    private Animator _animator;
 
     public void Update()
     {
         _depth = transform.position.y;
+        _animator.SetBool("Moveable", _isEableMove);
     }
 
     public float GetDepth()

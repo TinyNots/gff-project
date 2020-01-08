@@ -9,7 +9,7 @@ public class DrawOrder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _sp = transform.GetComponent<SpriteRenderer>();
+        _sp = transform.Find("Sprite").transform.GetComponent<SpriteRenderer>();
         if(_sp == null)
         {
             Debug.LogError("Sprite is missing");

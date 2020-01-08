@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3271030640208638959}
   - component: {fileID: 3271030640208638953}
   - component: {fileID: 3271030640208638958}
+  - component: {fileID: 5661061497101072304}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -66,6 +67,7 @@ MonoBehaviour:
   _depth: 0
   _speed: 5
   _speedPercentZ: 0.5
+  _animator: {fileID: 0}
 --- !u!50 &3271030640208638958
 Rigidbody2D:
   serializedVersion: 4
@@ -87,6 +89,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5661061497101072304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3271030640208638954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3271030640742118961
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +112,6 @@ GameObject:
   - component: {fileID: 3271030640742118967}
   - component: {fileID: 3271030640742118960}
   - component: {fileID: 3271030640742118964}
-  - component: {fileID: 3271030640742118955}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -184,18 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpVelocity: 7
   _fallMultiplier: 3
---- !u!114 &3271030640742118955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3271030640742118961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _offset: {x: 0, y: 0}
 --- !u!1001 &3271030639134294436
 PrefabInstance:
   m_ObjectHideFlags: 0

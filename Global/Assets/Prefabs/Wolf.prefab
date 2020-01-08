@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3382000837446262072}
   - component: {fileID: 3382000837446262073}
   - component: {fileID: 3382000837446262078}
+  - component: {fileID: 3303148099017790116}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   _depth: 0
   _speed: 5
   _speedPercentZ: 0.5
+  _animator: {fileID: 0}
 --- !u!50 &3382000837446262078
 Rigidbody2D:
   serializedVersion: 4
@@ -70,6 +72,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3303148099017790116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382000837446262074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3382000838013163745
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +95,6 @@ GameObject:
   - component: {fileID: 3382000838013163751}
   - component: {fileID: 3382000838013163744}
   - component: {fileID: 3382000838013163748}
-  - component: {fileID: 3382000838013163771}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -167,19 +180,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpVelocity: 7
   _fallMultiplier: 3
+  _animator: {fileID: 0}
   _offset: {x: 0, y: 0}
---- !u!114 &3382000838013163771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3382000838013163745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3382000836372066164
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ public class Jumper : MonoBehaviour
     private float _currentVelocity = 0;
     private bool _isGrounded = true;
     private Character _character;
+    [SerializeField]
+    private Animator _animator;
 
     [Header("Others")]
     [SerializeField]
@@ -21,7 +23,7 @@ public class Jumper : MonoBehaviour
     void Start()
     {
         _character = gameObject.GetComponentInParent<Character>();
-        _offset = transform.position;
+        _offset = transform.localPosition;
     }
 
     // Update is called once per frame
@@ -44,11 +46,14 @@ public class Jumper : MonoBehaviour
                 _currentVelocity -= 10f * Time.deltaTime;
             }
 
+            _animator.SetFloat("JumpVelocity", _currentVelocity);
+
             if (transform.localPosition.y < _offset.y)
             {
                 transform.localPosition = _offset;
                 _currentVelocity = 0;
                 _isGrounded = true;
+                _animator.SetBool("IsJumping", false);
                 StartCoroutine("JumpWait");
             }
         }
@@ -62,8 +67,14 @@ public class Jumper : MonoBehaviour
     {
         _character.EableMove = false;
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         _character.EableMove = true;
+    }
+
+    public void StartJump()
+    {
+        _isGrounded = false;
+        _currentVelocity = _jumpVelocity;
     }
 }
