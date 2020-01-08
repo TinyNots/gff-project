@@ -70,7 +70,10 @@ public class EnemyFactory : MonoBehaviour
             timer += Time.deltaTime;
             
         }
-        
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     Enemy Spawn()
@@ -110,25 +113,23 @@ public class EnemyFactory : MonoBehaviour
             enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
+        maxCnt = 1;
         Debug.Log("One Time Spawn");
 
     }
     void TopSpawn(bool fromRight = false)
     {
-        //var enemy = Spawn();
-        //var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+        var enemy = Spawn();
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        //enemy.ShadowPos = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
-        //enemy.transform.position = new Vector3( enemy.ShadowPos.x,enemy.ShadowPos.y + wsize.y,enemy.ShadowPos.z);
-        //enemy.IsJumping = true;
-        //var currentVelocity = 0f;
-        //while (currentVelocity > -10f)
-        //{
-        //    currentVelocity -= 10f * Time.deltaTime;
-        //    enemy.transform.position += enemy.transform.TransformDirection(0, 0.5f * currentVelocity * Time.deltaTime, 0.0f);
+        enemy.transform.position = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
+        enemy.OffSet = prototype.transform.Find("Sprite").transform.position.y - prototype.transform.Find("Shadow").transform.position.y;
 
-        //}
-        //Debug.Log("Top Spawn");
+        enemy.transform.Find("Sprite").transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y + wsize.y, 0);
+        //enemy.transform.position = new Vector3(enemy.ShadowPos.x, enemy.ShadowPos.y + wsize.y, enemy.ShadowPos.z);
+        enemy.IsJumping = true;
+       
+        Debug.Log("Top Spawn");
 
     }
 }

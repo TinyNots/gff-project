@@ -12,6 +12,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator animator;
     private int _controllerIndex;
+    [SerializeField]
+    [Range(0, 1f)]
+    private float _speedPercent = 0.5f;
+    [SerializeField]
+    private GameObject _sprite;
+    [SerializeField]
+    private Jumper _jumpStatus;
+    [SerializeField]
+    private Character _character;
 
     // Use this for initialization
     void Start()
@@ -32,9 +41,7 @@ public class PlayerMovement : MonoBehaviour
         // Obtain the desired gamepad from GamepadManager
         gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
 
-
-        //transform.Translate(Vector2.right * gamepad.GetStickL().X * Time.deltaTime * 5f);
-        if (_isEableMove)
+        if (_character.EableMove)
         {
             depth += _speed * gamepad.GetStickL().Y * Time.deltaTime;
             animator.SetFloat("Speed", Mathf.Abs(gamepad.GetStickL().X + gamepad.GetStickL().Y));
@@ -42,26 +49,35 @@ public class PlayerMovement : MonoBehaviour
 
         depth = Mathf.Clamp(depth, -4.2f, 2f);
 
-        // test jump code
-        if (gamepad.GetButtonDown("A"))
+        if (gamepad.GetButtonDown("X"))
         {
-            //GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);\
+            animator.SetTrigger("Attack");
+            _character.EableMove = false;
         }
 
-        if(_isEableMove)
+        if (_character.EableMove)
         {
-            if (gamepad.GetButtonDown("X"))
-            {
-                animator.SetBool("IsAttacking", true);
-                _isEableMove = false;
-            }
-
             if (gamepad.GetButtonDown("B"))
             {
                 animator.SetBool("IsHurt", true);
-                gamepad.AddRumble(0.5f, 0, new Vector2(0.8f, 0.8f));
-                _isEableMove = false;
+                gamepad.AddRumble(0.5f, 0, new Vector2(1f, 1f));
+                _character.EableMove = false;
             }
+        }
+
+        if (GamePadManager.Instance.GetGamepad(_controllerIndex).GetStickL().X < -0.01f)
+        {
+            _sprite.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else if (GamePadManager.Instance.GetGamepad(_controllerIndex).GetStickL().X > 0.01f)
+        {
+            _sprite.transform.localRotation = Quaternion.Euler(0f, 0, 0f);
+        }
+
+        if(GamePadManager.Instance.GetGamepad(_controllerIndex).GetButton("A"))
+        {
+            animator.SetBool("IsJumping", true);
+            _jumpStatus.StartJump();
         }
     }
 
@@ -72,9 +88,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (_isEableMove)
+        if (_character.EableMove)
         {
-            Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y) * _speed * Time.deltaTime;
+            Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y * _speedPercent) * _speed * Time.deltaTime;
             transform.Translate(movement);
 
             Vector2 position = transform.position;
@@ -102,5 +118,15 @@ public class PlayerMovement : MonoBehaviour
     public int GetControllerIndex()
     {
         return _controllerIndex;
+    }
+
+    public void ResetJump()
+    {
+        animator.SetBool("IsJumping", false);
+    }
+
+    public void StopMovement()
+    {
+        _character.EableMove = false;
     }
 }

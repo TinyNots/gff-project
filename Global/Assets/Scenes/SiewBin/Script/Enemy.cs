@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
-
+    [SerializeField]
+    private GameObject sprite;
     private Vector3 curDest;    //現在の目的地
     bool isJumping = false;     //跳んでるか
     Rigidbody2D rb;             
@@ -14,10 +15,8 @@ public class Enemy : MonoBehaviour
     private Health health;      //HPの情報
 
     private Vector3 shadowPos;  //立ってる高さ
-    private Vector3 offset;     //画像のサイズ
-    [SerializeField]
-    private GameObject attackBox;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
-    private GameObject tmpSlash;    //プロトタイプを複製
+    private float offset;     //画像のサイズ
+
     private GetHit getHitObj;       //攻撃される時の挙動
     [SerializeField]
     private bool isRanged = false;  //遠攻撃できるか
@@ -25,9 +24,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         getHitObj = GetComponent<GetHit>();
-        GetComponent<BoxCollider2D>().isTrigger = false;
-        offset = new Vector3(GetComponent<BoxCollider2D>().size.x , GetComponent<BoxCollider2D>().size.y, 0);
         //if (isRanged)
         //{
         //    offset.y += 0.2f;
@@ -39,7 +37,6 @@ public class Enemy : MonoBehaviour
         dest[1] = new Vector3(-8, transform.position.y, 0);
         stateMachine = new StateMachine<Enemy>();
         stateMachine.Setup(this, new EnemySpawnDelay());
-        shadowPos = transform.position - offset;
 
     }
 
@@ -48,21 +45,21 @@ public class Enemy : MonoBehaviour
     {
         //ステートの更新
         stateMachine.Update();
-        if (!IsJumping)
-        {
-            shadowPos = transform.position - offset;
-        }
-        else
-        {
-            shadowPos = new Vector3(transform.position.x, shadowPos.y, 0);
+        //if (!IsJumping)
+        //{
+        //    shadowPos = transform.position - offset;
+        //}
+        //else
+        //{
+        //    shadowPos = new Vector3(transform.position.x, shadowPos.y, 0);
 
-        }
-        if (transform.position.y - offset.y <= shadowPos.y)
-        {
-            IsJumping = false;
-            shadowPos = transform.position - offset;
+        //}
+        //if (transform.position.y - offset.y <= shadowPos.y)
+        //{
+        //    IsJumping = false;
+        //    shadowPos = transform.position - offset;
 
-        }
+        //}
         Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
         Damage();
         //画像の回転
@@ -75,7 +72,25 @@ public class Enemy : MonoBehaviour
         {
            transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
-       
+        if (isJumping)
+        {
+            if (transform.Find("Sprite").transform.position.y -offset > transform.Find("Shadow").transform.position.y)
+            {
+
+                if (transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder < 0)
+                {
+                    transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder = 0;
+                }
+                transform.Find("Sprite").transform.position += transform.TransformDirection(0, -0.2f, 0.0f);
+                ChangeState(new EnemySpawnDelay());
+            }
+            else
+            {
+                transform.Find("Shadow").transform.position = new Vector3(transform.Find("Sprite").transform.position.x,
+                    transform.Find("Sprite").transform.position.y - offset,0f);
+                isJumping = false;
+            }
+        }
     }
 
     private void LateUpdate()
@@ -111,14 +126,17 @@ public class Enemy : MonoBehaviour
         set { shadowPos = value; }
     }
 
-    public Vector3 OffSet
+    public float OffSet
     {
+        set { offset = value; }
         get { return offset; }
     }
 
-    public GameObject AttackBox
+    
+
+    public GameObject Sprite
     {
-        get { return attackBox; }
+        get { return sprite; }
     }
 
     public GetHit GetHitObj
@@ -187,18 +205,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //攻撃する
-    void SpawnAttack()
-    {
-        tmpSlash = Instantiate(AttackBox, transform);
-        tmpSlash.SetActive(true);
-    }
-
-    //攻撃終わる
-    void ResetAttack()
-    {
-        Destroy(tmpSlash);
-    }
+ 
 
     public void DestroySelf()
     {

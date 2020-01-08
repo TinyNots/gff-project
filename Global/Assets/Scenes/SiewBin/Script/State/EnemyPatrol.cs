@@ -17,7 +17,7 @@ public class EnemyPatrol : IState<Enemy>
 
     public void Enter(Enemy enemy)
     {
-        enemy.GetComponent<Animator>().SetBool("Running", true);
+        enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
     }
 
     public void Execute(Enemy enemy)
@@ -61,7 +61,7 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
             {
-                enemy.GetComponent<Animator>().SetBool("Running", false);
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
                 return;
             }
@@ -90,7 +90,7 @@ public class EnemyPatrol : IState<Enemy>
             {
                 if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
                 {
-                    enemy.GetComponent<Animator>().SetBool("Running", false);
+                    enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
                     return;
                 }

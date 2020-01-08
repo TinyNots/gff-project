@@ -17,10 +17,11 @@ public class DamageEffect : MonoBehaviour
     {
         if (this.gameObject.activeSelf)
         {
-            dmgVel -= 10f * Time.deltaTime;
+            dmgVel += 30f * Time.deltaTime;
+            this.gameObject.transform.localScale += new Vector3(1f * Time.deltaTime,1f * Time.deltaTime,0);
             transform.Translate(Vector2.up * dmgVel * Time.deltaTime);
         }
-        if (dmgVel <= -1f)
+        if (dmgVel > 50f)
         {
             this.gameObject.SetActive(false);
             Destroy(this.gameObject);

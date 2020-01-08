@@ -14,6 +14,8 @@ public class Jump : MonoBehaviour
     [SerializeField]
     private GameObject _slash;
     private GameObject _tmpSlash;
+    [SerializeField]
+    private float _fallMultiplier = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,14 +44,22 @@ public class Jump : MonoBehaviour
 
         if(!_isGrounded)
         {
-            _currentVelocity -= 10f * Time.deltaTime;
+            
+            if(_currentVelocity <= 0)
+            {
+                _currentVelocity -= 10f * Time.deltaTime * _fallMultiplier;
+            }
+            else
+            {
+                _currentVelocity -= 10f * Time.deltaTime;
+            }
             transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
 
             GetComponent<Animator>().SetFloat("JumpVelocity", _currentVelocity);
 
-            if (_currentVelocity <= -_jumpVelocity)
+            if (transform.localPosition.y < 0)
             {
-                transform.localPosition = new Vector2(0, 0);
+                transform.localPosition = new Vector3(0, 0, 0);
                 _currentVelocity = 0;
                 _isGrounded = true;
                 StartCoroutine("JumpWait");

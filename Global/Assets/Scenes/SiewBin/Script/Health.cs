@@ -41,12 +41,12 @@ public class Health : MonoBehaviour
         };
 
         prefab = Instantiate(dmgImage, transform.position, transform.rotation) as GameObject;
+
         GameObject canvas = GameObject.Find("Canvas");
-        prefab.transform.position += prefab.transform.TransformDirection(0.5f, 0f, 0f);
 
         prefab.transform.SetParent(canvas.transform);
         prefab.SetActive(true);
-        prefab.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+        prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y +1f, this.transform.position.z));
         receiveDmgFlag = false;
 
 
