@@ -48,13 +48,12 @@ public class Jumper : MonoBehaviour
 
             _animator.SetFloat("JumpVelocity", _currentVelocity);
 
-            if (transform.localPosition.y < _offset.y)
+            if (transform.localPosition.y < _offset.y - 0.01f)
             {
                 transform.localPosition = _offset;
                 _currentVelocity = 0;
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
-                StartCoroutine("JumpWait");
             }
         }
     }
@@ -63,18 +62,25 @@ public class Jumper : MonoBehaviour
         transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
     }
 
-    private IEnumerator JumpWait()
-    {
-        _character.EableMove = false;
-
-        yield return new WaitForSeconds(0.4f);
-
-        _character.EableMove = true;
-    }
-
     public void StartJump()
     {
-        _isGrounded = false;
-        _currentVelocity = _jumpVelocity;
+        if(_isGrounded)
+        {
+            _isGrounded = false;
+            _currentVelocity = _jumpVelocity;
+        }
+    }
+
+    public void AirLandAttack()
+    {
+        _character.EableMove = false;
+        _character.EableTurn = false;
+        _currentVelocity *= 2.0f;
+    }
+
+    public void ResetEableMove()
+    {
+        _character.EableMove = true;
+        _character.EableTurn = true;
     }
 }

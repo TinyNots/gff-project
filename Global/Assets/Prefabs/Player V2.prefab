@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3197176238592575035}
   - component: {fileID: 3197176238592575034}
-  - component: {fileID: 3197176238592575029}
   - component: {fileID: 3197176238592575028}
-  - component: {fileID: 3197176238592575031}
+  - component: {fileID: 3197176238592575029}
   - component: {fileID: 6793382432514572588}
+  - component: {fileID: 6559718406238483243}
   m_Layer: 0
   m_Name: Player V2
   m_TagString: Untagged
@@ -53,22 +53,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.5}
   m_Size: {x: 1.5, y: 0.5}
   m_Direction: 1
---- !u!114 &3197176238592575029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197176238592575030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8e8589c0f18e0b49af11cfa20110f45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _depth: 0
-  _speed: 5
-  _speedPercentZ: 0.5
-  _animator: {fileID: 7944287830372818789}
 --- !u!50 &3197176238592575028
 Rigidbody2D:
   serializedVersion: 4
@@ -87,10 +71,10 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3197176238592575031
+--- !u!114 &3197176238592575029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,16 +83,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3197176238592575030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5380c3f6bc420584bafd13ece973874a, type: 3}
+  m_Script: {fileID: 11500000, guid: d8e8589c0f18e0b49af11cfa20110f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 0
+  _depth: 0
   _speed: 5
-  animator: {fileID: 7944287830372818789}
-  _speedPercent: 0.5
-  _sprite: {fileID: 3197176238671561993}
-  _jumpStatus: {fileID: 3197176238671561996}
-  _character: {fileID: 3197176238592575029}
+  _speedPercentZ: 0.5
+  _animator: {fileID: 7944287830372818789}
 --- !u!114 &6793382432514572588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +102,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6559718406238483243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197176238592575030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99551489dca6ff146a87e8e5c0ce0cbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7944287830372818789}
+  _sprite: {fileID: 3197176238671561993}
+  _jumpStatus: {fileID: 3197176238671561996}
+  _character: {fileID: 3197176238592575029}
 --- !u!1 &3197176238671561993
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +130,7 @@ GameObject:
   - component: {fileID: 3197176238671561997}
   - component: {fileID: 7944287830372818789}
   - component: {fileID: 3197176238671561996}
+  - component: {fileID: 2244628833847351313}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -198,7 +196,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.37}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -239,6 +237,20 @@ MonoBehaviour:
   _fallMultiplier: 3
   _animator: {fileID: 7944287830372818789}
   _offset: {x: 0, y: 0.58}
+--- !u!114 &2244628833847351313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197176238671561993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199ba52025444d6468a9aa8d8e1597c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slashPrefab: {fileID: 6916187901351970423, guid: d64e480a0180df44fb3eca9beec91261,
+    type: 3}
 --- !u!1 &3197176239624182609
 GameObject:
   m_ObjectHideFlags: 0
