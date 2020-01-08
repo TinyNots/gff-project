@@ -10,7 +10,8 @@ public class SelectName : MonoBehaviour
     // 表示する名前
     private Text _text;
     private Controller _gamePad;
-
+	private List<string> _textList;
+	private int _nowSetNameID;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +19,9 @@ public class SelectName : MonoBehaviour
         _text.text = " ";
         for (int i = 0; i < _nameLength; i++)
         {
-            _text.text += "- ";
+			_textList.Add("- ");
         }
+		
         Test();
     }
     public void Test()
@@ -27,6 +29,29 @@ public class SelectName : MonoBehaviour
         GamePadManager.Instance.GetGamepad(1).HaveTarget = true;
         _gamePad = GamePadManager.Instance.GetGamepad(1);
     }
+
+	private void SetName()
+	{
+		// 決定ボタンで次の名前のIDに進む
+		if (_gamePad.GetButtonDown("A"))
+		{
+			_nowSetNameID++;
+		}
+		// Cancelボタンで前の名前のIDに戻る
+		else if (_gamePad.GetButtonDown("B"))
+		{
+			_nowSetNameID--;
+		}
+		// ID超え対策 
+		if (_nowSetNameID > _nameLength - 1)
+		{
+			_nowSetNameID = _nameLength - 1;
+		}
+		else if(_nowSetNameID < 0)
+		{
+			_nowSetNameID = 0;
+		}
+	}
 
     // Update is called once per frame
     void Update()
@@ -38,6 +63,7 @@ public class SelectName : MonoBehaviour
     {
         if (_gamePad.GetStickL().Y > 0.5)
         {
+
             Debug.Log("上方向");
         }
         else if (_gamePad.GetStickL().Y < -0.5)

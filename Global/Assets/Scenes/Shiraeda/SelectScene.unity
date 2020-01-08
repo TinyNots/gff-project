@@ -132,8 +132,6 @@ GameObject:
   - component: {fileID: 115327039}
   - component: {fileID: 115327044}
   - component: {fileID: 115327043}
-  - component: {fileID: 115327042}
-  - component: {fileID: 115327041}
   - component: {fileID: 115327040}
   m_Layer: 5
   m_Name: StartButton (1)
@@ -177,39 +175,6 @@ MonoBehaviour:
   _fadeType: 2
   _speed: 5
   _loopFlag: 0
---- !u!114 &115327041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115327038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5816b640e81b4a4fa69f99d09414c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 0
-  _fadeType: 0
-  _speed: 1
-  _loopFlag: 1
---- !u!114 &115327042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115327038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7122347c5bac4c642bc10f5ef0025414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockImage:
-  - {fileID: 689958155}
-  - {fileID: 812566178}
-  - {fileID: 779374842}
-  - {fileID: 968269626}
 --- !u!114 &115327043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,9 +478,7 @@ GameObject:
   - component: {fileID: 582804529}
   - component: {fileID: 582804534}
   - component: {fileID: 582804533}
-  - component: {fileID: 582804532}
   - component: {fileID: 582804531}
-  - component: {fileID: 582804530}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -542,22 +505,6 @@ RectTransform:
   m_AnchoredPosition: {x: -17, y: -3}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &582804530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582804528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5816b640e81b4a4fa69f99d09414c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 1
-  _fadeType: 2
-  _speed: 5
-  _loopFlag: 0
 --- !u!114 &582804531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,27 +517,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5816b640e81b4a4fa69f99d09414c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
+  _type: 1
   _fadeType: 0
   _speed: 1
   _loopFlag: 1
---- !u!114 &582804532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582804528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7122347c5bac4c642bc10f5ef0025414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockImage:
-  - {fileID: 689958155}
-  - {fileID: 812566178}
-  - {fileID: 779374842}
-  - {fileID: 968269626}
 --- !u!114 &582804533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,8 +1947,6 @@ GameObject:
   - component: {fileID: 1683065521}
   - component: {fileID: 1683065526}
   - component: {fileID: 1683065525}
-  - component: {fileID: 1683065524}
-  - component: {fileID: 1683065523}
   - component: {fileID: 1683065522}
   m_Layer: 5
   m_Name: StartButton (1)
@@ -2062,39 +1990,6 @@ MonoBehaviour:
   _fadeType: 2
   _speed: 5
   _loopFlag: 0
---- !u!114 &1683065523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683065520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5816b640e81b4a4fa69f99d09414c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 0
-  _fadeType: 0
-  _speed: 1
-  _loopFlag: 1
---- !u!114 &1683065524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683065520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7122347c5bac4c642bc10f5ef0025414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockImage:
-  - {fileID: 689958155}
-  - {fileID: 812566178}
-  - {fileID: 779374842}
-  - {fileID: 968269626}
 --- !u!114 &1683065525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2216,8 +2111,6 @@ GameObject:
   - component: {fileID: 1802957206}
   - component: {fileID: 1802957211}
   - component: {fileID: 1802957210}
-  - component: {fileID: 1802957209}
-  - component: {fileID: 1802957208}
   - component: {fileID: 1802957207}
   m_Layer: 5
   m_Name: StartButton (1)
@@ -2261,39 +2154,6 @@ MonoBehaviour:
   _fadeType: 2
   _speed: 5
   _loopFlag: 0
---- !u!114 &1802957208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802957205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5816b640e81b4a4fa69f99d09414c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 0
-  _fadeType: 0
-  _speed: 1
-  _loopFlag: 1
---- !u!114 &1802957209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802957205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7122347c5bac4c642bc10f5ef0025414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockImage:
-  - {fileID: 689958155}
-  - {fileID: 812566178}
-  - {fileID: 779374842}
-  - {fileID: 968269626}
 --- !u!114 &1802957210
 MonoBehaviour:
   m_ObjectHideFlags: 0
