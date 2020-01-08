@@ -60,7 +60,7 @@ public class EnemyAttack : IState<Enemy>
         if (Time.time > attTime + anim.length+1)
         {
             //目標が攻撃範囲から離れた
-            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.3f)
+            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
