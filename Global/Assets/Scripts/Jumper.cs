@@ -71,6 +71,11 @@ public class Jumper : MonoBehaviour
         }
     }
 
+    public bool GetIsGrounded()
+    {
+        return _isGrounded;
+    }
+
     public void AirLandAttack()
     {
         _character.EableMove = false;
@@ -82,5 +87,10 @@ public class Jumper : MonoBehaviour
     {
         _character.EableMove = true;
         _character.EableTurn = true;
+    }
+
+    public void ResetHurt()
+    {
+        _character.IsHurt = false;
     }
 }

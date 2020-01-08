@@ -48,16 +48,25 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // ボタン関連
-        if(_gamepad.GetButton("X"))
+        if(_gamepad.GetButtonDown("X"))
         {
             _animator.SetTrigger("Attack");
-            _character.EableMove = false;
+            if(_jumpStatus.GetIsGrounded())
+            {
+                _character.EableMove = false;
+            }
         }
 
-        if(_gamepad.GetButton("A") && _character.EableMove)
+        if(_gamepad.GetButtonDown("A") && _character.EableMove)
         {
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
+        }
+
+        if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
+        {
+            _character.IsHurt = true;
+            _character.EableMove = false;
         }
     }
 

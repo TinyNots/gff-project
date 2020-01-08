@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     private float _depth = 0.0f;
     private bool _isEableMove = true;
     private bool _isEableTurn = true;
+    private bool _isHurt = false;
 
     [Header("Speed Setting")]
     [SerializeField]
@@ -20,6 +21,12 @@ public class Character : MonoBehaviour
     private Animator _animator;
 
     private Vector2 _moveInput = new Vector2(0.0f, 0.0f);
+    private Transform moveableArea;
+
+    private void Start()
+    {
+        moveableArea = Camera.main.transform.Find("MoveableArea");
+    }
 
     public void Update()
     {
@@ -27,6 +34,7 @@ public class Character : MonoBehaviour
         if(_animator != null)
         {
             _animator.SetBool("Moveable", _isEableMove);
+            _animator.SetBool("IsHurt", _isHurt);
             _animator.SetFloat("Speed", Mathf.Abs(_moveInput.x + _moveInput.y));
         }
     }
@@ -38,6 +46,20 @@ public class Character : MonoBehaviour
             Vector2 movement = new Vector2(_moveInput.x, _moveInput.y * _speedPercentZ) * _speed * Time.deltaTime;
             transform.Translate(movement);
         }
+
+        /*Collider2D moveableCollider = moveableArea.GetComponent<Collider2D>();
+        Transform shadow = transform.Find("Shadow");
+        Vector3 position = transform.position;
+        position.x = Mathf.Clamp(
+            position.x,
+            moveableArea.position.x - moveableCollider.bounds.size.x / 2.0f,
+            moveableArea.position.x + moveableCollider.bounds.size.x / 2.0f);
+
+        position.y = Mathf.Clamp(
+             position.y,
+             moveableArea.position.y - moveableCollider.bounds.size.y / 2.0f,
+             moveableArea.position.y + moveableCollider.bounds.size.y / 2.0f);
+        transform.position = position;*/
     }
 
     public float GetDepth()
@@ -55,6 +77,12 @@ public class Character : MonoBehaviour
     {
         get { return _isEableTurn; }
         set { _isEableTurn = value; }
+    }
+
+    public bool IsHurt
+    {
+        get { return _isHurt; }
+        set { _isHurt = value; }
     }
 
     public Vector2 MoveInput
