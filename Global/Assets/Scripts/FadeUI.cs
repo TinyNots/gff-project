@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class FadeUI : MonoBehaviour
 {
+    enum IMAGE_TYPE
+    {
+        SPRITE,
+        IMAGE,
+        TEXT,
+        MAX
+    }
     enum FADE_TYPE
     {
         IN,
@@ -13,13 +20,17 @@ public class FadeUI : MonoBehaviour
         MAX
     }
     [SerializeField]
+    private IMAGE_TYPE _type = IMAGE_TYPE.SPRITE;
+    [SerializeField]
     private FADE_TYPE _fadeType;
     [SerializeField]
     private float _speed = 1;
     [SerializeField, Tooltip("ループフラグ")]
-    private bool _loopFlag;
+    private bool _loopFlag = false;
 
     private Image _image;
+    private Text _text;
+    private Color _color;
     // 現在の透明度
     private float _alpha;
     private float _nowTime;
@@ -28,7 +39,22 @@ public class FadeUI : MonoBehaviour
     void Start()
     {
         _alpha = 1;
-        _image = GetComponent<Image>();
+        switch (_type)
+        {
+            case IMAGE_TYPE.SPRITE:
+                break;
+            case IMAGE_TYPE.IMAGE:
+                _image = GetComponent<Image>();
+                _color = _image.color;
+                break;
+            case IMAGE_TYPE.TEXT:
+                _text = GetComponent<Text>();
+                _color = _text.color;
+                break;
+            case IMAGE_TYPE.MAX:
+            default:
+                break;
+        }
     }
 
     private void FadeIn()
@@ -88,7 +114,20 @@ public class FadeUI : MonoBehaviour
 
     private void SetAlpha()
     {
-        _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, _alpha);
+        switch (_type)
+        {
+            case IMAGE_TYPE.SPRITE:
+                break;
+            case IMAGE_TYPE.IMAGE:
+                _image.color = new Color(_color.r, _color.g, _color.b, _alpha);
+                break;
+            case IMAGE_TYPE.TEXT:
+                _text.color = new Color(_color.r, _color.g, _color.b, _alpha);
+                break;
+            case IMAGE_TYPE.MAX:
+            default:
+                break;
+        }
     }
 
     // Update is called once per frame
