@@ -405,7 +405,10 @@ MonoBehaviour:
   prototype: {fileID: 2432215321497343223, guid: bba0d5aaf94c61e44893c8714efe58af,
     type: 3}
   fromRight: 0
-  spawnType: 0
+  spawnType: 2
+  maxCnt: 10
+  spawnTime: 1
+  massSpawnCnt: 1
 --- !u!4 &643441159
 Transform:
   m_ObjectHideFlags: 0
@@ -427,7 +430,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643441157}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d574495418dc8d4aa5d48b83e1375b5, type: 3}
   m_Name: 
@@ -436,6 +439,9 @@ MonoBehaviour:
     type: 3}
   fromRight: 0
   spawnType: 1
+  maxCnt: 10
+  spawnTime: 3
+  massSpawnCnt: 1
 --- !u!1 &687592152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,6 +1471,12 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2432215321497343223, guid: bba0d5aaf94c61e44893c8714efe58af,
+        type: 3}
+      propertyPath: attackBox
+      value: 
+      objectReference: {fileID: 1016998580034615135, guid: 09119fcdd3e4f7645a4268e0948358ce,
+        type: 3}
     - target: {fileID: 2432215321497343224, guid: bba0d5aaf94c61e44893c8714efe58af,
         type: 3}
       propertyPath: m_Name
@@ -1541,5 +1553,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
         type: 3}
+    - target: {fileID: 4296888492626209324, guid: bba0d5aaf94c61e44893c8714efe58af,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4296888492626209324, guid: bba0d5aaf94c61e44893c8714efe58af,
+        type: 3}
+      propertyPath: m_Name
+      value: MeleeHitBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785411517099101951, guid: bba0d5aaf94c61e44893c8714efe58af,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bba0d5aaf94c61e44893c8714efe58af, type: 3}

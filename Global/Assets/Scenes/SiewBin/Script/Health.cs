@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Health : MonoBehaviour
 {
     [SerializeField]
-    static private float hp = 100;
+    static public float hp = 100;
     [SerializeField]
     private GameObject dmgImage;
     private GameObject prefab = null; 
@@ -26,6 +28,7 @@ public class Health : MonoBehaviour
     {
         hp -= value;
         Debug.Log(value + "Damage");
+        dmgImage.GetComponent<Text>().text = value.ToString();
         receiveDmgFlag = true;
     }
 
@@ -39,11 +42,18 @@ public class Health : MonoBehaviour
 
         prefab = Instantiate(dmgImage, transform.position, transform.rotation) as GameObject;
         GameObject canvas = GameObject.Find("Canvas");
+        prefab.transform.position += prefab.transform.TransformDirection(0.5f, 0f, 0f);
+
         prefab.transform.SetParent(canvas.transform);
         prefab.SetActive(true);
         prefab.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
         receiveDmgFlag = false;
 
 
+    }
+
+    public float HP
+    {
+        get { return hp; }
     }
 }

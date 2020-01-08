@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
         else
         {
             shadowPos = new Vector3(transform.position.x, shadowPos.y, 0);
+
         }
         if (transform.position.y - offset.y <= shadowPos.y)
         {
@@ -103,6 +104,13 @@ public class Enemy : MonoBehaviour
         get { return curDest; }
         set { curDest = value; }
     }
+
+    public Vector3 ShadowPos
+    {
+        get { return shadowPos; }
+        set { shadowPos = value; }
+    }
+
     public Vector3 OffSet
     {
         get { return offset; }
@@ -128,7 +136,14 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "PlayerAttack")
         {
             health.ReceiveDmg(10);
-            ChangeState(new EnemyGetHit());
+            if (health.HP > 0)
+            {
+                ChangeState(new EnemyGetHit());
+            }
+            else
+            {
+                ChangeState(new EnemyDie());
+            }
         }
     }
 

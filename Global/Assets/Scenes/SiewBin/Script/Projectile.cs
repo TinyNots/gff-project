@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
         }
         //スクリーン外だったら廃棄する
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        if (gameObject.transform.position.x > wsize.x && gameObject.transform.position.x < -wsize.x)
+        if (gameObject.transform.position.x > wsize.x || gameObject.transform.position.x < -wsize.x)
         {
             Destroy(gameObject);
         }

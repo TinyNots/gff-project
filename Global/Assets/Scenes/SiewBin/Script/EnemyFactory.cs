@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour
 {
+    
     [SerializeField]
     Enemy prototype;
     public enum SpawnType
@@ -15,13 +16,14 @@ public class EnemyFactory : MonoBehaviour
     }
     [SerializeField]
     bool fromRight = true; //右から生成
-    bool isSpawned = false; //生成したか
+    private bool isSpawned = false; //生成したか
     [SerializeField]
     SpawnType spawnType;    //生成する方法
-    int curCnt = 0;         //現在の敵数
-    int maxCnt = 10;        //最大生成数
-    float timer = 0;        //次の生成までの時間カウンター
-    float spawnTime = 3;    //生成要る時間
+    private int curCnt = 0;         //現在の敵数
+    public int maxCnt = 10;        //最大生成数
+    private float timer = 0;        //次の生成までの時間カウンター
+    public float spawnTime = 3;    //生成要る時間
+    public int massSpawnCnt = 1;  //大量生成数
 
     // Start is called before the first frame update
     void Start()
@@ -35,24 +37,30 @@ public class EnemyFactory : MonoBehaviour
         {
             if (timer >= spawnTime)
             {
-
-                switch (spawnType)
+                for (int i = 0; i < massSpawnCnt; i++)
                 {
-                    case SpawnType.Side:
-                        SideSpawn(fromRight);
-                        break;
-                    case SpawnType.OneTime:
-                        OneTimeSpawn(fromRight);
-                        break;
-                    case SpawnType.Top:
-                        TopSpawn();
-                        break;
-                    default:
-                        Debug.Log("Spawn Null");
-                        break;
+                    switch (spawnType)
+                    {
+                        case SpawnType.Side:
+                            SideSpawn(fromRight);
+                            break;
+                        case SpawnType.OneTime:
+                            OneTimeSpawn(fromRight);
+                            break;
+                        case SpawnType.Top:
+                            TopSpawn();
+                            break;
+                        default:
+                            Debug.Log("Spawn Null");
+                            break;
 
+                    }
+                    curCnt++;
                 }
-                curCnt++;
+                if (spawnType == SpawnType.OneTime)
+                {
+                    isSpawned = true;
+                }
                 timer = 0;
                 if (Random.Range(0, 2) == 1)
                 {
@@ -102,7 +110,6 @@ public class EnemyFactory : MonoBehaviour
             enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
-        isSpawned = true;
         Debug.Log("One Time Spawn");
 
     }
@@ -111,11 +118,12 @@ public class EnemyFactory : MonoBehaviour
         //var enemy = Spawn();
         //var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        //enemy.transform.position = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
+        //enemy.ShadowPos = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
+        //enemy.transform.position = new Vector3( enemy.ShadowPos.x,enemy.ShadowPos.y + wsize.y,enemy.ShadowPos.z);
         //enemy.IsJumping = true;
         //var currentVelocity = 0f;
-        //while (currentVelocity < -10f)
-        //{ 
+        //while (currentVelocity > -10f)
+        //{
         //    currentVelocity -= 10f * Time.deltaTime;
         //    enemy.transform.position += enemy.transform.TransformDirection(0, 0.5f * currentVelocity * Time.deltaTime, 0.0f);
 

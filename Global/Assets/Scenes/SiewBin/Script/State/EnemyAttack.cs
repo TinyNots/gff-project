@@ -57,17 +57,17 @@ public class EnemyAttack : IState<Enemy>
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
 
       
-        if (Time.time > attTime + anim.length)
+        if (Time.time > attTime + anim.length+1)
         {
             //目標が攻撃範囲から離れた
-            if (Mathf.Abs(distX) > 0.5f && Mathf.Abs(distY) > 0.3f)
+            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.3f)
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
                 return;
             }
             Debug.Log("Attack");
-            enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
             enemy.GetComponent<Animator>().SetTrigger("Attack");
             attTime = Time.time;
         }
@@ -78,9 +78,9 @@ public class EnemyAttack : IState<Enemy>
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
 
-        if (Time.time > attTime + anim.length)
+        if (Time.time > attTime + anim.length+1)
         {
-            if (Mathf.Abs(distX) > 7.0f && Mathf.Abs(distY) > 0.3f)
+            if (Mathf.Abs(distX) > 7.0f || Mathf.Abs(distY) > 0.5f)
             {
                 //目標が攻撃範囲から離れた
                 Debug.Log("ChangeToPatrol");

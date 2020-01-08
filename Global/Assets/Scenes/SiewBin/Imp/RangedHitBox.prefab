@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7945038991030835916}
   - component: {fileID: 3703132042489729389}
   - component: {fileID: 8344254041943164767}
+  - component: {fileID: 8347446175306354152}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Attack
@@ -44,7 +45,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -141,3 +142,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb829142c9c82346b6e13c03bd0d8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8347446175306354152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366148260354003837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgVal: 1
+  target: 1
