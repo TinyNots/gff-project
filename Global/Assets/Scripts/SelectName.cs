@@ -24,8 +24,6 @@ public class SelectName : MonoBehaviour
     }
     public void Test()
     {
-        // スタートボタンを押したか
-        int currentIndex = 1;
         GamePadManager.Instance.GetGamepad(1).HaveTarget = true;
         _gamePad = GamePadManager.Instance.GetGamepad(1);
     }
