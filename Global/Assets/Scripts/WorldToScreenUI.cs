@@ -11,10 +11,10 @@ public class WorldToScreenUI : MonoBehaviour
     private Vector3 _offset;
     private RectTransform _rectTrans;
     public GameObject Target
-    {
-        get { return _target; }
-        set { _target = value; }
-    }
+	{
+		get { return _target; }
+		set { _target = value; }
+	}
     // Start is called before the first frame update
     void Start()
     {

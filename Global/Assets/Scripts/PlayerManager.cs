@@ -32,6 +32,10 @@ public class PlayerManager : MonoBehaviour
             player.transform.parent = gameObject.transform;
 
             GameObject id = Instantiate(_idPrefab, player.transform);
+			foreach (Transform child in id.transform)
+			{
+				child.GetComponent<WorldToScreenUI>().Target = player;
+			}
             Text text = id.transform.Find("Text").GetComponent<Text>();
 
             text.text = "P" + i;
@@ -65,7 +69,7 @@ public class PlayerManager : MonoBehaviour
 
         if (flagCount >= _playerGroup.Count)
         {
-            SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.RESULT);
+            //SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.RESULT);
         }
     }
 }

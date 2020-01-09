@@ -283,7 +283,7 @@ MonoBehaviour:
   _playerGroup: []
   _playerPrefab: {fileID: 3197176238592575030, guid: 2044f867fe5b3b64a8fee040b1cc2437,
     type: 3}
-  _idPrefab: {fileID: 8765597703202601071, guid: 6f94a90aa3a20da48ba312064c75a273,
+  _idPrefab: {fileID: 8765597703202601071, guid: 01f4e317ee63a4f44b039c8a56944f1e,
     type: 3}
 --- !u!1 &719423411
 GameObject:
