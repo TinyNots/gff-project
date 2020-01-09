@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2625305397242812791}
   - component: {fileID: 2625305397242812786}
   - component: {fileID: 2625305397242812788}
-  - component: {fileID: 2625305397242812795}
   - component: {fileID: 2625305397242812789}
   - component: {fileID: 2625305397242812790}
   m_Layer: 0
@@ -170,19 +169,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2625305397242812795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651891991989151937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e4f3093f7dea274ebda8c714176fe54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 1
 --- !u!114 &2625305397242812789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +211,7 @@ GameObject:
   - component: {fileID: 651891992547601694}
   - component: {fileID: 7709832885920655680}
   - component: {fileID: 2625305396237038696}
+  - component: {fileID: 7068923808578343700}
   m_Layer: 0
   m_Name: Werewolf
   m_TagString: Untagged
@@ -330,6 +317,19 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   isRanged: 0
+--- !u!114 &7068923808578343700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651891992547601690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4f3093f7dea274ebda8c714176fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 1
 --- !u!50 &2625305396319468189
 Rigidbody2D:
   serializedVersion: 4

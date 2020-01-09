@@ -34,6 +34,9 @@ public class AttackTiming : MonoBehaviour
     //攻撃終わる
     public void ResetAttack()
     {
-        Destroy(tmpSlash);
+        if (tmpSlash != null)
+        {
+            Destroy(tmpSlash);
+        }
     }
 }
