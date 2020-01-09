@@ -47,7 +47,7 @@ public class Character : MonoBehaviour
             transform.Translate(movement);
         }
 
-        /*Collider2D moveableCollider = moveableArea.GetComponent<Collider2D>();
+        Collider2D moveableCollider = moveableArea.GetComponent<Collider2D>();
         Transform shadow = transform.Find("Shadow");
         Vector3 position = transform.position;
         position.x = Mathf.Clamp(
@@ -57,9 +57,9 @@ public class Character : MonoBehaviour
 
         position.y = Mathf.Clamp(
              position.y,
-             moveableArea.position.y - moveableCollider.bounds.size.y / 2.0f,
-             moveableArea.position.y + moveableCollider.bounds.size.y / 2.0f);
-        transform.position = position;*/
+             moveableArea.position.y - moveableCollider.bounds.size.y / 2.0f - (shadow.position.y - transform.position.y),
+             moveableArea.position.y + moveableCollider.bounds.size.y / 2.0f - (shadow.position.y - transform.position.y));
+        transform.position = position;
     }
 
     public float GetDepth()
@@ -67,13 +67,13 @@ public class Character : MonoBehaviour
         return _depth;
     }
 
-    public bool EableMove
+    public bool EnableMove
     {
         get { return _isEableMove; }
         set { _isEableMove = value; }
     }
 
-    public bool EableTurn
+    public bool EnableTurn
     {
         get { return _isEableTurn; }
         set { _isEableTurn = value; }

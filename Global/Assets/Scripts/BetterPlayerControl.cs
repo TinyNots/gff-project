@@ -35,7 +35,7 @@ public class BetterPlayerControl : MonoBehaviour
 
         // 移動関連
         _character.MoveInput = new Vector2(_gamepad.GetStickL().X, _gamepad.GetStickL().Y);
-        if(_character.EableTurn)
+        if(_character.EnableTurn)
         {
             if (_gamepad.GetStickL().X < -0.01f)
             {
@@ -53,11 +53,11 @@ public class BetterPlayerControl : MonoBehaviour
             _animator.SetTrigger("Attack");
             if(_jumpStatus.GetIsGrounded())
             {
-                _character.EableMove = false;
+                _character.EnableMove = false;
             }
         }
 
-        if(_gamepad.GetButtonDown("A") && _character.EableMove)
+        if(_gamepad.GetButtonDown("A") && _character.EnableMove)
         {
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
@@ -66,7 +66,7 @@ public class BetterPlayerControl : MonoBehaviour
         if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
         {
             _character.IsHurt = true;
-            _character.EableMove = false;
+            _character.EnableMove = false;
         }
     }
 

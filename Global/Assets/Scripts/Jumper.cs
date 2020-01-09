@@ -29,7 +29,7 @@ public class Jumper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && _character.EableMove)
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && _character.EnableMove)
         {
             _isGrounded = false;
             _currentVelocity = _jumpVelocity;
@@ -78,15 +78,15 @@ public class Jumper : MonoBehaviour
 
     public void AirLandAttack()
     {
-        _character.EableMove = false;
-        _character.EableTurn = false;
+        _character.EnableMove = false;
+        _character.EnableTurn = false;
         _currentVelocity *= 2.0f;
     }
 
     public void ResetEableMove()
     {
-        _character.EableMove = true;
-        _character.EableTurn = true;
+        _character.EnableMove = true;
+        _character.EnableTurn = true;
     }
 
     public void ResetHurt()
