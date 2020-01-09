@@ -19,6 +19,7 @@ public class FadeUI : MonoBehaviour
         FLASH,
         MAX
     }
+
     [SerializeField]
     private IMAGE_TYPE _type = IMAGE_TYPE.SPRITE;
     [SerializeField]
@@ -27,7 +28,13 @@ public class FadeUI : MonoBehaviour
     private float _speed = 1;
     [SerializeField, Tooltip("ループフラグ")]
     private bool _loopFlag = false;
-
+    [SerializeField, Tooltip("フェイドの有効化フラグ")]
+    private bool _active = false;
+    public bool Active
+    {
+        get { return _active; }
+        set { _active = value; }
+    }
     private Image _image;
     private Text _text;
     private Color _color;
@@ -95,6 +102,12 @@ public class FadeUI : MonoBehaviour
 
     public void FadeImage()
     {
+        // 有効化されてないなら処理をしない
+        if(!_active)
+        {
+            return;
+        }
+        // それぞれのフェイドのタイプ
         switch (_fadeType)
         {
             case FADE_TYPE.IN:

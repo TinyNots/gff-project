@@ -5,13 +5,20 @@ using UnityEngine;
 public class StartButton : MonoBehaviour
 {
     [SerializeField, Tooltip("無効化するオブジェクト")]
-    GameObject[] _noActiveObj;
+    private GameObject[] _noActiveObj;
     [SerializeField]
-    GameObject[] Buttons;
+    private GameObject[] Buttons;
+    Controller _gamepad;
+    [SerializeField]
+    private List<FadeUI> _fade = new List<FadeUI>();
+    [SerializeField]
+    private TypefaceAnimator _typeface = null;
+    private int i = 0;
     // Start is called before the first frame update
     void Start()
     {
-        
+        GamePadManager.Instance.GetGamepad(1).HaveTarget = true;
+        _gamepad = GamePadManager.Instance.GetGamepad(1);
     }
 
     public void PushButton()
@@ -29,12 +36,14 @@ public class StartButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 四つのボタンのうちどれか押したらメニューを表示する(デバック用にキーも対応)
-        if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") 
-            || Input.GetButtonDown("Fire3") || Input.GetButtonDown("Jump")
-            || Input.GetKeyDown(KeyCode.A))
+        // Startボタンを押したら
+        if (_gamepad.GetButtonUp("Start"))
         {
-            PushButton();
+            foreach (var fade in _fade)
+            {
+                fade.Active = true;
+            }
+            _typeface.enabled = false;
         }
     }
 }
