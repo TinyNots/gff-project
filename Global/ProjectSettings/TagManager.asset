@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Attack
+  - Ground
+  - Canvas
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX
@@ -45,4 +48,7 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 3923326677
+    locked: 0
+  - name: Attack
+    uniqueID: 301462389
     locked: 0

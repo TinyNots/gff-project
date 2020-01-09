@@ -23,11 +23,12 @@ public class GetHit : MonoBehaviour
             switch (tiltLen % 2)
             {
                 case 0:
-                    transform.position += transform.TransformDirection(0.1f, 0f, 0f);
+                    transform.position -= transform.TransformDirection(0.1f, 0f, 0f);
                     tiltLen--;
+               
                     break;
                 case 1:
-                    transform.position -= transform.TransformDirection(0.1f, 0f, 0f);
+                    transform.position += transform.TransformDirection(0.1f, 0f, 0f);
                     tiltLen--;
                     break;
             }

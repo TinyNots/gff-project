@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemyAttack : IState<Enemy>
 {
 
-    float attTime = 0;
+    float attTime = 1;
     private AnimationClip anim;
     public void Enter(Enemy enemy)
     {
         //攻撃アニメ
         anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
+        enemy.Sprite.GetComponent<Animator>().Play("Idle");
     }
-
     public void Execute(Enemy enemy)
     {
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
@@ -56,11 +56,11 @@ public class EnemyAttack : IState<Enemy>
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
 
-      
+
         if (Time.time > attTime + anim.length+1)
         {
             //目標が攻撃範囲から離れた
-            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
+            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.2f)
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
@@ -77,10 +77,9 @@ public class EnemyAttack : IState<Enemy>
     {
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
-
         if (Time.time > attTime + anim.length+1)
         {
-            if (Mathf.Abs(distX) > 7.0f || Mathf.Abs(distY) > 0.5f)
+            if (Mathf.Abs(distX) >6.0f || Mathf.Abs(distY) > 0.2f)
             {
                 //目標が攻撃範囲から離れた
                 Debug.Log("ChangeToPatrol");

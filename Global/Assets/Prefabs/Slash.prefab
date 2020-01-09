@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6916187901351970697}
   - component: {fileID: 6916187901351970422}
   - component: {fileID: 4884145925419200218}
+  - component: {fileID: 6904043619105938337}
   m_Layer: 0
   m_Name: Slash
-  m_TagString: Attack
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,3 +71,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8ee42ea86068d4d91bff2bb1087d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _depth: 0
+--- !u!114 &6904043619105938337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6916187901351970423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgVal: 1
+  target: 0

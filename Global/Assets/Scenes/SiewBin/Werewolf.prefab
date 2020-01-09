@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2625305397242812790}
   m_Layer: 0
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &2625305397242812786
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 8
   dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &2625305397242812790
