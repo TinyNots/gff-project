@@ -48,12 +48,13 @@ public class AudioManager : MonoBehaviour
         _clip = _audioSource.clip;
         PlayBGM(_clip);
     }
-    private void PlaySE(AudioClip clip)
+
+    public void PlaySE(AudioClip clip)
     {
         _audioSource.PlayOneShot(clip);
     }
 
-    private void PlayBGM(AudioClip clip)
+    public void PlayBGM(AudioClip clip)
     {
         if (_coroutine == null)
         {
@@ -61,7 +62,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void StopBGM()
+    public void StopBGM()
     {
         if(_coroutine != null)
         {

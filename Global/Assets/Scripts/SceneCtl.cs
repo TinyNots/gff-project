@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneCtl : MonoBehaviour
 {
     public static SceneCtl instance = null;
 
+    public List<RectTransform> _imageList = new List<RectTransform>();
     public enum SCENE_ID
     {
         TITLE,
@@ -16,6 +18,9 @@ public class SceneCtl : MonoBehaviour
     }
     // シーンの名前
     private string _sceneName;
+    // 演出フラグ
+    private bool _isDirecting;
+    private List<RectTransform> _rectTrans = new List<RectTransform>();
 
     private void Awake()
     {
@@ -30,8 +35,18 @@ public class SceneCtl : MonoBehaviour
         }
     }
     // Start is called before the first frame update
+
     void Start()
     {
+    }
+
+    public void open()
+    {
+    }
+
+    public void FixedUpdate()
+    {
+        open();
     }
 
     public void NextScene(SCENE_ID id)
@@ -66,5 +81,6 @@ public class SceneCtl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
     }
 }

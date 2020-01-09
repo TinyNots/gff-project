@@ -61,6 +61,9 @@ public class Controller
         _inputMap = new Dictionary<string, B_State>();
         _rumbleEvents = new List<Rumble>();
         _haveTarget = false;
+        _state = GamePad.GetState(_playerIndex);
+        Update();
+        Refresh();
     }
 
     public void Update()
@@ -203,6 +206,12 @@ public class Controller
     {
         return (_inputMap[button].nowState == ButtonState.Pressed &&
                 _inputMap[button].oldState == ButtonState.Released) ? true : false;
+    }
+
+    public bool GetButtonUp(string button)
+    {
+        return (_inputMap[button].nowState == ButtonState.Released &&
+               _inputMap[button].oldState == ButtonState.Pressed) ? true : false;
     }
 
     // コントローラに振動のイベントを追加する
