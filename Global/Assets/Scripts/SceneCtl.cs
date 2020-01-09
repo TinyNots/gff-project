@@ -8,7 +8,7 @@ public class SceneCtl : MonoBehaviour
 {
     public static SceneCtl instance = null;
 
-
+    public List<RectTransform> _imageList = new List<RectTransform>();
     public enum SCENE_ID
     {
         TITLE,
@@ -42,7 +42,11 @@ public class SceneCtl : MonoBehaviour
 
     public void open()
     {
+    }
 
+    public void FixedUpdate()
+    {
+        open();
     }
 
     public void NextScene(SCENE_ID id)
@@ -77,5 +81,6 @@ public class SceneCtl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
     }
 }
