@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     private bool _isEableMove = true;
     private bool _isEableTurn = true;
     private bool _isHurt = false;
+    private bool _isDie = false;
 
     [Header("Speed Setting")]
     [SerializeField]
@@ -36,6 +37,8 @@ public class Character : MonoBehaviour
             _animator.SetBool("Moveable", _isEableMove);
             _animator.SetBool("IsHurt", _isHurt);
             _animator.SetFloat("Speed", Mathf.Abs(_moveInput.x + _moveInput.y));
+            _animator.SetBool("IsDie", _isDie);
+
         }
     }
 
@@ -83,6 +86,12 @@ public class Character : MonoBehaviour
     {
         get { return _isHurt; }
         set { _isHurt = value; }
+    }
+
+    public bool IsDie
+    {
+        get { return _isDie; }
+        set { _isDie = value; }
     }
 
     public Vector2 MoveInput

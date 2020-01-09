@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        for (int i = 1; i <= 4; i++)
+        for (int i = 1; i <= 2; i++)
         {
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
@@ -42,6 +42,20 @@ public class PlayerManager : MonoBehaviour
                 _playerGroup[_playerTotalIndex].GetComponent<BetterPlayerControl>().SetControllerIndex(currentIndex);
                 _playerTotalIndex++;
             }
+        }
+
+        int flagCount = 0;
+        foreach (GameObject player in _playerGroup)
+        {
+            if (player.GetComponent<Character>().IsDie)
+            {
+                flagCount++;
+            }
+        }
+
+        if (flagCount >= _playerGroup.Count)
+        {
+            SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.RESULT);
         }
     }
 }

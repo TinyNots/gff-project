@@ -14,9 +14,7 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-      
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -24,10 +22,17 @@ public class HealthBar : MonoBehaviour
         {
             var tmpString = "Player " + playerCnt;
             player = GameObject.Find(tmpString);
-            health = player.transform.Find("Sprite").GetComponent<Health>();
-            maxhp = health.HP;
-
+            if (player != null)
+            {
+                health = player.transform.Find("Sprite").GetComponent<Health>();
+                maxhp = health.HP;
+                for (int a = 0; a < transform.childCount; a++)
+                {
+                    transform.GetChild(a).gameObject.SetActive(true);
+                }
+            }
         }
+ 
         slider.value = health.hp / maxhp;
 
     }
