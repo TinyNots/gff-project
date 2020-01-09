@@ -39,7 +39,7 @@ public class PlayerManager : MonoBehaviour
             if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
             {
                 GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
-                _playerGroup[_playerTotalIndex].GetComponent<PlayerMovement>().SetControllerIndex(currentIndex);
+                _playerGroup[_playerTotalIndex].GetComponent<BetterPlayerControl>().SetControllerIndex(currentIndex);
                 _playerTotalIndex++;
             }
         }

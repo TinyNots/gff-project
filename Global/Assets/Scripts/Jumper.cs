@@ -13,7 +13,7 @@ public class Jumper : MonoBehaviour
     private bool _isGrounded = true;
     private Character _character;
     [SerializeField]
-    private Animator _animator = null;
+    private Animator _animator;
 
     [Header("Others")]
     [SerializeField]
@@ -29,7 +29,7 @@ public class Jumper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && _character.EableMove)
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && _character.EnableMove)
         {
             _isGrounded = false;
             _currentVelocity = _jumpVelocity;
@@ -46,21 +46,14 @@ public class Jumper : MonoBehaviour
                 _currentVelocity -= 10f * Time.deltaTime;
             }
 
-            if (_animator != null)
-            {
-                _animator.SetFloat("JumpVelocity", _currentVelocity);
-            }
+            _animator.SetFloat("JumpVelocity", _currentVelocity);
 
-            if (transform.localPosition.y < _offset.y)
+            if (transform.localPosition.y < _offset.y - 0.01f)
             {
                 transform.localPosition = _offset;
                 _currentVelocity = 0;
                 _isGrounded = true;
-                if (_animator != null)
-                {
-                    _animator.SetBool("IsJumping", false);
-                }
-                StartCoroutine("JumpWait");
+                _animator.SetBool("IsJumping", false);
             }
         }
     }
@@ -69,18 +62,35 @@ public class Jumper : MonoBehaviour
         transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
     }
 
-    private IEnumerator JumpWait()
-    {
-        _character.EableMove = false;
-
-        yield return new WaitForSeconds(0.4f);
-
-        _character.EableMove = true;
-    }
-
     public void StartJump()
     {
-        _isGrounded = false;
-        _currentVelocity = _jumpVelocity;
+        if(_isGrounded)
+        {
+            _isGrounded = false;
+            _currentVelocity = _jumpVelocity;
+        }
+    }
+
+    public bool GetIsGrounded()
+    {
+        return _isGrounded;
+    }
+
+    public void AirLandAttack()
+    {
+        _character.EnableMove = false;
+        _character.EnableTurn = false;
+        _currentVelocity *= 2.0f;
+    }
+
+    public void ResetEableMove()
+    {
+        _character.EnableMove = true;
+        _character.EnableTurn = true;
+    }
+
+    public void ResetHurt()
+    {
+        _character.IsHurt = false;
     }
 }

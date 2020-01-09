@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         // Obtain the desired gamepad from GamepadManager
         gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
 
-        if (_character.EableMove)
+        if (_character.EnableMove)
         {
             depth += _speed * gamepad.GetStickL().Y * Time.deltaTime;
             animator.SetFloat("Speed", Mathf.Abs(gamepad.GetStickL().X + gamepad.GetStickL().Y));
@@ -52,16 +52,16 @@ public class PlayerMovement : MonoBehaviour
         if (gamepad.GetButtonDown("X"))
         {
             animator.SetTrigger("Attack");
-            _character.EableMove = false;
+            _character.EnableMove = false;
         }
 
-        if (_character.EableMove)
+        if (_character.EnableMove)
         {
             if (gamepad.GetButtonDown("B"))
             {
                 animator.SetBool("IsHurt", true);
                 gamepad.AddRumble(0.5f, 0, new Vector2(1f, 1f));
-                _character.EableMove = false;
+                _character.EnableMove = false;
             }
         }
 
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (_character.EableMove)
+        if (_character.EnableMove)
         {
             Vector2 movement = new Vector2(gamepad.GetStickL().X, gamepad.GetStickL().Y * _speedPercent) * _speed * Time.deltaTime;
             transform.Translate(movement);
@@ -127,6 +127,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void StopMovement()
     {
-        _character.EableMove = false;
+        _character.EnableMove = false;
     }
 }
