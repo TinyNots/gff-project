@@ -10,7 +10,7 @@ public class EnemyAttack : IState<Enemy>
     public void Enter(Enemy enemy)
     {
         //攻撃アニメ
-        anim = enemy.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
+        anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
     }
 
     public void Execute(Enemy enemy)
@@ -35,7 +35,7 @@ public class EnemyAttack : IState<Enemy>
 
     public void Exit(Enemy enemy)
     {
-        enemy.GetComponent<BoxCollider2D>().isTrigger = false;
+        enemy.Sprite.GetComponent<BoxCollider2D>().isTrigger = false;
 
     }
 
@@ -60,7 +60,7 @@ public class EnemyAttack : IState<Enemy>
         if (Time.time > attTime + anim.length+1)
         {
             //目標が攻撃範囲から離れた
-            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.3f)
+            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
@@ -68,7 +68,7 @@ public class EnemyAttack : IState<Enemy>
             }
             Debug.Log("Attack");
             //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
-            enemy.GetComponent<Animator>().SetTrigger("Attack");
+            enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
             attTime = Time.time;
         }
     }
@@ -89,7 +89,7 @@ public class EnemyAttack : IState<Enemy>
             }
             Debug.Log("Attack");
             //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
-            enemy.GetComponent<Animator>().SetTrigger("Attack");
+            enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
             attTime = Time.time;
         }
     }

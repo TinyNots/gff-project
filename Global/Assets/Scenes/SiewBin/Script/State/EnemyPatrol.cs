@@ -17,7 +17,7 @@ public class EnemyPatrol : IState<Enemy>
 
     public void Enter(Enemy enemy)
     {
-        enemy.GetComponent<Animator>().SetBool("Running", true);
+        enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
     }
 
     public void Execute(Enemy enemy)
@@ -59,9 +59,9 @@ public class EnemyPatrol : IState<Enemy>
         //攻撃範囲内だったら攻撃する
         if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 1.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
+            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.3f)
             {
-                enemy.GetComponent<Animator>().SetBool("Running", false);
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
                 return;
             }
@@ -70,6 +70,7 @@ public class EnemyPatrol : IState<Enemy>
         {
             enemy.transform.position += enemy.transform.TransformDirection(0.1f, 0.0f, 0.0f);
         }
+        
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
         {
             if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.3f)
@@ -77,6 +78,7 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
             }
         }
+    
     }
     
     void RangedPatrol(Enemy enemy)
@@ -90,7 +92,7 @@ public class EnemyPatrol : IState<Enemy>
             {
                 if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.5f)
                 {
-                    enemy.GetComponent<Animator>().SetBool("Running", false);
+                    enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
                     return;
                 }

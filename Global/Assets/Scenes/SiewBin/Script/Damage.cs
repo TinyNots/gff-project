@@ -22,7 +22,12 @@ public class Damage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //-------狼がバグ中(一時的直し)--------//
+        if (gameObject.activeSelf)
+        {
+            gameObject.transform.position += new Vector3(0.00001f, 0f, 0f);
+        }
+        //-------狼がバグ中(一時的直し)--------//
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
