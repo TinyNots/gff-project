@@ -68,10 +68,18 @@ public class BetterPlayerControl : MonoBehaviour
             _character.IsHurt = true;
             _character.EnableMove = false;
         }
+        var health = transform.Find("Sprite").gameObject.GetComponent<Health>();
+        if (health.HP <= 0)
+        {
+            _character.IsDie = true;
+            _character.EnableMove = false;
+        }
     }
 
     public void SetControllerIndex(int index)
     {
         _controllerIndex = index;
     }
+
+    
 }

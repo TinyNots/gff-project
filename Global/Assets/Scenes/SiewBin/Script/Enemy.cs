@@ -13,10 +13,10 @@ public class Enemy : MonoBehaviour
     public Vector3[] dest;      
     private StateMachine<Enemy> stateMachine;   //有限オートマトン
     private Health health;      //HPの情報
-
+    private float oldHP;
     private Vector3 shadowPos;  //立ってる高さ
     private float offset;     //画像のサイズ
-
+    private bool dieFlag = false;
     private GetHit getHitObj;       //攻撃される時の挙動
     [SerializeField]
     private bool isRanged = false;  //遠攻撃できるか
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         //    offset.y += 0.2f;
         //}
         rb = GetComponent<Rigidbody2D>();
-        health = GetComponent<Health>();
+        health = transform.Find("Sprite").gameObject.GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
         dest[0]  = new Vector3(wsize.x, transform.position.y,0);
         dest[1] = new Vector3(-8, transform.position.y, 0);
@@ -45,6 +45,26 @@ public class Enemy : MonoBehaviour
     {
         //ステートの更新
         stateMachine.Update();
+        if (dieFlag) return;
+        if (health.ReceiveDmgFlag)
+        {
+            //if ((collision.gameObject.transform.parent.rotation.y % 360) == transform.rotation.y)
+            //{
+            //    transform.Rotate(new Vector3(0, 180f));
+            //}
+            if (health.HP > 0)
+            {
+                ChangeState(new EnemyGetHit());
+            }
+
+        }
+        if (health.HP <= 0)
+        {
+            dieFlag = true;
+            ChangeState(new EnemyDie());
+        }
+
+
         //if (!IsJumping)
         //{
         //    shadowPos = transform.position - offset;
@@ -60,8 +80,8 @@ public class Enemy : MonoBehaviour
         //    shadowPos = transform.position - offset;
 
         //}
-        Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
-        Damage();
+        //Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
+        //Damage();
         //画像の回転
         if (GetMoveDir(CurrentDest).x < 0)
         {
@@ -74,7 +94,7 @@ public class Enemy : MonoBehaviour
         }
         if (isJumping)
         {
-            if (transform.Find("Sprite").transform.position.y -offset > transform.Find("Shadow").transform.position.y)
+            if (transform.Find("Sprite").transform.position.y -offset -0.2f > transform.Find("Shadow").transform.position.y)
             {
 
                 if (transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder < 0)
@@ -86,8 +106,8 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                transform.Find("Shadow").transform.position = new Vector3(transform.Find("Sprite").transform.position.x,
-                    transform.Find("Sprite").transform.position.y - offset,0f);
+                transform.Find("Sprite").transform.position = new Vector3(transform.Find("Sprite").transform.position.x,
+                     transform.Find("Shadow").transform.position.y + offset,0f);
                 isJumping = false;
             }
         }
@@ -95,7 +115,6 @@ public class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
-
     }
     public Rigidbody2D GetRigidbody()
     {
@@ -151,18 +170,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerAttack")
-        {
-            health.ReceiveDmg(10);
-            if (health.HP > 0)
-            {
-                ChangeState(new EnemyGetHit());
-            }
-            else
-            {
-                ChangeState(new EnemyDie());
-            }
-        }
+        
     }
 
     //移動してる方向
@@ -209,6 +217,6 @@ public class Enemy : MonoBehaviour
 
     public void DestroySelf()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }

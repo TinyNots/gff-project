@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField]
-    static public float hp = 100;
+    public float hp = 100;
     [SerializeField]
     private GameObject dmgImage;
     private GameObject prefab = null; 
@@ -47,6 +46,7 @@ public class Health : MonoBehaviour
         prefab.transform.SetParent(canvas.transform);
         prefab.SetActive(true);
         prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y +1f, this.transform.position.z));
+        prefab.transform.rotation = Quaternion.Euler(new Vector3(0, 0));
         receiveDmgFlag = false;
 
 
@@ -55,5 +55,10 @@ public class Health : MonoBehaviour
     public float HP
     {
         get { return hp; }
+    }
+
+    public bool ReceiveDmgFlag
+    {
+        get { return receiveDmgFlag; }
     }
 }
