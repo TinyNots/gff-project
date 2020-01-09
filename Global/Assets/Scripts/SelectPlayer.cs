@@ -13,10 +13,12 @@ public class SelectPlayer : MonoBehaviour
     {
         get { return _playerTotalIndex; }
     }
+	private bool _sceneFlag;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
+		_sceneFlag = false;
         _playerTotalIndex = 0;
         // スタートボタンを押したか
         int currentIndex = 1;
@@ -49,12 +51,23 @@ public class SelectPlayer : MonoBehaviour
         if (_gamePad.GetButtonDown("Start"))
         {
             Debug.Log("シーン遷移します");
-            SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.STAGE1);
+			if(!_sceneFlag)
+			{
+				_sceneFlag = true;
+				Invoke("SetMode", 2.0f);
+			}
         }
     }
 
-    // Update is called once per frame
-    void Update()
+
+	public void SetMode()
+	{
+		SceneCtl.instance.SetNextScene(SceneCtl.SCENE_ID.GAME);
+		SceneCtl.instance.SetDirect(SceneCtl.DIRECT.START);
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         CheckSelect();
     }

@@ -4,37 +4,22 @@ using UnityEngine;
 
 public class StartButton : MonoBehaviour
 {
-    [SerializeField, Tooltip("無効化するオブジェクト")]
-    private GameObject[] _noActiveObj;
-    [SerializeField]
-    private GameObject[] Buttons;
     Controller _gamepad;
     [SerializeField]
     private List<FadeUI> _fade = new List<FadeUI>();
     [SerializeField]
     private TypefaceAnimator _typeface = null;
     private int i = 0;
+	private bool _sceneFlag;
     // Start is called before the first frame update
     void Start()
     {
+		_sceneFlag = false;
         GamePadManager.Instance.GetGamepad(1).HaveTarget = true;
         _gamepad = GamePadManager.Instance.GetGamepad(1);
     }
 
     public void PushButton()
-    {
-        foreach(var button in Buttons)
-        {
-            button.SetActive(true);
-        }
-        foreach (var obj in _noActiveObj)
-        {
-            obj.SetActive(false);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         // Startボタンを押したら
         if (_gamepad.GetButtonUp("Start"))
@@ -43,7 +28,24 @@ public class StartButton : MonoBehaviour
             {
                 fade.Active = true;
             }
-            _typeface.enabled = false;
+			_typeface.enabled = false;
+			if(!_sceneFlag)
+			{
+				_sceneFlag = true;
+				Invoke("SetMode", 1.0f);
+			}
         }
+    }
+
+	public void SetMode()
+	{
+		SceneCtl.instance.SetNextScene(SceneCtl.SCENE_ID.SELECT);
+		SceneCtl.instance.SetDirect(SceneCtl.DIRECT.START);
+	}
+
+    // Update is called once per frame
+    void Update()
+    {
+		PushButton();
     }
 }

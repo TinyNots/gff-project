@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Shiraeda/TitleScene.unity
     guid: 4ecbeda0fb6feaf4f854532168534f35
   - enabled: 1
-    path: Assets/Scenes/Shiraeda/Stage1.unity
-    guid: 62cd914bbb16ffe4d93fd857c985b4a3
+    path: Assets/Scenes/Shiraeda/SelectScene.unity
+    guid: 07967cf16dcc34347a584edcd1d4da6d
+  - enabled: 1
+    path: Assets/Alex/Scenes/GameScene.unity
+    guid: 6fda8d0e251fe69469f11e5ef29d58cf
   - enabled: 1
     path: Assets/Scenes/Shiraeda/ResultScene.unity
     guid: 631cdbbedfe71cc478446b51fc9b685d
