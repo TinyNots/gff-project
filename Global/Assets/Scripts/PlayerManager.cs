@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private GameObject _playerPrefab;
     private int _playerTotalIndex;
+
+    [SerializeField]
+    private GameObject _idPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +30,12 @@ public class PlayerManager : MonoBehaviour
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
             player.transform.parent = gameObject.transform;
+
+            GameObject id = Instantiate(_idPrefab, player.transform);
+            Text text = id.transform.Find("Text").GetComponent<Text>();
+
+            text.text = "P" + i;
+
             _playerGroup.Add(player);
         }
     }

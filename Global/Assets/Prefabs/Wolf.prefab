@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 3382000837446262078}
   - component: {fileID: 3382000837446262073}
   - component: {fileID: 3303148099017790116}
+  - component: {fileID: 2014610657}
   m_Layer: 0
   m_Name: Wolf
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,9 +52,9 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.5
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fb0ce9f9574e67243a086f1e7d4df439, type: 2}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!114 &3382000837446262073
@@ -84,6 +85,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2014610657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382000837446262074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9d6450764980846906ad7f4184f7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3382000838013163745
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +108,7 @@ GameObject:
   - component: {fileID: 3382000838013163751}
   - component: {fileID: 3382000838013163744}
   - component: {fileID: 3382000838013163748}
+  - component: {fileID: 510489618}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -110,7 +124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3382000838013163745}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6, y: 0.54, z: 0}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 0}
   m_Children: []
   m_Father: {fileID: 3382000837446262072}
@@ -182,6 +196,22 @@ MonoBehaviour:
   _fallMultiplier: 3
   _animator: {fileID: 0}
   _offset: {x: 0, y: 0}
+--- !u!58 &510489618
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382000838013163745}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!1001 &3382000836372066164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,9 +219,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3382000837446262072}
     m_Modifications:
-    - target: {fileID: 7737432163361925203, guid: c76a25ed8998e3947a11f7ba258ce838,
+    - target: {fileID: 5796697866666109068, guid: c76a25ed8998e3947a11f7ba258ce838,
         type: 3}
-      propertyPath: m_SortingOrder
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7737432163361925204, guid: c76a25ed8998e3947a11f7ba258ce838,

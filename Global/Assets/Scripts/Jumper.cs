@@ -19,10 +19,13 @@ public class Jumper : MonoBehaviour
     [SerializeField]
     private Vector2 _offset = new Vector2(0f, 0f);
 
+    private Collider2D _shadowCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         _character = gameObject.GetComponentInParent<Character>();
+        _shadowCollider = transform.parent.Find("Shadow").GetComponent<Collider2D>();
         _offset = transform.localPosition;
     }
 
@@ -54,6 +57,7 @@ public class Jumper : MonoBehaviour
                 _currentVelocity = 0;
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
+                _shadowCollider.isTrigger = false;
             }
         }
     }
@@ -67,6 +71,7 @@ public class Jumper : MonoBehaviour
         if(_isGrounded)
         {
             _isGrounded = false;
+            _shadowCollider.isTrigger = true;
             _currentVelocity = _jumpVelocity;
         }
     }
