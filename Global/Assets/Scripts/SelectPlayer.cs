@@ -9,7 +9,14 @@ public class SelectPlayer : MonoBehaviour
     private int _controllerIndex;
     [SerializeField, Tooltip("ロックイメージ")]
     private GameObject[] _lockImage;
-    public int PlayerTotalIndex
+
+	public List<IdlePlayer> idlePlayers = new List<IdlePlayer>();
+	[SerializeField]
+	private List<FadeUI> _fade = new List<FadeUI>();
+	[SerializeField]
+	private TypefaceAnimator _typeface = null;
+
+	public int PlayerTotalIndex
     {
         get { return _playerTotalIndex; }
     }
@@ -26,7 +33,8 @@ public class SelectPlayer : MonoBehaviour
         {
             GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
             _lockImage[_playerTotalIndex].SetActive(false);
-            _playerTotalIndex++;
+			idlePlayers[currentIndex].Sword();
+			_playerTotalIndex++;
         }
         _gamePad = GamePadManager.Instance.GetGamepad(1);
     }
@@ -39,6 +47,7 @@ public class SelectPlayer : MonoBehaviour
 
             if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
             {
+				idlePlayers[currentIndex].Sword();
                 GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
                 _lockImage[_playerTotalIndex].SetActive(false);
                 _playerTotalIndex++;
@@ -48,9 +57,14 @@ public class SelectPlayer : MonoBehaviour
 
     private void StartGame()
     {
-        if (_gamePad.GetButtonDown("Start"))
+        if (_gamePad.GetButtonUp("Start"))
         {
-            Debug.Log("シーン遷移します");
+			foreach (var fade in _fade)
+			{
+				fade.Active = true;
+			}
+			_typeface.enabled = false;
+
 			if(!_sceneFlag)
 			{
 				_sceneFlag = true;
