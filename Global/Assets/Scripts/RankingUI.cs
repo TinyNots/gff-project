@@ -31,9 +31,9 @@ public class RankingUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (_gamePad.GetButtonDown("X"))
-        //{
-        //    SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.TITLE);
-        //}
+        if (_gamePad.GetButtonDown("X"))
+        {
+            SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.TITLE);
+        }
     }
 }
