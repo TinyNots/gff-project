@@ -33,7 +33,7 @@ public class SelectPlayer : MonoBehaviour
         {
             GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
             _lockImage[_playerTotalIndex].SetActive(false);
-			idlePlayers[currentIndex].Sword();
+			idlePlayers[0].Sword();
 			_playerTotalIndex++;
         }
         _gamePad = GamePadManager.Instance.GetGamepad(1);
@@ -47,9 +47,9 @@ public class SelectPlayer : MonoBehaviour
 
             if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
             {
-				idlePlayers[currentIndex].Sword();
                 GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
                 _lockImage[_playerTotalIndex].SetActive(false);
+                idlePlayers[_playerTotalIndex].Sword();
                 _playerTotalIndex++;
             }
         }

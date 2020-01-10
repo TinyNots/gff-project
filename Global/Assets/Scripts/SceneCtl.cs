@@ -9,6 +9,9 @@ public class SceneCtl : MonoBehaviour
     public static SceneCtl instance = null;
 
     public List<RectTransform> _imageList = new List<RectTransform>();
+
+    [SerializeField]
+    private List<AudioClip> _clipList = new List<AudioClip>();
     public enum SCENE_ID
     {
         TITLE,
@@ -125,16 +128,20 @@ public class SceneCtl : MonoBehaviour
 		{
 			case SCENE_ID.TITLE:
 				_sceneName = "TitleScene";
-				break;
+                break;
 			case SCENE_ID.SELECT:
 				_sceneName = "SelectScene";
 				break;
 			case SCENE_ID.GAME:
-				_sceneName = "GameScene";
+				_sceneName = "scene";
+                AudioManager.instance.StopBGM();
+                AudioManager.instance.PlayBGM(_clipList[1]);
 				break;
 			case SCENE_ID.RESULT:
 				_sceneName = "ResultScene";
-				break;
+                AudioManager.instance.StopBGM();
+                AudioManager.instance.PlayBGM(_clipList[0]);
+                break;
 
 			case SCENE_ID.MAX:
 			default:

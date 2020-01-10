@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        for (int i = 1; i <= 1; i++)
+        for (int i = 1; i <= 2; i++)
         {
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
@@ -69,7 +69,7 @@ public class PlayerManager : MonoBehaviour
 
         if (flagCount >= _playerGroup.Count)
         {
-            //SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.RESULT);
+            SceneCtl.instance.NextScene(SceneCtl.SCENE_ID.RESULT);
         }
     }
 }

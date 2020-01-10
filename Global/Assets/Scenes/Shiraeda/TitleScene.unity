@@ -361,7 +361,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c6196bcdcc2699f44b60f59021aa2253, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 547049d9a9cc2ba4fb6a3e0c18dc8423, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -780,7 +780,7 @@ MonoBehaviour:
   delay: 0
   style: 1
   playOnAwake: 1
-  m_progress: 0.120000005
+  m_progress: 0.0388894
   usePosition: 1
   useRotation: 0
   useScale: 0
@@ -1440,6 +1440,9 @@ MonoBehaviour:
   _imageList:
   - {fileID: 211196865}
   - {fileID: 1350812756}
+  _clipList:
+  - {fileID: 8300000, guid: 547049d9a9cc2ba4fb6a3e0c18dc8423, type: 3}
+  - {fileID: 8300000, guid: 1e0615708d0b3394d9328f8aff181d51, type: 3}
   _speed: 2
 --- !u!1 &1762532853
 GameObject:
