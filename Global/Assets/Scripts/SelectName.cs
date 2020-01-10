@@ -9,8 +9,11 @@ public class SelectName : MonoBehaviour
     // 表示する名前
     private Text _text;
     private Controller _gamePad;
+    private int _controllerIndex = 1;
+    [SerializeField]
+    private RankingUI _rankingUI;
     // 名前の全体のリスト
-	private List<string> _nameList = new List<string>();
+    private List<string> _nameList = new List<string>();
     private int _nowSetNameID;
     // 名前の決定
     private bool _decision;
@@ -37,6 +40,7 @@ public class SelectName : MonoBehaviour
         }
         SetText();
         Test();
+        _gamePad = GamePadManager.Instance.GetGamepad(_controllerIndex);
     }
     public void Test()
     {
@@ -79,11 +83,33 @@ public class SelectName : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.D))
         {
             _nowSetNameID++;
+            if (_nowSetNameID > _nameLength - 1)
+            {
+                _nowSetNameID = 0;
+                var tmpScore = GameObject.Find("Score").GetComponent<Score>();
+                tmpScore.PlayerName = _text.text;
+                Leaderboard.Record(tmpScore.PlayerName, tmpScore.ScoreSetting);
+                _rankingUI.gameObject.SetActive(true);
+                gameObject.transform.parent.gameObject.SetActive(false);
+            }
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
             _nowSetNameID--;
             _nowCharID = 0;
+        }
+        if (_gamePad.GetButtonDown("X"))
+        {
+            _nowSetNameID++;
+            if (_nowSetNameID > _nameLength - 1)
+            {
+                _nowSetNameID = 0;
+                var tmpScore = GameObject.Find("Score").GetComponent<Score>();
+                tmpScore.PlayerName = _text.text;
+                Leaderboard.Record(tmpScore.PlayerName, tmpScore.ScoreSetting);
+                _rankingUI.gameObject.SetActive(true);
+                gameObject.transform.parent.gameObject.SetActive(false);
+            }
         }
 
         // ID超え対策 
@@ -126,7 +152,18 @@ public class SelectName : MonoBehaviour
             _nowCharID--;
             Debug.Log("下入力");
         }
-        if(_nowCharID > 25)
+        if (_gamePad.GetButtonDown("DPad_Down"))
+        {
+            _nowCharID++;
+        }
+        else if (_gamePad.GetButtonDown("DPad_Up"))
+        {
+            _nowCharID--;
+
+        }
+
+
+        if (_nowCharID > 25)
         {
             _nowCharID = 0;
         }

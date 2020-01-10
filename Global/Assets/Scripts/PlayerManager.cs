@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        for (int i = 1; i <= 2; i++)
+        for (int i = 1; i <= 1; i++)
         {
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
