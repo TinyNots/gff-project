@@ -192,6 +192,7 @@ public class Enemy : MonoBehaviour
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
+        position -= new Vector3(0f, 0.3f);
         foreach (GameObject player in players)
         {
             Vector3 diff = player.transform.position - position;

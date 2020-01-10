@@ -12,6 +12,7 @@ public class WaveMng : MonoBehaviour
     private bool waveReadyFlag = true;
     public Wave[] waveSpawn;
     public EnemyFactory[] factoryCnt = new EnemyFactory[3];
+    public Score score;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +66,7 @@ public class WaveMng : MonoBehaviour
                 waitTime = 8;
             }
             waveCnt ++;
+            score.AddScore(1);
             waveReadyFlag = false;
         }
     }
