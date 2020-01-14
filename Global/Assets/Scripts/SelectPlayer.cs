@@ -26,16 +26,16 @@ public class SelectPlayer : MonoBehaviour
 	void Start()
     {
 		_sceneFlag = false;
-        _playerTotalIndex = 0;
+        _playerTotalIndex = 1;
         // スタートボタンを押したか
-        int currentIndex = 1;
-        if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
-        {
-            GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
-            _lockImage[_playerTotalIndex].SetActive(false);
-			idlePlayers[0].Sword();
-			_playerTotalIndex++;
-        }
+   //     int currentIndex = 1;
+   //     if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
+   //     {
+   //         GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
+   //         _lockImage[_playerTotalIndex].SetActive(false);
+			//idlePlayers[0].Sword();
+			//_playerTotalIndex++;
+   //     }
         _gamePad = GamePadManager.Instance.GetGamepad(1);
     }
 
@@ -59,7 +59,9 @@ public class SelectPlayer : MonoBehaviour
     {
         if (_gamePad.GetButtonUp("Start"))
         {
-			foreach (var fade in _fade)
+            PlayerManager._playerTotalIndex = this._playerTotalIndex;
+
+            foreach (var fade in _fade)
 			{
 				fade.Active = true;
 			}

@@ -20,7 +20,7 @@ public class BetterPlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _controllerIndex = 0;
+        //_controllerIndex = 0;
     }
 
     // Update is called once per frame
@@ -80,6 +80,4 @@ public class BetterPlayerControl : MonoBehaviour
     {
         _controllerIndex = index;
     }
-
-    
 }
