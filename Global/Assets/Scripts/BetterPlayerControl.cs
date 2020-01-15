@@ -16,11 +16,20 @@ public class BetterPlayerControl : MonoBehaviour
     private Jumper _jumpStatus;
     [SerializeField]
     private Character _character;
+    [SerializeField]
+    private float _stopTime = 0.05f;
+
+    private SpriteRenderer _renderer;
+    private Shader ShaderGUItext;
+    private Shader shaderSpritesDafult;
 
     // Start is called before the first frame update
     void Start()
     {
         //_controllerIndex = 0;
+        _renderer = _sprite.GetComponent<SpriteRenderer>();
+        ShaderGUItext = Shader.Find("GUI/Text Shader");
+        shaderSpritesDafult = Shader.Find("Universal Render Pipeline/2D/Sprite-Lit-Default");
     }
 
     // Update is called once per frame
@@ -68,16 +77,33 @@ public class BetterPlayerControl : MonoBehaviour
             _character.IsHurt = true;
             _character.EnableMove = false;
         }
-        var health = transform.Find("Sprite").gameObject.GetComponent<Health>();
+
+        if(_gamepad.GetButtonDown("Y"))
+        {
+            FindObjectOfType<HitStop>().Stop(0.06f);
+            _renderer.material.shader = ShaderGUItext;
+            _renderer.color = Color.white;
+            StartCoroutine(Normal(0.06f));
+        }
+
+        var health = _sprite.GetComponent<Health>();
         if (health.HP <= 0)
         {
             _character.IsDie = true;
             _character.EnableMove = false;
+            _character.EnableTurn = false;
         }
     }
 
     public void SetControllerIndex(int index)
     {
         _controllerIndex = index;
+    }
+
+    private IEnumerator Normal(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _renderer.material.shader = shaderSpritesDafult;
+        _renderer.color = Color.white;
     }
 }

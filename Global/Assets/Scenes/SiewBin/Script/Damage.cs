@@ -39,22 +39,21 @@ public class Damage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-            if (collision.gameObject.tag == targetTag[(int)target])
-            {
-                float depthB = collision.gameObject.transform.parent.Find("Shadow").GetComponent<Depth>().DepthSetting;
+        if (collision.gameObject.tag == targetTag[(int)target])
+        {
+            float depthB = collision.gameObject.transform.parent.Find("Shadow").GetComponent<Depth>().DepthSetting;
 
-                if (depthB <= _depth + _shadowSize.y / 2.0f && depthB >= _depth - _shadowSize.y / 2.0f)
+            if (depthB <= _depth + _shadowSize.y / 2.0f && depthB >= _depth - _shadowSize.y / 2.0f)
+            {
+                if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
-                    if (collision.gameObject.GetComponent<Health>().HP > 0)
-                    {
-                        collision.gameObject.GetComponent<Health>().ReceiveDmg(dmgVal);
-                        Debug.Log(targetTag[(int)target] + " got hit");
-                    }
+                    collision.gameObject.GetComponent<Health>().ReceiveDmg(dmgVal);
+                    Debug.Log(targetTag[(int)target] + " got hit");
+                    FindObjectOfType<HitStop>().Stop(0.06f);
                 }
-               
             }
-        
+
+        }
     }
 
     public int DmgVal

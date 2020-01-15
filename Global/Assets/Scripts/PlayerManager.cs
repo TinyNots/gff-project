@@ -14,6 +14,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private GameObject _idPrefab;
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool _isDebuging = false;
+    [SerializeField]
+    private int _playerCount = 4;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +31,13 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        for (int i = 1; i <= _playerTotalIndex; i++)
+        int tmpCount = _playerTotalIndex;
+        if(_isDebuging)
+        {
+            tmpCount = _playerCount;
+        }
+
+        for (int i = 1; i <= tmpCount; i++)
         {
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
