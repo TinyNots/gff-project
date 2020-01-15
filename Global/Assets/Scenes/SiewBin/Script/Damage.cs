@@ -50,6 +50,9 @@ public class Damage : MonoBehaviour
                     collision.gameObject.GetComponent<Health>().ReceiveDmg(dmgVal);
                     Debug.Log(targetTag[(int)target] + " got hit");
                     FindObjectOfType<HitStop>().Stop(0.06f);
+                    collision.transform.GetComponent<Flasher>().StartFlash();
+                    Character character = collision.transform.parent.transform.GetComponent<Character>();
+                    character.IsHurt = true;
                 }
             }
 

@@ -18,18 +18,17 @@ public class BetterPlayerControl : MonoBehaviour
     private Character _character;
     [SerializeField]
     private float _stopTime = 0.05f;
-
-    private SpriteRenderer _renderer;
-    private Shader ShaderGUItext;
-    private Shader shaderSpritesDafult;
+    private ParticleSystem _dust;
+    [SerializeField]
+    private float _dustOverRate = 10.0f;
+    private ParticleSystem.EmissionModule _dustEmission;
 
     // Start is called before the first frame update
     void Start()
     {
         //_controllerIndex = 0;
-        _renderer = _sprite.GetComponent<SpriteRenderer>();
-        ShaderGUItext = Shader.Find("GUI/Text Shader");
-        shaderSpritesDafult = Shader.Find("Universal Render Pipeline/2D/Sprite-Lit-Default");
+        _dust = transform.Find("Dust Particle").GetComponent<ParticleSystem>();
+        _dustEmission = _dust.emission;
     }
 
     // Update is called once per frame
@@ -74,36 +73,28 @@ public class BetterPlayerControl : MonoBehaviour
 
         if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
         {
-            _character.IsHurt = true;
-            _character.EnableMove = false;
-        }
-
-        if(_gamepad.GetButtonDown("Y"))
-        {
-            FindObjectOfType<HitStop>().Stop(0.06f);
-            _renderer.material.shader = ShaderGUItext;
-            _renderer.color = Color.white;
-            StartCoroutine(Normal(0.06f));
+            _gamepad.AddRumble(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
         }
 
         var health = _sprite.GetComponent<Health>();
         if (health.HP <= 0)
         {
             _character.IsDie = true;
-            _character.EnableMove = false;
-            _character.EnableTurn = false;
+        }
+
+        if(_character.EnableMove && _jumpStatus.GetIsGrounded())
+        {
+            float movingSpeed = Mathf.Abs(_gamepad.GetStickL().X) + Mathf.Abs(_gamepad.GetStickL().Y);
+            _dustEmission.rateOverTime = _dustOverRate * Mathf.Clamp01(movingSpeed);
+        }
+        else
+        {
+            _dustEmission.rateOverTime = 0.0f;
         }
     }
 
     public void SetControllerIndex(int index)
     {
         _controllerIndex = index;
-    }
-
-    private IEnumerator Normal(float time)
-    {
-        yield return new WaitForSeconds(time);
-        _renderer.material.shader = shaderSpritesDafult;
-        _renderer.color = Color.white;
     }
 }

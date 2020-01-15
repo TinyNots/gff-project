@@ -85,13 +85,29 @@ public class Character : MonoBehaviour
     public bool IsHurt
     {
         get { return _isHurt; }
-        set { _isHurt = value; }
+        set
+        {
+            _isHurt = value;
+            if(_isHurt)
+            {
+                _isEableMove = false;
+                _isEableTurn = false;
+            }
+        }
     }
 
     public bool IsDie
     {
         get { return _isDie; }
-        set { _isDie = value; }
+        set
+        {
+            _isDie = value;
+            if(_isDie)
+            {
+                _isEableMove = false;
+                _isEableTurn = false;
+            }
+        }
     }
 
     public Vector2 MoveInput
