@@ -10,6 +10,11 @@ public class Damage : MonoBehaviour
     private string[] targetTag = new string[] { "Enemy", "Player" };
     private Transform _shadow;
     private Vector2 _shadowSize = new Vector2(0.0f, 0.0f);
+
+    [Header("Debug")]
+    [SerializeField]
+    private Transform _owner;
+
     public enum SelectableTag
     {
         Enemy,
@@ -21,7 +26,15 @@ public class Damage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _shadow = transform.parent.parent.Find("Shadow");
+        if (_owner)
+        {
+            _shadow = _owner.parent.Find("Shadow");
+        }
+        else
+        {
+            _shadow = transform.parent.parent.Find("Shadow");
+
+        }
         _shadowSize = _shadow.GetComponent<Renderer>().bounds.size;
         _depth = _shadow.GetComponent<Depth>().DepthSetting;
     }
@@ -63,5 +76,10 @@ public class Damage : MonoBehaviour
     {
         set { dmgVal = value; }
         get { return dmgVal; }
+    }
+
+    public void SetOwner(Transform owner)
+    {
+        _owner = owner;
     }
 }

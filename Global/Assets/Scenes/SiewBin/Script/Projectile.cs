@@ -8,8 +8,7 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.Find("Shadow").transform.position = new Vector3(transform.position.x,
-            transform.parent.parent.Find("Shadow").transform.position.y);
+        
     }
 
     // Update is called once per frame

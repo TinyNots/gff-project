@@ -6,12 +6,16 @@ public class EnemyAttack : IState<Enemy>
 {
 
     float attTime = 1;
+    private float selfDepth;
+    private float targetDepth;
     private AnimationClip anim;
     public void Enter(Enemy enemy)
     {
         //攻撃アニメ
         anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
         enemy.Sprite.GetComponent<Animator>().Play("Idle");
+        selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
+
     }
     public void Execute(Enemy enemy)
     {
@@ -19,6 +23,8 @@ public class EnemyAttack : IState<Enemy>
 
 
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
+        targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
+
         if (enemy.IsRanged)
         {
             RangedAttack(enemy);
@@ -54,7 +60,7 @@ public class EnemyAttack : IState<Enemy>
     void MeleeAttack(Enemy enemy)
     {
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
-        var distY = enemy.transform.position.y - enemy.CurrentDest.y;
+        var distY = selfDepth - targetDepth;
 
 
         if (Time.time > attTime + anim.length+1)
@@ -79,7 +85,7 @@ public class EnemyAttack : IState<Enemy>
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
         if (Time.time > attTime + anim.length+1)
         {
-            if (Mathf.Abs(distX) >6.0f || Mathf.Abs(distY) > 0.2f)
+            if (Mathf.Abs(distX) >7.0f || Mathf.Abs(distY) > 0.2f)
             {
                 //目標が攻撃範囲から離れた
                 Debug.Log("ChangeToPatrol");

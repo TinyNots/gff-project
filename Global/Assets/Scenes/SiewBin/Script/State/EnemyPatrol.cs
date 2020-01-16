@@ -6,10 +6,12 @@ using UnityEngine;
 public class EnemyPatrol : IState<Enemy>
 {
     float destY;
-
+    private float selfDepth;
+    private float targetDepth;
     // Start is called before the first frame update
     void Start()
     {
+        
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
         destY = wsize.y;
 
@@ -23,7 +25,9 @@ public class EnemyPatrol : IState<Enemy>
     public void Execute(Enemy enemy)
     {
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
+        selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
 
+        targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
         if (enemy.IsRanged)
         {
             RangedPatrol(enemy);
@@ -57,9 +61,9 @@ public class EnemyPatrol : IState<Enemy>
     void MeleePatrol(Enemy enemy)
     {
         //攻撃範囲内だったら攻撃する
-        if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 1.0f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 1.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.05f)
+            if (Mathf.Abs(selfDepth - targetDepth) < 0.2f)
             {
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
@@ -73,9 +77,12 @@ public class EnemyPatrol : IState<Enemy>
         
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.05f)
+            if (Mathf.Abs(selfDepth - targetDepth) > 0.2f)
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                var heading = targetDepth - selfDepth;
+                heading = heading >= 0f ? 1f : -1f;
+
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
     
@@ -90,7 +97,7 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >3.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
             {
-                if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.1f)
+                if (Mathf.Abs(selfDepth - targetDepth) < 0.2f)
                 {
                     enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
@@ -112,9 +119,11 @@ public class EnemyPatrol : IState<Enemy>
         //}
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 9.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.1f)
+            if (Mathf.Abs(selfDepth - targetDepth) > 0.2f)
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
+                var heading = targetDepth - selfDepth;
+                heading = heading >= 0f ? 1f : -1f;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
     }

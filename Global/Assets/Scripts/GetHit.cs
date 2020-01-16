@@ -20,21 +20,25 @@ public class GetHit : MonoBehaviour
     {
         if (moveable == false)
         {
-            switch (tiltLen % 2)
+            if (tiltLen >= 0)
             {
-                case 0:
-                    transform.position -= transform.TransformDirection(0.1f, 0f, 0f);
-                    tiltLen--;
-               
-                    break;
-                case 1:
-                    transform.position += transform.TransformDirection(0.1f, 0f, 0f);
-                    tiltLen--;
-                    break;
+                switch (tiltLen % 2)
+                {
+                    case 0:
+                        transform.position -= transform.TransformDirection(0.1f, 0f, 0f);
+                        tiltLen--;
+
+                        break;
+                    case 1:
+                        transform.position += transform.TransformDirection(0.1f, 0f, 0f);
+                        tiltLen--;
+                        break;
+                }
             }
         }
-        if (Time.time > hitTime + stunTime)
+        if (Time.time > hitTime + stunTime && tiltLen <=0)
         {
+            
             moveable = true;
             return;
         }
@@ -48,7 +52,7 @@ public class GetHit : MonoBehaviour
     public void GetHitInit(float stunTimeSetting = 2)
     {
         hitTime = Time.time;
-        tiltLen = 2;
+        tiltLen = 16;
         stunTime = stunTimeSetting;
         moveable = false;
     }
