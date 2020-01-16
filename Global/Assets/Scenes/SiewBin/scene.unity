@@ -7949,7 +7949,7 @@ MonoBehaviour:
   _idPrefab: {fileID: 8765597703202601071, guid: 01f4e317ee63a4f44b039c8a56944f1e,
     type: 3}
   _isDebuging: 1
-  _playerCount: 2
+  _playerCount: 1
 --- !u!4 &1912457530
 Transform:
   m_ObjectHideFlags: 0

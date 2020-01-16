@@ -52,8 +52,9 @@ public class Damage : MonoBehaviour
 
                     if (collision.gameObject.tag == targetTag[(int)SelectableTag.Enemy])
                     {
-                        BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
-                        playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
+                        // rumble the controller
+                        //BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
+                        //playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
 
                         CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
                     }
@@ -61,7 +62,7 @@ public class Damage : MonoBehaviour
                     if(collision.gameObject.tag == targetTag[(int)SelectableTag.Player])
                     {
                         BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
-                        playerControl.RumbleController(0.35f, 0.0f, new Vector2(0.5f, 0.5f));
+                        playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
                     }
 
                     Animator playerAnimator = transform.parent.GetComponent<Animator>();

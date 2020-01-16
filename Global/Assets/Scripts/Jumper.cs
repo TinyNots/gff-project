@@ -14,6 +14,7 @@ public class Jumper : MonoBehaviour
     private Character _character;
     [SerializeField]
     private Animator _animator;
+    private ParticleSystem _particle;
 
     [Header("Others")]
     [SerializeField]
@@ -27,6 +28,7 @@ public class Jumper : MonoBehaviour
         _character = gameObject.GetComponentInParent<Character>();
         _shadowCollider = transform.parent.Find("Shadow").GetComponent<Collider2D>();
         _offset = transform.localPosition;
+        _particle = transform.parent.Find("Jump-Fall Particle").GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -58,6 +60,7 @@ public class Jumper : MonoBehaviour
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
                 _shadowCollider.isTrigger = false;
+                _particle.Play();
             }
         }
     }
@@ -73,6 +76,7 @@ public class Jumper : MonoBehaviour
             _isGrounded = false;
             _shadowCollider.isTrigger = true;
             _currentVelocity = _jumpVelocity;
+            _particle.Play();
         }
     }
 
