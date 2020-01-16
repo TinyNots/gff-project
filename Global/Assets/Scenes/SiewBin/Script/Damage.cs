@@ -49,8 +49,27 @@ public class Damage : MonoBehaviour
                 {
                     collision.gameObject.GetComponent<Health>().ReceiveDmg(dmgVal);
                     Debug.Log(targetTag[(int)target] + " got hit");
-                    FindObjectOfType<HitStop>().Stop(0.06f);
-                    collision.transform.GetComponent<Flasher>().StartFlash();
+
+                    if (collision.gameObject.tag == targetTag[(int)SelectableTag.Enemy])
+                    {
+                        BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
+                        playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
+
+                        CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
+                    }
+
+                    if(collision.gameObject.tag == targetTag[(int)SelectableTag.Player])
+                    {
+                        BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
+                        playerControl.RumbleController(0.35f, 0.0f, new Vector2(0.5f, 0.5f));
+                    }
+
+                    Animator playerAnimator = transform.parent.GetComponent<Animator>();
+                    Animator enemyAnimator = collision.transform.GetComponent<Animator>();
+                    StartCoroutine(Wait(playerAnimator, 0.05f));
+                    StartCoroutine(Wait(playerAnimator, 0.05f));
+
+                    collision.transform.GetComponent<Flasher>().StartFlash(0.05f);
                     Character character = collision.transform.parent.transform.GetComponent<Character>();
                     character.IsHurt = true;
                 }
@@ -63,5 +82,12 @@ public class Damage : MonoBehaviour
     {
         set { dmgVal = value; }
         get { return dmgVal; }
+    }
+
+    private IEnumerator Wait(Animator animator,float duration)
+    {
+        animator.enabled = false;
+        yield return new WaitForSecondsRealtime(duration);
+        animator.enabled = true;
     }
 }

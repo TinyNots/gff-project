@@ -156,20 +156,16 @@ public class Controller
     {
         if (_rumbleEvents.Count > 0)
         {
-            Vector2 currentPower = new Vector2(0f, 0f);
+            Vector2 currentPower = new Vector2(0.0f, 0.0f);
 
             for (int i = 0; i < _rumbleEvents.Count; i++)
             {
-                _rumbleEvents[i].Update();
-
-                _rumbleEvents[i].Update();
-
-                if (_rumbleEvents[i].timer > 0)
+                if (_rumbleEvents[i].timer > 0.0f)
                 {
                     // Calculate current power
-                    float timeLeft = Mathf.Clamp(_rumbleEvents[i].timer / _rumbleEvents[i].fadeTime, 0f, 1f);
-                    currentPower = new Vector2(Mathf.Max(_rumbleEvents[i].power.x * timeLeft, currentPower.x),
-                                               Mathf.Max(_rumbleEvents[i].power.y * timeLeft, currentPower.y));
+                    //float timeLeft = Mathf.Clamp(_rumbleEvents[i].timer / _rumbleEvents[i].fadeTime, 0f, 1f);
+                    currentPower = new Vector2(Mathf.Max(_rumbleEvents[i].power.x, currentPower.x),
+                                               Mathf.Max(_rumbleEvents[i].power.y, currentPower.y));
 
                     GamePad.SetVibration(_playerIndex, currentPower.x, currentPower.y);
                 }
@@ -181,6 +177,8 @@ public class Controller
                     // Remove expired event
                     _rumbleEvents.Remove(_rumbleEvents[i]);
                 }
+
+                _rumbleEvents[i].Update();
             }
         }
     }

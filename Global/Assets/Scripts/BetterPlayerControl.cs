@@ -74,6 +74,7 @@ public class BetterPlayerControl : MonoBehaviour
         if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
         {
             _gamepad.AddRumble(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
+            CameraShaker.ShakeOnce(1.0f, 1.0f);
         }
 
         var health = _sprite.GetComponent<Health>();
@@ -96,5 +97,10 @@ public class BetterPlayerControl : MonoBehaviour
     public void SetControllerIndex(int index)
     {
         _controllerIndex = index;
+    }
+
+    public void RumbleController(float timer, float fadeTime,Vector2 power)
+    {
+        _gamepad.AddRumble(timer, fadeTime, power);
     }
 }
