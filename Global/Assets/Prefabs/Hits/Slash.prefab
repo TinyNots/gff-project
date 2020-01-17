@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmgVal: 1
+  _hitStopTime: 0.05
+  _damageValue: 12
   _hitPrefab: {fileID: 4808242810915838, guid: 8690041cf7250174eb66ceb76d6bf32a, type: 3}
   target: 0

@@ -28,7 +28,12 @@ public class Jumper : MonoBehaviour
         _character = gameObject.GetComponentInParent<Character>();
         _shadowCollider = transform.parent.Find("Shadow").GetComponent<Collider2D>();
         _offset = transform.localPosition;
-        _particle = transform.parent.Find("Jump-Fall Particle").GetComponent<ParticleSystem>();
+
+        if(transform.parent.Find("Jump-Fall Particle") != null)
+        {
+            _particle = transform.parent.Find("Jump-Fall Particle").GetComponent<ParticleSystem>();
+        }
+
     }
 
     // Update is called once per frame

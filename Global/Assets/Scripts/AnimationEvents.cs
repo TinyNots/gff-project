@@ -49,7 +49,13 @@ public class AnimationEvents : MonoBehaviour
     public void Melee()
     {
         GameObject hitBox = Instantiate(_meleePrefab, transform);
-        hitBox.transform.GetComponent<Depth>().DepthSetting = _shadow.position.y;
+        Destroy(hitBox, 0.2f);
+    }
+
+    public void MeleeNextHit()
+    {
+        GameObject hitBox = Instantiate(_meleePrefab, transform);
+        hitBox.GetComponent<Damage>().EnableNextHit();
         Destroy(hitBox, 0.2f);
     }
 }
