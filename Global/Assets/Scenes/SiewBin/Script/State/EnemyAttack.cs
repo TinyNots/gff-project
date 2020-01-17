@@ -42,7 +42,6 @@ public class EnemyAttack : IState<Enemy>
     public void Exit(Enemy enemy)
     {
         enemy.Sprite.GetComponent<BoxCollider2D>().isTrigger = false;
-
     }
 
     // Start is called before the first frame update
