@@ -105,6 +105,7 @@ MonoBehaviour:
   _character: {fileID: 3197176238592575029}
   _stopTime: 0.05
   _dustOverRate: 10
+  _tmpPrefab: {fileID: 4650646833976412, guid: 42c427f9d12527f4b86f4e770b4ce034, type: 3}
 --- !u!1 &3197176238671561993
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +257,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slashPrefab: {fileID: 6916187901351970423, guid: d64e480a0180df44fb3eca9beec91261,
+    type: 3}
+  _meleePrefab: {fileID: 5060740387102509100, guid: 9fe983176cdc9b04a8bfe4b9bc94cfb5,
     type: 3}
 --- !u!114 &3866411021295745226
 MonoBehaviour:

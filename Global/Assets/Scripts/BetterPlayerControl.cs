@@ -23,6 +23,10 @@ public class BetterPlayerControl : MonoBehaviour
     private float _dustOverRate = 10.0f;
     private ParticleSystem.EmissionModule _dustEmission;
 
+    // Debug
+    [SerializeField]
+    private Transform _tmpPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +79,19 @@ public class BetterPlayerControl : MonoBehaviour
         {
             _gamepad.AddRumble(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
             CameraShaker.ShakeOnce(1.0f, 1.0f);
+        }
+
+        // Debug
+        if(_gamepad.GetButtonDown("Y"))
+        {
+            //Transform particle = Instantiate(_tmpPrefab, transform.position, Quaternion.identity);
+            //ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
+
+            _animator.SetTrigger("Punch");
+            if(_jumpStatus.GetIsGrounded())
+            {
+                _character.EnableMove = false;
+            }
         }
 
         var health = _sprite.GetComponent<Health>();

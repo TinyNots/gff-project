@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class Damage : MonoBehaviour
 {
-    public int dmgVal = 1;
+    [Header("General")]
+    [SerializeField]
+    private float _hitStopTime = 0.05f;
+    [SerializeField]
+    private int _damageValue = 1;
+
     private bool isDamaged = false;
     //[TagSelector]
     private string[] targetTag = new string[] { "Enemy", "Player" };
     private Transform _shadow;
     private Vector2 _shadowSize = new Vector2(0.0f, 0.0f);
+
+    [SerializeField]
+    private Transform _hitPrefab;
+
+    // Debug
+    private bool waiting = false;
+
     public enum SelectableTag
     {
         Enemy,
@@ -47,14 +59,14 @@ public class Damage : MonoBehaviour
             {
                 if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
-                    collision.gameObject.GetComponent<Health>().ReceiveDmg(dmgVal);
+                    collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue);
                     Debug.Log(targetTag[(int)target] + " got hit");
 
                     if (collision.gameObject.tag == targetTag[(int)SelectableTag.Enemy])
                     {
                         // rumble the controller
-                        //BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
-                        //playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
+                        BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
+                        playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
 
                         CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
                     }
@@ -65,10 +77,25 @@ public class Damage : MonoBehaviour
                         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
                     }
 
-                    Animator playerAnimator = transform.parent.GetComponent<Animator>();
-                    Animator enemyAnimator = collision.transform.GetComponent<Animator>();
-                    StartCoroutine(Wait(playerAnimator, 0.05f));
-                    StartCoroutine(Wait(playerAnimator, 0.05f));
+                    // Debug
+                    //FindObjectOfType<HitStop>().Stop(0.02f);
+
+                    if(_hitStopTime != 0.0f)
+                    {
+                        Animator ownerAnimator = transform.parent.GetComponent<Animator>();
+                        Animator otherAnimator = collision.transform.GetComponent<Animator>();
+                        FindObjectOfType<AnimationStopper>().StopAnimation(ownerAnimator, _hitStopTime);
+                        FindObjectOfType<AnimationStopper>().StopAnimation(otherAnimator, _hitStopTime);
+                    }
+
+                    if(_hitPrefab != null)
+                    {
+                        Instantiate(_hitPrefab, collision.transform.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        Debug.LogError("Hit Prefab is missing");
+                    }
 
                     collision.transform.GetComponent<Flasher>().StartFlash(0.05f);
                     Character character = collision.transform.parent.transform.GetComponent<Character>();
@@ -79,16 +106,18 @@ public class Damage : MonoBehaviour
         }
     }
 
-    public int DmgVal
+    public int DamageValue
     {
-        set { dmgVal = value; }
-        get { return dmgVal; }
+        set { _damageValue = value; }
+        get { return _damageValue; }
     }
 
     private IEnumerator Wait(Animator animator,float duration)
     {
         animator.enabled = false;
-        yield return new WaitForSecondsRealtime(duration);
+        Debug.Log("Stop");
+        yield return new WaitForSeconds(duration);
         animator.enabled = true;
+        Debug.Log("Resume");
     }
 }

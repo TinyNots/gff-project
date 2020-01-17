@@ -71,4 +71,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dmgVal: 1
+  _hitPrefab: {fileID: 4881254934017106, guid: 6b5d0a6176259624ab334336fcf46dd3, type: 3}
   target: 1

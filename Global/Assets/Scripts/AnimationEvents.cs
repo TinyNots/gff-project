@@ -6,11 +6,17 @@ public class AnimationEvents : MonoBehaviour
 {
     [SerializeField]
     private GameObject _slashPrefab;
+    [SerializeField]
+    private GameObject _meleePrefab;
     private Transform _shadow;
+    private Animator _animator;
+    private int _comboCount;
 
     private void Start()
     {
         _shadow = transform.parent.Find("Shadow");
+        _animator = transform.GetComponent<Animator>();
+        _comboCount = 0;
     }
 
     public void Attack()
@@ -26,5 +32,24 @@ public class AnimationEvents : MonoBehaviour
         BetterPlayerControl playerControl = transform.parent.GetComponent<BetterPlayerControl>();
         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.65f, 0.65f));
         Attack();
+    }
+
+    public void IncreaseCombo()
+    {
+        _comboCount++;
+        _animator.SetInteger("ComboCount", _comboCount);
+    }
+
+    public void ResetCombo()
+    {
+        _comboCount = 0;
+        _animator.SetInteger("ComboCount", _comboCount);
+    }
+
+    public void Melee()
+    {
+        GameObject hitBox = Instantiate(_meleePrefab, transform);
+        hitBox.transform.GetComponent<Depth>().DepthSetting = _shadow.position.y;
+        Destroy(hitBox, 0.2f);
     }
 }
