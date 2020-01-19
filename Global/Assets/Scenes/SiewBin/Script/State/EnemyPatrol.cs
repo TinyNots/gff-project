@@ -211,15 +211,15 @@ public class EnemyPatrol : IState<Enemy>
             patrolMag.x = 5f;
             
             enemy.transform.Rotate(new Vector3(0f, 180f, 0f));
-            if (enemy.transform.position.x < -wsize.x / 2)
-            {
-                enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            }
-            else if(enemy.transform.position.x > wsize.x / 2)
-            {
-                enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            //if (enemy.transform.position.x < -wsize.x / 2)
+            //{
+            //    enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            //}
+            //else if(enemy.transform.position.x > wsize.x / 2)
+            //{
+            //    enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-            }
+            //}
             val = Random.Range(0, 6);
             
             if (val == 1)
@@ -245,6 +245,23 @@ public class EnemyPatrol : IState<Enemy>
             patrolMag.x = 0;
             patrolMag.y = 0;
             enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+
+        }
+        if (enemy.transform.position.x < -wsize.x / 2)
+        {
+            patrolMag.x = 5f;
+
+            enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+
+        }
+        else if (enemy.transform.position.x > wsize.x / 2)
+        {
+            patrolMag.x = 5f;
+
+            enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+
 
         }
         waitFlag = false;
