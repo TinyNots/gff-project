@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3197176238592575029}
   - component: {fileID: 6793382432514572588}
   - component: {fileID: 6559718406238483243}
+  - component: {fileID: 3672127607023164225}
   m_Layer: 0
   m_Name: Player V2
   m_TagString: Player
@@ -105,7 +106,23 @@ MonoBehaviour:
   _character: {fileID: 3197176238592575029}
   _stopTime: 0.05
   _dustOverRate: 10
+  _dasher: {fileID: 3672127607023164225}
   _tmpPrefab: {fileID: 4650646833976412, guid: 42c427f9d12527f4b86f4e770b4ce034, type: 3}
+--- !u!114 &3672127607023164225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197176238592575030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2222a27f1e449544684ca62db106b153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _velocity: 20
+  _timer: 0
+  _dashTime: 0.2
 --- !u!1 &3197176238671561993
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +286,10 @@ MonoBehaviour:
   _slashPrefab: {fileID: 6916187901351970423, guid: d64e480a0180df44fb3eca9beec91261,
     type: 3}
   _meleePrefab: {fileID: 5060740387102509100, guid: 9fe983176cdc9b04a8bfe4b9bc94cfb5,
+    type: 3}
+  _dropPrefab: {fileID: 5074675069382856216, guid: 1eb1811af4b8e0f43b02ec66c8fc1999,
+    type: 3}
+  _dashPrefab: {fileID: 688485031364168358, guid: c7f2a7567f6321649aadedc15e623d86,
     type: 3}
 --- !u!114 &3866411021295745226
 MonoBehaviour:

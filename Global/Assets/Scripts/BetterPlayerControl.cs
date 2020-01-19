@@ -22,6 +22,10 @@ public class BetterPlayerControl : MonoBehaviour
     [SerializeField]
     private float _dustOverRate = 10.0f;
     private ParticleSystem.EmissionModule _dustEmission;
+    [SerializeField]
+    private Dasher _dasher;
+
+    private Rigidbody2D _rb;
 
     // Debug
     [SerializeField]
@@ -33,6 +37,12 @@ public class BetterPlayerControl : MonoBehaviour
         //_controllerIndex = 0;
         _dust = transform.Find("Dust Particle").GetComponent<ParticleSystem>();
         _dustEmission = _dust.emission;
+
+        _rb = transform.GetComponent<Rigidbody2D>();
+        if(_rb == null)
+        {
+            Debug.Log("Rigidbody is missing");
+        }
     }
 
     // Update is called once per frame
@@ -60,7 +70,7 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // ボタン関連
-        if(_gamepad.GetButtonDown("X"))
+        if(_gamepad.GetButtonDown("Y"))
         {
             _animator.SetTrigger("Attack");
             if(_jumpStatus.GetIsGrounded())
@@ -75,18 +85,16 @@ public class BetterPlayerControl : MonoBehaviour
             _jumpStatus.StartJump();
         }
 
-        if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
+        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableMove)
         {
-            _gamepad.AddRumble(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
-            CameraShaker.ShakeOnce(1.0f, 1.0f);
+            _dasher.StartDash();
+            _character.EnableMove = false;
+            _character.EnableTurn = false;
         }
 
         // Debug
-        if(_gamepad.GetButtonDown("Y"))
+        if(_gamepad.GetButtonDown("X"))
         {
-            //Transform particle = Instantiate(_tmpPrefab, transform.position, Quaternion.identity);
-            //ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-
             _animator.SetTrigger("Punch");
             if(_jumpStatus.GetIsGrounded())
             {

@@ -21,19 +21,19 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 38ca55b0639b5134d9159524e7fbf4d3, type: 3}
-    - time: 0.071428575
+    - time: 0.1
       value: {fileID: 21300000, guid: 4e7d22e1ce78088499ec22a366a9ab2a, type: 3}
-    - time: 0.14285715
+    - time: 0.2
       value: {fileID: 21300000, guid: f22600ce65bd09644a651457d9df5682, type: 3}
-    - time: 0.21428572
+    - time: 0.3
       value: {fileID: 21300000, guid: 61f00edfb5d201c408bc2dd690a9f586, type: 3}
-    - time: 0.2857143
+    - time: 0.4
       value: {fileID: 21300000, guid: 47f66752719805c439ddde102995a114, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 14
+  m_SampleRate: 10
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -58,7 +58,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.35714287
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,15 +78,22 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.14285715
-    functionName: Attack
-    data: 
+  - time: 0.1
+    functionName: PlaySound
+    data: Sword Swing 4_
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.21428572
+  - time: 0.2
     functionName: Attack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0
+  - time: 0.3
+    functionName: AttackNextHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

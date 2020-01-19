@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2328659788363724241}
   m_Layer: 0
   m_Name: Melee
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,4 +87,5 @@ MonoBehaviour:
   _hitStopTime: 0.02
   _damageValue: 8
   _hitPrefab: {fileID: 4038973165402944, guid: 89f21bbcc5cb3ea418e1be51775f9548, type: 3}
+  _isRange: 0
   target: 0

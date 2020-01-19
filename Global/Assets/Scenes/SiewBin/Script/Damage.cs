@@ -90,6 +90,15 @@ public class Damage : MonoBehaviour
 
             if (shadowA.Overlaps(shadowB, true))
             {
+                if(transform.CompareTag("Punch"))
+                {
+                    SoundManager.Instance.PlaySe("Punch 1_" + Random.Range(1, 5));
+                }
+                else if (transform.CompareTag("Slash"))
+                {
+                    SoundManager.Instance.PlaySe("Stab 8_" + Random.Range(1, 5));
+                }
+
                 if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
                     collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue);

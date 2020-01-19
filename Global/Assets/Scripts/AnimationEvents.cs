@@ -8,6 +8,10 @@ public class AnimationEvents : MonoBehaviour
     private GameObject _slashPrefab;
     [SerializeField]
     private GameObject _meleePrefab;
+    [SerializeField]
+    private GameObject _dropPrefab;
+    [SerializeField]
+    private GameObject _dashPrefab;
     private Transform _shadow;
     private Animator _animator;
     private int _comboCount;
@@ -34,10 +38,18 @@ public class AnimationEvents : MonoBehaviour
         Attack();
     }
 
+    public void AttackNextHit()
+    {
+        GameObject slashBox = Instantiate(_meleePrefab, transform);
+        slashBox.GetComponent<Damage>().EnableNextHit();
+        Destroy(slashBox, 0.2f);
+    }
+
     public void IncreaseCombo()
     {
         _comboCount++;
         _animator.SetInteger("ComboCount", _comboCount);
+        SoundManager.Instance.PlaySe("Whoosh 4_" + Random.Range(1, 5));
     }
 
     public void ResetCombo()
@@ -56,6 +68,23 @@ public class AnimationEvents : MonoBehaviour
     {
         GameObject hitBox = Instantiate(_meleePrefab, transform);
         hitBox.GetComponent<Damage>().EnableNextHit();
+        Destroy(hitBox, 0.2f);
+    }
+
+    public void SpawnDrop()
+    {
+        GameObject hitBox = Instantiate(_dropPrefab, transform);
+        Destroy(hitBox, 0.2f);
+    }
+
+    public void PlaySound(string name)
+    {
+        SoundManager.Instance.PlaySe(name + Random.Range(1, 5));
+    }
+
+    public void DashBox()
+    {
+        GameObject hitBox = Instantiate(_dashPrefab, transform);
         Destroy(hitBox, 0.2f);
     }
 }

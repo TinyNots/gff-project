@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6904043619105938337}
   m_Layer: 0
   m_Name: Slash
-  m_TagString: PlayerAttack
+  m_TagString: Slash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,4 +87,5 @@ MonoBehaviour:
   _hitStopTime: 0.05
   _damageValue: 12
   _hitPrefab: {fileID: 4808242810915838, guid: 8690041cf7250174eb66ceb76d6bf32a, type: 3}
+  _isRange: 0
   target: 0
