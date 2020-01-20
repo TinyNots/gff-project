@@ -82,7 +82,7 @@ public class EnemyAttack : IState<Enemy>
     {
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
-        if (Time.time > attTime + anim.length+1)
+        if (Time.time > attTime + anim.length+2)
         {
             if (Mathf.Abs(distX) >7.0f || Mathf.Abs(distY) > 0.2f)
             {
