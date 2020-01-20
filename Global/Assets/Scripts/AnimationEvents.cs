@@ -16,11 +16,19 @@ public class AnimationEvents : MonoBehaviour
     private Animator _animator;
     private int _comboCount;
 
+    // Temporary
+    private Character _character;
+
+    // Debug
+    [SerializeField]
+    private float _delayTime = 0.5f;
+
     private void Start()
     {
         _shadow = transform.parent.Find("Shadow");
         _animator = transform.GetComponent<Animator>();
         _comboCount = 0;
+        _character = transform.parent.GetComponent<Character>();
     }
 
     public void Attack()
@@ -56,6 +64,7 @@ public class AnimationEvents : MonoBehaviour
     {
         _comboCount = 0;
         _animator.SetInteger("ComboCount", _comboCount);
+        _animator.SetBool("Attack", false);
     }
 
     public void Melee()
@@ -86,5 +95,17 @@ public class AnimationEvents : MonoBehaviour
     {
         GameObject hitBox = Instantiate(_dashPrefab, transform);
         Destroy(hitBox, 0.2f);
+    }
+
+    public void DelayAttack()
+    {
+        StartCoroutine(Wait(_delayTime));
+    }
+
+    private IEnumerator Wait(float time)
+    {
+        _character.EnableAttack = false;
+        yield return new WaitForSeconds(time);
+        _character.EnableAttack = true;
     }
 }

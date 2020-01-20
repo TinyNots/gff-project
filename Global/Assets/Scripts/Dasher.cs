@@ -15,7 +15,7 @@ public class Dasher : MonoBehaviour
 
     private Animator _animator;
     private Character _character;
-
+    private ParticleSystem _dashParticle;
 
     private void Start()
     {
@@ -27,6 +27,7 @@ public class Dasher : MonoBehaviour
 
         _animator = transform.Find("Sprite").GetComponent<Animator>();
         _character = transform.GetComponent<Character>();
+        _dashParticle = transform.Find("DashParticle").GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -40,6 +41,8 @@ public class Dasher : MonoBehaviour
 
         if(_timer > 0)
         {
+            FindObjectOfType<GhostTrail>().SpawnGhost();
+
             if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
             {
                 _rb.velocity = Vector2.left * _velocity;
@@ -57,11 +60,13 @@ public class Dasher : MonoBehaviour
             _character.EnableMove = true;
             _character.EnableTurn = true;
             _timer = 0;
+            _dashParticle.Stop();
         }
     }
 
     public void StartDash()
     {
         _timer = _dashTime;
+        _dashParticle.Play();
     }
 }

@@ -96,3 +96,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.5
+    functionName: DelayAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 1
+    intParameter: 0
+    messageOptions: 0

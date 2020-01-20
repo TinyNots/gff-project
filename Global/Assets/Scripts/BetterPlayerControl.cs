@@ -70,10 +70,15 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // ボタン関連
-        if(_gamepad.GetButtonDown("Y"))
+        if(_gamepad.GetButtonDown("Y") && _character.EnableAttack)
         {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
+            {
+                return;
+            }
+
             _animator.SetTrigger("Attack");
-            if(_jumpStatus.GetIsGrounded())
+            if (_jumpStatus.GetIsGrounded())
             {
                 _character.EnableMove = false;
             }
@@ -85,7 +90,7 @@ public class BetterPlayerControl : MonoBehaviour
             _jumpStatus.StartJump();
         }
 
-        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableMove)
+        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableMove && _character.EnableAttack)
         {
             _dasher.StartDash();
             _character.EnableMove = false;
@@ -93,10 +98,15 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // Debug
-        if(_gamepad.GetButtonDown("X"))
+        if(_gamepad.GetButtonDown("X") &&_character.EnableAttack)
         {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
+            {
+                return;
+            }
+
             _animator.SetTrigger("Punch");
-            if(_jumpStatus.GetIsGrounded())
+            if (_jumpStatus.GetIsGrounded())
             {
                 _character.EnableMove = false;
             }

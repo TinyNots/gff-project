@@ -69,7 +69,12 @@ public class Jumper : MonoBehaviour
                 _animator.SetBool("IsJumping", false);
                 //_shadowCollider.isTrigger = false;
                 _particle.Play();
-                _forwardSpeed = 0.0f;
+
+                if(_forwardSpeed != 0.0f)
+                {
+                    _forwardSpeed = 0.0f;
+                    transform.GetComponent<AnimationEvents>().DelayAttack();
+                }
             }
         }
     }
