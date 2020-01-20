@@ -27,6 +27,11 @@ public class IdlePlayer : MonoBehaviour
 		_anim.SetBool("sword", true);
 	}
 
+    public void Attack()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
