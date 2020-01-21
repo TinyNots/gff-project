@@ -15,6 +15,8 @@ public class EnemyDie : IState<Enemy>
         var anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
         if (Time.time > dieTime + anim.length)
         {
+            enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+            enemy.IsTargeting = false;
             Debug.Log("Destroy enemy");
             enemy.DestroySelf();
         }
@@ -22,9 +24,9 @@ public class EnemyDie : IState<Enemy>
 
     public void Exit(Enemy enemy)
     {
-       
-
+ 
     }
+
     // Start is called before the first frame update
     void Start()
     {

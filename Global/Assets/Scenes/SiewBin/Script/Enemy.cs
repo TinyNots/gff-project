@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     private GetHit getHitObj;       //攻撃される時の挙動
     [SerializeField]
     private bool isRanged = false;  //遠攻撃できるか
+    private bool isTargeting = false;
+    public GameObject tmpPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -83,14 +85,17 @@ public class Enemy : MonoBehaviour
         //Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
         //Damage();
         //画像の回転
-        if (GetMoveDir(CurrentDest).x < 0)
+        if (isTargeting)
         {
-           transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            if (GetMoveDir(CurrentDest).x < 0)
+            {
+                transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-        }
-        else
-        {
-           transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            }
         }
         //上から生成し、落下させる
         if (isJumping)
@@ -170,6 +175,13 @@ public class Enemy : MonoBehaviour
         get { return isRanged; }
     }
 
+    public bool IsTargeting
+    {
+        get { return isTargeting; }
+        set { isTargeting = value; }
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -187,7 +199,7 @@ public class Enemy : MonoBehaviour
     }
 
     //最近くのプレイヤー
-     public GameObject FindClosestPlayer()
+    public GameObject FindClosestPlayer()
     {
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");

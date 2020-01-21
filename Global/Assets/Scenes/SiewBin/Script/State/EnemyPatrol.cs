@@ -6,10 +6,15 @@ using UnityEngine;
 public class EnemyPatrol : IState<Enemy>
 {
     float destY;
+    private float selfDepth;
+    private float targetDepth;
+    private bool waitFlag;
+    private Vector2 patrolMag = new Vector2(5.0f, 0.0f);
 
     // Start is called before the first frame update
     void Start()
     {
+        
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
         destY = wsize.y;
 
@@ -18,21 +23,51 @@ public class EnemyPatrol : IState<Enemy>
     public void Enter(Enemy enemy)
     {
         enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+        enemy.tmpPlayer = enemy.FindClosestPlayer();
+        if (!enemy.IsTargeting && enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum < 5)
+        {
+            enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
+            enemy.IsTargeting = true;
+        }
     }
 
     public void Execute(Enemy enemy)
     {
-        enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
+        var tmp = enemy.FindClosestPlayer();
+        if (tmp.GetComponent<TargetNum>().TargettedNum <5 && !enemy.IsTargeting)
+        {
+            if (tmp != enemy.tmpPlayer)
+            {
+                enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                enemy.tmpPlayer = tmp;
 
-        if (enemy.IsRanged)
-        {
-            RangedPatrol(enemy);
-            Debug.Log("Ranged Att");
+            }
+            tmp.GetComponent<TargetNum>().TargettedNum++;
+            enemy.IsTargeting = true;
+
         }
-        else
+        enemy.CurrentDest = enemy.tmpPlayer.transform.position;
+
+        selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
+
+        targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
+        if (enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum >=5 && !enemy.IsTargeting)
         {
-            MeleePatrol(enemy);
-            Debug.Log("Melee Att");
+            Patrol(enemy);
+        }
+        if (enemy.IsTargeting)
+        {
+
+            if (enemy.IsRanged)
+            {
+                RangedChase(enemy);
+                Debug.Log("Ranged Att");
+            }
+            else
+            {
+                MeleeChase(enemy);
+                Debug.Log("Melee Att");
+            }
         }
 
 
@@ -54,12 +89,12 @@ public class EnemyPatrol : IState<Enemy>
 
     }
 
-    void MeleePatrol(Enemy enemy)
+    void MeleeChase(Enemy enemy)
     {
         //攻撃範囲内だったら攻撃する
-        if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 1.0f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 1.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.05f)
+            if (Mathf.Abs(selfDepth - targetDepth) < 0.2f)
             {
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
@@ -73,15 +108,18 @@ public class EnemyPatrol : IState<Enemy>
         
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.05f)
+            if (Mathf.Abs(selfDepth - targetDepth) > 0.2f)
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                var heading = targetDepth - selfDepth;
+                heading = heading >= 0f ? 1f : -1f;
+
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
     
     }
     
-    void RangedPatrol(Enemy enemy)
+    void RangedChase(Enemy enemy)
     {
         //攻撃範囲内だったら攻撃する
 
@@ -90,7 +128,7 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >3.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
             {
-                if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.1f)
+                if (Mathf.Abs(selfDepth - targetDepth) < 0.2f)
                 {
                     enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
@@ -112,12 +150,122 @@ public class EnemyPatrol : IState<Enemy>
         //}
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 9.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.1f)
+            if (Mathf.Abs(selfDepth - targetDepth) > 0.2f)
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
+                var heading = targetDepth - selfDepth;
+                heading = heading >= 0f ? 1f : -1f;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
     }
 
+    void Patrol(Enemy enemy)
+    {
+        Collider[] cols = Physics.OverlapSphere(enemy.transform.position, 0.5f);
+        foreach ( Collider col in cols)
+        {
+            if (col.transform.GetChild(0).tag == "Player")
+            {
+                if (enemy.IsRanged)
+                {
+                    RangedChase(enemy);
+                    
+                    Debug.Log("Ranged Att");
+                }
+                else
+                {
+                    MeleeChase(enemy);
+                    Debug.Log("Melee Att");
+                }
+                return;
+            }
+              
 
+            
+        }
+
+        Stop(enemy);
+
+        enemy.transform.position += enemy.transform.TransformDirection(patrolMag.x, patrolMag.y * 0.7f, 0.0f) * Time.deltaTime;
+    }
+
+    public void Stop(Enemy enemy)
+    {
+        if (waitFlag)
+        {
+            return;
+        }
+        StaticCoroutine.StartCoroutine(Wait(enemy));
+    }
+
+    private IEnumerator Wait( Enemy enemy)
+    {
+
+        waitFlag = true;
+        yield return new WaitForSeconds(1f);
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
+        var val = Random.Range(0, 2);
+        if (val == 1)
+        {
+            patrolMag.x = 5f;
+            
+            enemy.transform.Rotate(new Vector3(0f, 180f, 0f));
+            //if (enemy.transform.position.x < -wsize.x / 2)
+            //{
+            //    enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            //}
+            //else if(enemy.transform.position.x > wsize.x / 2)
+            //{
+            //    enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
+            //}
+            val = Random.Range(0, 6);
+            
+            if (val == 1)
+            {
+                if (enemy.transform.position.y > 0f)
+                {
+                    patrolMag.y = -5.0f;
+                }
+                else
+                {
+                    patrolMag.y = 5.0f;
+                }
+            }
+            else
+            {
+                patrolMag.y = 0f;
+            }
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+
+        }
+        if (val == 0)
+        {
+            patrolMag.x = 0;
+            patrolMag.y = 0;
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+
+        }
+        if (enemy.transform.position.x < -wsize.x / 2)
+        {
+            patrolMag.x = 5f;
+
+            enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+
+        }
+        else if (enemy.transform.position.x > wsize.x / 2)
+        {
+            patrolMag.x = 5f;
+
+            enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
+
+
+        }
+        waitFlag = false;
+    }
+
+   
 }

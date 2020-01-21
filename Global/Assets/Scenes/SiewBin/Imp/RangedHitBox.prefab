@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3703132042489729389}
   - component: {fileID: 8344254041943164767}
   - component: {fileID: 8347446175306354152}
-  - component: {fileID: -5507978312964590763}
+  - component: {fileID: 6313299383213363623}
   m_Layer: 0
   m_Name: RangedHitBox
   m_TagString: Attack
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4366148260354003837}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.25, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 2270497578140075182}
   m_Father: {fileID: 0}
@@ -156,24 +156,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitStopTime: 0.05
-  _damageValue: 1
-  _hitPrefab: {fileID: 4349779293049160, guid: 39c46e4c2bd1a6d4c8384e4616fa48bc, type: 3}
-  _isRange: 1
+  dmgVal: 1
   target: 1
---- !u!114 &-5507978312964590763
-MonoBehaviour:
+--- !u!50 &6313299383213363623
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4366148260354003837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8ee42ea86068d4d91bff2bb1087d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _depth: 0
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &8422448229235436794
 PrefabInstance:
   m_ObjectHideFlags: 0

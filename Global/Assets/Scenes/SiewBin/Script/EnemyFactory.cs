@@ -61,6 +61,10 @@ public class EnemyFactory : MonoBehaviour
             {
                 for (int i = 0; i < initInfo.massSpawnCnt; i++)
                 {
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        initInfo.fromRight = !initInfo.fromRight;
+                    }
                     switch (initInfo.spawnType)
                     {
                         case FactoryInfo.SpawnType.Side:
@@ -84,10 +88,7 @@ public class EnemyFactory : MonoBehaviour
                     isSpawned = true;
                 }
                 timer = 0;
-                if (Random.Range(0, 2) == 1)
-                {
-                    initInfo.fromRight = !initInfo.fromRight;
-                }
+              
             }
             timer += Time.deltaTime;
             
@@ -111,6 +112,8 @@ public class EnemyFactory : MonoBehaviour
         if (fromRight)
         {
             enemy.transform.position = new Vector3(wsize.x + 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
         }
         else
         {
@@ -129,6 +132,8 @@ public class EnemyFactory : MonoBehaviour
         if (fromRight)
         {
             enemy.transform.position = new Vector3( wsize.x + 1 , Random.Range(0 - wsize.y / 2,2.8f), 0);
+            enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
         }
         else
         {
@@ -145,6 +150,11 @@ public class EnemyFactory : MonoBehaviour
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
         enemy.transform.position = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
+        if(Random.Range(0,2) == 1)
+        {
+            enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
+        }
         enemy.OffSet = initInfo.prototype.transform.Find("Sprite").transform.position.y - initInfo.prototype.transform.Find("Shadow").transform.position.y;
 
         enemy.transform.Find("Sprite").transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y + wsize.y, 0);
