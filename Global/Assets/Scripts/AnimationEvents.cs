@@ -35,6 +35,7 @@ public class AnimationEvents : MonoBehaviour
     {
         GameObject tmpHitBox = Instantiate(_slashPrefab, transform);
         tmpHitBox.transform.GetComponent<Depth>().DepthSetting = _shadow.position.y;
+        tmpHitBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(tmpHitBox, 0.2f);
     }
 
@@ -50,6 +51,7 @@ public class AnimationEvents : MonoBehaviour
     {
         GameObject slashBox = Instantiate(_meleePrefab, transform);
         slashBox.GetComponent<Damage>().EnableNextHit();
+        slashBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(slashBox, 0.2f);
     }
 
@@ -70,6 +72,7 @@ public class AnimationEvents : MonoBehaviour
     public void Melee()
     {
         GameObject hitBox = Instantiate(_meleePrefab, transform);
+        hitBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(hitBox, 0.2f);
     }
 
@@ -77,12 +80,14 @@ public class AnimationEvents : MonoBehaviour
     {
         GameObject hitBox = Instantiate(_meleePrefab, transform);
         hitBox.GetComponent<Damage>().EnableNextHit();
+        hitBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(hitBox, 0.2f);
     }
 
     public void SpawnDrop()
     {
         GameObject hitBox = Instantiate(_dropPrefab, transform);
+        hitBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(hitBox, 0.2f);
     }
 
@@ -94,6 +99,7 @@ public class AnimationEvents : MonoBehaviour
     public void DashBox()
     {
         GameObject hitBox = Instantiate(_dashPrefab, transform);
+        hitBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(hitBox, 0.2f);
     }
 

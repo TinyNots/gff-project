@@ -42,4 +42,9 @@ public class IdlePlayer : MonoBehaviour
 	{
 
 	}
+
+    public void ResetCombo()
+    {
+
+    }
 }

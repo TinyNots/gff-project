@@ -15,6 +15,11 @@ public class Damage : MonoBehaviour
     private Transform _shadow;
     private Vector2 _shadowSize = new Vector2(0.0f, 0.0f);
 
+
+    [Header("Debug")]
+    [SerializeField]
+    private Transform _owner;
+
     [SerializeField]
     private Transform _hitPrefab;
     private bool _nextHit = false;
@@ -33,13 +38,23 @@ public class Damage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!_isRange)
+        //if(!_isRange)
+        //{
+        //    _shadow = transform.parent.parent.Find("Shadow");
+        //}
+        //else
+        //{
+        //    _shadow = transform.Find("Shadow");
+        //}
+
+        if (_owner)
         {
-            _shadow = transform.parent.parent.Find("Shadow");
+            _shadow = _owner.parent.Find("Shadow");
         }
         else
         {
-            _shadow = transform.Find("Shadow");
+            _shadow = transform.parent.parent.Find("Shadow");
+
         }
 
         _shadowSize = _shadow.GetComponent<Renderer>().bounds.size;
@@ -131,7 +146,7 @@ public class Damage : MonoBehaviour
 
                     if (_hitStopTime != 0.0f)
                     {
-                        Animator ownerAnimator = transform.parent.GetComponent<Animator>();
+                        Animator ownerAnimator = _owner.GetComponent<Animator>();
                         Animator otherAnimator = collision.transform.GetComponent<Animator>();
                         FindObjectOfType<AnimationStopper>().StopAnimation(ownerAnimator, _hitStopTime);
                         FindObjectOfType<AnimationStopper>().StopAnimation(otherAnimator, _hitStopTime);
@@ -213,6 +228,12 @@ public class Damage : MonoBehaviour
     {
         set { _damageValue = value; }
         get { return _damageValue; }
+    }
+
+
+    public void SetOwner(Transform owner)
+    {
+        _owner = owner;
     }
 
     private IEnumerator Wait(Animator animator,float duration)
