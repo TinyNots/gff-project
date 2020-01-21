@@ -12,6 +12,10 @@ public class Dasher : MonoBehaviour
     private float _timer = 0.0f;
     [SerializeField]
     private float _dashTime = 0.2f;
+    [SerializeField]
+    private Transform _ghostPrefab;
+    [SerializeField]
+    private int _ghostCount = 2;
 
     private Animator _animator;
     private Character _character;
@@ -41,7 +45,7 @@ public class Dasher : MonoBehaviour
 
         if(_timer > 0)
         {
-            FindObjectOfType<GhostTrail>().SpawnGhost();
+            Instantiate(_ghostPrefab, transform.Find("Sprite").position, transform.Find("Sprite").rotation);
 
             if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
             {
