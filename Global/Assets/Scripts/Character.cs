@@ -7,8 +7,9 @@ public class Character : MonoBehaviour
     [Header("General")]
     [SerializeField]
     private float _depth = 0.0f;
-    private bool _isEableMove = true;
-    private bool _isEableTurn = true;
+    private bool _isEnableMove = true;
+    private bool _isEnableTurn = true;
+    private bool _isEnableAttck = true;
     private bool _isHurt = false;
     private bool _isDie = false;
 
@@ -34,17 +35,17 @@ public class Character : MonoBehaviour
         _depth = transform.position.y;
         if(_animator != null)
         {
-            _animator.SetBool("Moveable", _isEableMove);
+            _animator.SetBool("Moveable", _isEnableMove);
             _animator.SetBool("IsHurt", _isHurt);
             _animator.SetFloat("Speed", Mathf.Abs(_moveInput.x + _moveInput.y));
             _animator.SetBool("IsDie", _isDie);
-
+            _animator.SetBool("EnableAttack", _isEnableAttck);
         }
     }
 
     private void FixedUpdate()
     {
-        if(_isEableMove)
+        if(_isEnableMove)
         {
             Vector2 movement = new Vector2(_moveInput.x, _moveInput.y * _speedPercentZ) * _speed * Time.deltaTime;
             transform.Translate(movement);
@@ -72,26 +73,48 @@ public class Character : MonoBehaviour
 
     public bool EnableMove
     {
-        get { return _isEableMove; }
-        set { _isEableMove = value; }
+        get { return _isEnableMove; }
+        set { _isEnableMove = value; }
     }
 
     public bool EnableTurn
     {
-        get { return _isEableTurn; }
-        set { _isEableTurn = value; }
+        get { return _isEnableTurn; }
+        set { _isEnableTurn = value; }
+    }
+
+    public bool EnableAttack
+    {
+        get { return _isEnableAttck; }
+        set { _isEnableAttck = value; }
     }
 
     public bool IsHurt
     {
         get { return _isHurt; }
-        set { _isHurt = value; }
+        set
+        {
+            _isHurt = value;
+            if(_isHurt)
+            {
+                _isEnableMove = false;
+                _isEnableTurn = false;
+            }
+        }
     }
 
     public bool IsDie
     {
         get { return _isDie; }
-        set { _isDie = value; }
+        set
+        {
+            _isDie = value;
+            if(_isDie)
+            {
+                _isEnableMove = false;
+                _isEnableTurn = false;
+            }
+        }
     }
 
     public Vector2 MoveInput

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2625305397242812788}
   - component: {fileID: 2625305397242812789}
   - component: {fileID: 2625305397242812790}
+  - component: {fileID: 3385227315309200452}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Enemy
@@ -137,7 +138,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.08, y: 0.02}
+  m_Offset: {x: -0.004942097, y: 0.027438194}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.67, y: 0.42}
@@ -148,7 +149,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.61, y: 0.41}
+  m_Size: {x: 0.27325386, y: 0.3951236}
   m_EdgeRadius: 0
 --- !u!95 &2625305397242812788
 Animator:
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 8
+  hp: 100
   dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &2625305397242812790
@@ -198,6 +199,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackBox: {fileID: 1016998580034615135, guid: 09119fcdd3e4f7645a4268e0948358ce,
     type: 3}
+--- !u!114 &3385227315309200452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651891991989151937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cf188a82d7e34408f39ccb3ca6b76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &651891992547601690
 GameObject:
   m_ObjectHideFlags: 0

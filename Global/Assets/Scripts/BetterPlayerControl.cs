@@ -16,11 +16,33 @@ public class BetterPlayerControl : MonoBehaviour
     private Jumper _jumpStatus;
     [SerializeField]
     private Character _character;
+    [SerializeField]
+    private float _stopTime = 0.05f;
+    private ParticleSystem _dust;
+    [SerializeField]
+    private float _dustOverRate = 10.0f;
+    private ParticleSystem.EmissionModule _dustEmission;
+    [SerializeField]
+    private Dasher _dasher;
+
+    private Rigidbody2D _rb;
+
+    // Debug
+    [SerializeField]
+    private Transform _tmpPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        _controllerIndex = 0;
+        //_controllerIndex = 0;
+        _dust = transform.Find("Dust Particle").GetComponent<ParticleSystem>();
+        _dustEmission = _dust.emission;
+
+        _rb = transform.GetComponent<Rigidbody2D>();
+        if(_rb == null)
+        {
+            Debug.Log("Rigidbody is missing");
+        }
     }
 
     // Update is called once per frame
@@ -48,10 +70,15 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // ボタン関連
-        if(_gamepad.GetButtonDown("X"))
+        if(_gamepad.GetButtonDown("Y") && _character.EnableAttack)
         {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
+            {
+                return;
+            }
+
             _animator.SetTrigger("Attack");
-            if(_jumpStatus.GetIsGrounded())
+            if (_jumpStatus.GetIsGrounded())
             {
                 _character.EnableMove = false;
             }
@@ -63,16 +90,42 @@ public class BetterPlayerControl : MonoBehaviour
             _jumpStatus.StartJump();
         }
 
-        if(_gamepad.GetButtonDown("B") && !_character.IsHurt && _jumpStatus.GetIsGrounded())
+        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableMove && _character.EnableAttack)
         {
-            _character.IsHurt = true;
+            _dasher.StartDash();
             _character.EnableMove = false;
+            _character.EnableTurn = false;
         }
-        var health = transform.Find("Sprite").gameObject.GetComponent<Health>();
+
+        // Debug
+        if(_gamepad.GetButtonDown("X") &&_character.EnableAttack)
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
+            {
+                return;
+            }
+
+            _animator.SetTrigger("Punch");
+            if (_jumpStatus.GetIsGrounded())
+            {
+                _character.EnableMove = false;
+            }
+        }
+
+        var health = _sprite.GetComponent<Health>();
         if (health.HP <= 0)
         {
             _character.IsDie = true;
-            _character.EnableMove = false;
+        }
+
+        if(_character.EnableMove && _jumpStatus.GetIsGrounded())
+        {
+            float movingSpeed = Mathf.Abs(_gamepad.GetStickL().X) + Mathf.Abs(_gamepad.GetStickL().Y);
+            _dustEmission.rateOverTime = _dustOverRate * Mathf.Clamp01(movingSpeed);
+        }
+        else
+        {
+            _dustEmission.rateOverTime = 0.0f;
         }
     }
 
@@ -81,5 +134,8 @@ public class BetterPlayerControl : MonoBehaviour
         _controllerIndex = index;
     }
 
-    
+    public void RumbleController(float timer, float fadeTime,Vector2 power)
+    {
+        _gamepad.AddRumble(timer, fadeTime, power);
+    }
 }

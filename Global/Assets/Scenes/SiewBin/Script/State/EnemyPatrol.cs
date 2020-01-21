@@ -59,23 +59,23 @@ public class EnemyPatrol : IState<Enemy>
         //攻撃範囲内だったら攻撃する
         if (Vector3.Distance(enemy.transform.position, enemy.CurrentDest) < 1.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.1f)
+            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) < 0.05f)
             {
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
                 return;
             }
         }
-        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 0.5f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 1.0f)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(0.1f, 0.0f, 0.0f);
+            enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
         }
         
-        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
         {
-            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.1f)
+            if (Mathf.Abs(enemy.transform.position.y - enemy.CurrentDest.y) > 0.05f)
             {
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 0.05f, 0.0f);
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, enemy.GetMoveDir(enemy.CurrentDest).y * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
     
@@ -102,7 +102,7 @@ public class EnemyPatrol : IState<Enemy>
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 6.0f ||
             !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x))
         {
-            enemy.transform.position += enemy.transform.TransformDirection(0.1f, 0.0f, 0.0f);
+            enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
         }
         //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
         //{

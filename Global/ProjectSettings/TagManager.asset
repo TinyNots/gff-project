@@ -9,6 +9,8 @@ TagManager:
   - Ground
   - Canvas
   - PlayerAttack
+  - Punch
+  - Slash
   layers:
   - Default
   - TransparentFX
@@ -18,10 +20,10 @@ TagManager:
   - UI
   - 
   - 
-  - test
-  - 
-  - 
-  - 
+  - Background
+  - Foreground
+  - Characters
+  - Effects
   - 
   - 
   - 

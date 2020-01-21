@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8201521530438361688}
   - component: {fileID: 5499047679778984844}
   - component: {fileID: 926632952078838416}
+  - component: {fileID: 1929552010116671227}
   m_Layer: 0
   m_Name: MeleeHitBox
   m_TagString: Attack
@@ -70,5 +71,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmgVal: 1
+  _hitStopTime: 0.05
+  _damageValue: 1
+  _hitPrefab: {fileID: 4881254934017106, guid: 6b5d0a6176259624ab334336fcf46dd3, type: 3}
   target: 1
+--- !u!114 &1929552010116671227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016998580034615135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8ee42ea86068d4d91bff2bb1087d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _depth: 0

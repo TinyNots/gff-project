@@ -9,15 +9,21 @@ public class PlayerManager : MonoBehaviour
     private List<GameObject> _playerGroup;
     [SerializeField]
     private GameObject _playerPrefab;
-    private int _playerTotalIndex;
+    static public int _playerTotalIndex;
 
     [SerializeField]
     private GameObject _idPrefab;
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool _isDebuging = false;
+    [SerializeField]
+    private int _playerCount = 4;
+
     // Start is called before the first frame update
     void Start()
     {
-        _playerTotalIndex = 0;
+        //_playerTotalIndex = 0;
         _playerGroup = new List<GameObject>();
         if (_playerPrefab == null)
         {
@@ -25,7 +31,13 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        for (int i = 1; i <= 2; i++)
+        int tmpCount = _playerTotalIndex;
+        if(_isDebuging)
+        {
+            tmpCount = _playerCount;
+        }
+
+        for (int i = 1; i <= tmpCount; i++)
         {
             GameObject player = Instantiate(_playerPrefab);
             player.name = "Player " + i;
@@ -41,22 +53,23 @@ public class PlayerManager : MonoBehaviour
             text.text = "P" + i;
 
             _playerGroup.Add(player);
+            _playerGroup[i - 1].GetComponent<BetterPlayerControl>().SetControllerIndex(i);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_playerTotalIndex < 4)
-        {
-            int currentIndex = GamePadManager.Instance.GetControllerByButton("Start");
-            if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
-            {
-                GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
-                _playerGroup[_playerTotalIndex].GetComponent<BetterPlayerControl>().SetControllerIndex(currentIndex);
-                _playerTotalIndex++;
-            }
-        }
+        //if(_playerTotalIndex < 4)
+        //{
+        //    int currentIndex = GamePadManager.Instance.GetControllerByButton("Start");
+        //    if (currentIndex != 0 && !GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget)
+        //    {
+        //        GamePadManager.Instance.GetGamepad(currentIndex).HaveTarget = true;
+        //        _playerGroup[_playerTotalIndex].GetComponent<BetterPlayerControl>().SetControllerIndex(currentIndex);
+        //        _playerTotalIndex++;
+        //    }
+        //}
 
         int flagCount = 0;
         foreach (GameObject player in _playerGroup)

@@ -14,10 +14,13 @@ public class Jumper : MonoBehaviour
     private Character _character;
     [SerializeField]
     private Animator _animator;
+    private ParticleSystem _particle;
 
     [Header("Others")]
     [SerializeField]
     private Vector2 _offset = new Vector2(0f, 0f);
+
+    private float _forwardSpeed;
 
     private Collider2D _shadowCollider;
 
@@ -27,6 +30,13 @@ public class Jumper : MonoBehaviour
         _character = gameObject.GetComponentInParent<Character>();
         _shadowCollider = transform.parent.Find("Shadow").GetComponent<Collider2D>();
         _offset = transform.localPosition;
+        _forwardSpeed = 0.0f;
+
+        if(transform.parent.Find("Jump-Fall Particle") != null)
+        {
+            _particle = transform.parent.Find("Jump-Fall Particle").GetComponent<ParticleSystem>();
+        }
+
     }
 
     // Update is called once per frame
@@ -57,13 +67,32 @@ public class Jumper : MonoBehaviour
                 _currentVelocity = 0;
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
-                _shadowCollider.isTrigger = false;
+                //_shadowCollider.isTrigger = false;
+                _particle.Play();
+
+                if(_forwardSpeed != 0.0f)
+                {
+                    _forwardSpeed = 0.0f;
+                    transform.GetComponent<AnimationEvents>().DelayAttack();
+                }
             }
         }
     }
     private void FixedUpdate()
     {
         transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
+
+        if(_forwardSpeed != 0.0f)
+        {
+            if(transform.eulerAngles.y == 180.0f)
+            {
+                _character.transform.Translate(Vector2.left * _forwardSpeed * Time.deltaTime);
+            }
+            else
+            {
+                _character.transform.Translate(Vector2.right * _forwardSpeed * Time.deltaTime);
+            }
+        }
     }
 
     public void StartJump()
@@ -73,6 +102,7 @@ public class Jumper : MonoBehaviour
             _isGrounded = false;
             _shadowCollider.isTrigger = true;
             _currentVelocity = _jumpVelocity;
+            _particle.Play();
         }
     }
 
@@ -85,7 +115,7 @@ public class Jumper : MonoBehaviour
     {
         _character.EnableMove = false;
         _character.EnableTurn = false;
-        _currentVelocity *= 2.0f;
+        _currentVelocity = -20.0f;
     }
 
     public void ResetEableMove()
@@ -97,5 +127,14 @@ public class Jumper : MonoBehaviour
     public void ResetHurt()
     {
         _character.IsHurt = false;
+    }
+
+    public void DropKick(float speed)
+    {
+        _currentVelocity = -20.0f;
+        _character.EnableMove = false;
+        _character.EnableTurn = false;
+        _forwardSpeed = speed;
+        SoundManager.Instance.PlaySe("Whoosh 4_" + Random.Range(1, 5));
     }
 }

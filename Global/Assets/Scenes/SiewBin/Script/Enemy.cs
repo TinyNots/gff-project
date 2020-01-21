@@ -92,6 +92,7 @@ public class Enemy : MonoBehaviour
         {
            transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
+        //上から生成し、落下させる
         if (isJumping)
         {
             if (transform.Find("Sprite").transform.position.y -offset -0.2f > transform.Find("Shadow").transform.position.y)
@@ -102,12 +103,13 @@ public class Enemy : MonoBehaviour
                     transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder = 0;
                 }
                 transform.Find("Sprite").transform.position += transform.TransformDirection(0, -0.2f, 0.0f);
+                //何もしない状態
                 ChangeState(new EnemySpawnDelay());
             }
             else
             {
                 transform.Find("Sprite").transform.position = new Vector3(transform.Find("Sprite").transform.position.x,
-                     transform.Find("Shadow").transform.position.y + offset,0f);
+                                                                transform.Find("Shadow").transform.position.y + offset,0f);
                 isJumping = false;
             }
         }
@@ -192,7 +194,6 @@ public class Enemy : MonoBehaviour
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        position -= new Vector3(0f, 0.3f);
         foreach (GameObject player in players)
         {
             Vector3 diff = player.transform.position - position;

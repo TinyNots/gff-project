@@ -9,6 +9,7 @@ public class EnemyGetHit : IState<Enemy>
     private float tiltLen;
     public void Enter(Enemy enemy)
     {
+
         enemy.Sprite.GetComponent<Animator>().SetTrigger("Hit");
         hitTime = Time.time;
         hitLen = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
