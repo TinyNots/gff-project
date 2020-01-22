@@ -18,6 +18,13 @@ public class EnemyDie : IState<Enemy>
             enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
             enemy.IsTargeting = false;
             Debug.Log("Destroy enemy");
+
+            EnemyEvents events = enemy.transform.Find("Sprite").GetComponent<EnemyEvents>();
+            if(events != null)
+            {
+                events.SpawnCoin(4, 5);
+            }
+
             enemy.DestroySelf();
         }
     }
