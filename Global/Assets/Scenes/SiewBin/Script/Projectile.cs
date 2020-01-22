@@ -11,6 +11,11 @@ public class Projectile : MonoBehaviour
     private float multiShotTimer;
     private int multiShotIdx;
     private bool multiShotFlag = false;
+
+    float theta = 0;
+
+  
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,21 +25,33 @@ public class Projectile : MonoBehaviour
         multiShotTimer = Time.time;
 
     }
-
     // Update is called once per frame
     void Update()
     {
 
         if (gameObject.activeSelf)
         {
-            if (!multiShotFlag)
+            if (Random.Range(0, 2) == 1)
             {
                 NormalShot();
             }
             else
             {
-                MultiShot();
+                gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, gameObject.transform.position.x / (1f + Mathf.Abs(gameObject.transform.position.x)) * Time.deltaTime
+, 0.0f);
+
             }
+            //SpiralShot();
+            //if (!multiShotFlag)
+            //{
+            //    NormalShot();
+            //}
+            //else
+            //{
+            //    MultiShot();
+            //}
+            
+
         }
         //スクリーン外だったら廃棄する
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
@@ -45,25 +62,24 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            _depth = _shadow.GetComponent<Depth>().DepthSetting;
+        //if (collision.gameObject.tag == "Player")
+        //{
+        //    _depth = _shadow.GetComponent<Depth>().DepthSetting;
 
-            float depthB = collision.gameObject.transform.parent.Find("Shadow").GetComponent<Depth>().DepthSetting;
-            if (depthB <= _depth + _shadowSize.y / 2.0f && depthB >= _depth - _shadowSize.y / 2.0f)
-            {
-                if (collision.gameObject.GetComponent<Health>().HP > 0)
-                {
-                    Destroy(gameObject);
-                }
-            }
-        }
+        //    float depthB = collision.gameObject.transform.parent.Find("Shadow").GetComponent<Depth>().DepthSetting;
+        //    if (depthB <= _depth + _shadowSize.y / 2.0f && depthB >= _depth - _shadowSize.y / 2.0f)
+        //    {
+        //        if (collision.gameObject.GetComponent<Health>().HP > 0)
+        //        {
+        //            Destroy(gameObject);
+        //        }
+        //    }
+        //}
     }
 
     public void NormalShot()
     {
         gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, 0.0f, 0.0f);
-
     }
 
     public void MultiShot()
@@ -96,5 +112,17 @@ public class Projectile : MonoBehaviour
             multiShotFlag = true;
         }
         get { return multiShotIdx; }
+    }
+
+    public void SpiralShot()
+    {
+        float x =  Mathf.Cos(theta) * theta *0.5f;
+        float z = transform.position.z;
+        float y = Mathf.Sin(theta)* theta * 0.5f;
+
+        transform.position +=  new Vector3(x, y, 0) * Time.deltaTime;
+        theta += 0.1f;
+        theta %= 360;
+       // transform.position += gameObject.transform.TransformDirection(0.1f, 0.0f, 0.0f);
     }
 }

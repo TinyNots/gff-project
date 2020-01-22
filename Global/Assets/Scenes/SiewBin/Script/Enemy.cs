@@ -20,8 +20,11 @@ public class Enemy : MonoBehaviour
     private GetHit getHitObj;       //攻撃される時の挙動
     [SerializeField]
     private bool isRanged = false;  //遠攻撃できるか
+    [SerializeField]
+    private bool isBoss = false;  //遠攻撃できるか
     private bool isTargeting = false;
     public GameObject tmpPlayer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -208,6 +211,7 @@ public class Enemy : MonoBehaviour
         Vector3 position = transform.position;
         foreach (GameObject player in players)
         {
+            if (player.GetComponent<Health>().hp <= 0) continue;
             Vector3 diff = player.transform.position - position;
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)

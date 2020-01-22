@@ -25,6 +25,7 @@ public class EnemyAttack : IState<Enemy>
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
         targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
 
+        
         if (enemy.IsRanged)
         {
             RangedAttack(enemy);

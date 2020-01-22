@@ -18,6 +18,7 @@ public class EnemyDie : IState<Enemy>
             enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
             enemy.IsTargeting = false;
             Debug.Log("Destroy enemy");
+            
             enemy.DestroySelf();
         }
     }

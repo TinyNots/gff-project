@@ -164,7 +164,7 @@ public class EnemyPatrol : IState<Enemy>
         Collider[] cols = Physics.OverlapSphere(enemy.transform.position, 0.5f);
         foreach ( Collider col in cols)
         {
-            if (col.transform.GetChild(0).tag == "Player")
+            if (col.transform.tag == "Player")
             {
                 if (enemy.IsRanged)
                 {

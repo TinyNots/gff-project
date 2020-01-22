@@ -5791,7 +5791,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &702830393
 Transform:
   m_ObjectHideFlags: 0
@@ -23262,6 +23262,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaveMng
       objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613887, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3157bdacd0b4d13428150356826c3446, type: 3}
 --- !u!1001 &4885040750540529201
@@ -23413,7 +23418,7 @@ PrefabInstance:
     - target: {fileID: 5458452446769956831, guid: 77036c4074ffc76458f05614d2a592fe,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77036c4074ffc76458f05614d2a592fe, type: 3}

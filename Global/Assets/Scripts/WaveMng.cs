@@ -8,7 +8,7 @@ public class WaveMng : MonoBehaviour
 {
     private float waitTime =0;
     private float timer = 0;
-    private int waveCnt = 0;
+    private int waveCnt = 9;
     private bool waveReadyFlag = true;
     public Wave[] waveSpawn;
     public EnemyFactory[] factoryCnt = new EnemyFactory[3];
