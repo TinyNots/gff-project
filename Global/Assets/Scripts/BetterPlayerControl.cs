@@ -84,13 +84,13 @@ public class BetterPlayerControl : MonoBehaviour
             }
         }
 
-        if(_gamepad.GetButtonDown("A") && _character.EnableMove)
+        if(_gamepad.GetButtonDown("A"))
         {
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
         }
 
-        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableMove && _character.EnableAttack)
+        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableAttack)
         {
             _dasher.StartDash();
             _character.EnableMove = false;

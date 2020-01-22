@@ -70,7 +70,10 @@ public class Dasher : MonoBehaviour
 
     public void StartDash()
     {
-        _timer = _dashTime;
-        _dashParticle.Play();
+        if(_timer == 0)
+        {
+            _timer = _dashTime;
+            _dashParticle.Play();
+        }
     }
 }

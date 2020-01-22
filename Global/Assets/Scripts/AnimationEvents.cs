@@ -67,6 +67,7 @@ public class AnimationEvents : MonoBehaviour
         _comboCount = 0;
         _animator.SetInteger("ComboCount", _comboCount);
         _animator.SetBool("Attack", false);
+        _animator.ResetTrigger("Hit");
     }
 
     public void Melee()
