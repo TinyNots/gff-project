@@ -9,12 +9,19 @@ public class EnemyAttack : IState<Enemy>
     private float selfDepth;
     private float targetDepth;
     private AnimationClip anim;
+
+
+    private float particleStartTime;
+    private bool startParticleFlag;
+
     public void Enter(Enemy enemy)
     {
         //攻撃アニメ
         anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
         enemy.Sprite.GetComponent<Animator>().Play("Idle");
         selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
+        particleStartTime = Time.time;
+        startParticleFlag = false;
 
     }
     public void Execute(Enemy enemy)
@@ -25,17 +32,23 @@ public class EnemyAttack : IState<Enemy>
         enemy.CurrentDest = enemy.FindClosestPlayer().transform.position;
         targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
 
-        
-        if (enemy.IsRanged)
+        if (enemy.IsBoss)
         {
-            RangedAttack(enemy);
+            BossAttack(enemy);
 
         }
         else
         {
-            MeleeAttack(enemy);
+            if (enemy.IsRanged)
+            {
+                RangedAttack(enemy);
+
+            }
+            else
+            {
+                MeleeAttack(enemy);
+            }
         }
-    
     }
 
     
@@ -85,7 +98,7 @@ public class EnemyAttack : IState<Enemy>
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
         if (Time.time > attTime + anim.length+2)
         {
-            if (Mathf.Abs(distX) >7.0f || Mathf.Abs(distY) > 0.2f)
+            if (Mathf.Abs(distX) >7.5f || Mathf.Abs(distY) > 0.3f)
             {
                 //目標が攻撃範囲から離れた
                 Debug.Log("ChangeToPatrol");
@@ -97,5 +110,36 @@ public class EnemyAttack : IState<Enemy>
             enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
             attTime = Time.time;
         }
+    }
+
+    void BossAttack(Enemy enemy)
+    {
+        if (Time.time > attTime + anim.length + 2)
+        {
+            if (!startParticleFlag)
+            {
+                particleStartTime = Time.time;
+            }
+            startParticleFlag = true;
+
+            if (startParticleFlag)
+            {
+                enemy.particle.gameObject.SetActive(true);
+                if (particleStartTime + 5 < Time.time)
+                {
+                    enemy.particle.Stop();
+                    //startParticleFlag = false;
+                    Debug.Log("Attack");
+                    //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+                    attTime = Time.time;
+                    startParticleFlag = false;
+                    enemy.particle.gameObject.SetActive(false);
+
+                }
+            }
+          
+        }
+     
     }
 }

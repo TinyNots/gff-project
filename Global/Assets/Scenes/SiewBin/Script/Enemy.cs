@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     private bool isBoss = false;  //遠攻撃できるか
     private bool isTargeting = false;
     public GameObject tmpPlayer;
-
+    public ParticleSystem particle;
 
     // Start is called before the first frame update
     void Start()
@@ -176,6 +176,11 @@ public class Enemy : MonoBehaviour
     public bool IsRanged
     {
         get { return isRanged; }
+    }
+
+    public bool IsBoss
+    {
+        get { return isBoss; }
     }
 
     public bool IsTargeting

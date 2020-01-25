@@ -24,6 +24,11 @@ public class EnemyPatrol : IState<Enemy>
     {
         enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
         enemy.tmpPlayer = enemy.FindClosestPlayer();
+        if(enemy.tmpPlayer == null)
+        {
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+            enemy.ChangeState(new EnemySpawnDelay());
+        }
         if (!enemy.IsTargeting && enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum < 5)
         {
             enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
@@ -34,6 +39,11 @@ public class EnemyPatrol : IState<Enemy>
     public void Execute(Enemy enemy)
     {
         var tmp = enemy.FindClosestPlayer();
+        if (tmp == null)
+        {
+            enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+            enemy.ChangeState(new EnemySpawnDelay());
+        }
         if (tmp.GetComponent<TargetNum>().TargettedNum <5 && !enemy.IsTargeting)
         {
             if (tmp != enemy.tmpPlayer)
@@ -58,15 +68,23 @@ public class EnemyPatrol : IState<Enemy>
         if (enemy.IsTargeting)
         {
 
-            if (enemy.IsRanged)
+            if (enemy.IsBoss)
             {
-                RangedChase(enemy);
-                Debug.Log("Ranged Att");
+                BossChase(enemy);
+
             }
             else
             {
-                MeleeChase(enemy);
-                Debug.Log("Melee Att");
+                if (enemy.IsRanged)
+                {
+                    RangedChase(enemy);
+                    Debug.Log("Ranged Att");
+                }
+                else
+                {
+                    MeleeChase(enemy);
+                    Debug.Log("Melee Att");
+                }
             }
         }
 
@@ -157,6 +175,18 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
             }
         }
+    }
+
+    void BossChase(Enemy enemy)
+    {
+        enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
+        if (enemy.transform.position.x > -0.2f  && enemy.transform.position.x <0.2f)
+        {
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemyAttack());
+                return;
+        }
+
     }
 
     void Patrol(Enemy enemy)

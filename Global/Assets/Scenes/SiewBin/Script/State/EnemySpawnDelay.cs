@@ -15,10 +15,10 @@ public class EnemySpawnDelay : IState<Enemy>
 
     public void Execute(Enemy enemy)
     {
-        if (Time.time > timeStart + waitTime)
-        {
-            enemy.ChangeState(new EnemyPatrol());
-        }
+            if (Time.time > timeStart + waitTime)
+            {
+                enemy.ChangeState(new EnemyPatrol());
+            }
     }
 
     public void Exit(Enemy enemy)
