@@ -16,7 +16,7 @@ public class CollisionData : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             Transform collisionShadow = collision.transform.parent.Find("Shadow");
             float collisionDepth = collisionShadow.GetComponent<Depth>().DepthSetting;
@@ -25,7 +25,28 @@ public class CollisionData : MonoBehaviour
             Rect shadowA = new Rect((Vector2)_shadow.position - _shadowSize / 2.0f, _shadowSize);
             Rect shadowB = new Rect((Vector2)collisionShadow.position - collisionShadowSize / 2.0f, collisionShadowSize);
 
-            if(shadowA.Overlaps(shadowB,true))
+            if (shadowA.Overlaps(shadowB,true))
+            {
+                Transform sprite = transform.Find("Sprite");
+                sprite.GetComponent<Flasher>().StartFlash(0.2f);
+                sprite.GetComponent<Animator>().SetBool("Collected", true);
+                Destroy(gameObject, 0.3f);
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Transform collisionShadow = collision.transform.parent.Find("Shadow");
+            float collisionDepth = collisionShadow.GetComponent<Depth>().DepthSetting;
+            Vector2 collisionShadowSize = collisionShadow.GetComponent<Renderer>().bounds.size;
+
+            Rect shadowA = new Rect((Vector2)_shadow.position - _shadowSize / 2.0f, _shadowSize);
+            Rect shadowB = new Rect((Vector2)collisionShadow.position - collisionShadowSize / 2.0f, collisionShadowSize);
+
+            if (shadowA.Overlaps(shadowB, true))
             {
                 Transform sprite = transform.Find("Sprite");
                 sprite.GetComponent<Flasher>().StartFlash(0.2f);

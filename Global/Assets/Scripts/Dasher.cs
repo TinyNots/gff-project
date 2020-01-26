@@ -60,11 +60,7 @@ public class Dasher : MonoBehaviour
         }
         else
         {
-            _rb.velocity = Vector2.zero;
-            _character.EnableMove = true;
-            _character.EnableTurn = true;
-            _timer = 0;
-            _dashParticle.Stop();
+            StopDash();
         }
     }
 
@@ -75,5 +71,14 @@ public class Dasher : MonoBehaviour
             _timer = _dashTime;
             _dashParticle.Play();
         }
+    }
+
+    public void StopDash()
+    {
+        _rb.velocity = Vector2.zero;
+        _character.EnableMove = true;
+        _character.EnableTurn = true;
+        _timer = 0;
+        _dashParticle.Stop();
     }
 }

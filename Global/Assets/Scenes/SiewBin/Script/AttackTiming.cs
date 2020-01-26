@@ -8,6 +8,8 @@ public class AttackTiming : MonoBehaviour
     private GameObject attackBox;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
     private GameObject tmpSlash;    //プロトタイプを複製
     private int maxNum = 3;
+    private float _destroyTime = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,7 @@ public class AttackTiming : MonoBehaviour
         tmpSlash = Instantiate(AttackBox, transform.position,transform.rotation);
         tmpSlash.GetComponent<Damage>().SetOwner(transform);
         tmpSlash.SetActive(true);
+        Destroy(tmpSlash, 0.2f);
     }
 
     //攻撃終わる

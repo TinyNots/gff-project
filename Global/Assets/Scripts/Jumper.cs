@@ -42,12 +42,6 @@ public class Jumper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && _character.EnableMove)
-        {
-            _isGrounded = false;
-            _currentVelocity = _jumpVelocity;
-        }
-
         if (!_isGrounded)
         {
             if (_currentVelocity <= 0)
@@ -63,14 +57,20 @@ public class Jumper : MonoBehaviour
 
             if (transform.localPosition.y < _offset.y - 0.01f)
             {
+                if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Kick_Air_Loop"))
+                {
+                    _character.EnableMove = true;
+                    _character.EnableTurn = true;
+                }
+
                 transform.localPosition = _offset;
                 _currentVelocity = 0;
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
                 //_shadowCollider.isTrigger = false;
                 _particle.Play();
-
-                if(_forwardSpeed != 0.0f)
+               
+                if (_forwardSpeed != 0.0f)
                 {
                     _forwardSpeed = 0.0f;
                     transform.GetComponent<AnimationEvents>().DelayAttack();

@@ -77,6 +77,11 @@ public class BetterPlayerControl : MonoBehaviour
                 return;
             }
 
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Dash"))
+            {
+                _dasher.StopDash();
+            }
+
             _animator.SetTrigger("Attack");
             if (_jumpStatus.GetIsGrounded())
             {
@@ -86,23 +91,35 @@ public class BetterPlayerControl : MonoBehaviour
 
         if(_gamepad.GetButtonDown("A"))
         {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_Air3_End"))
+            {
+                return;
+            }
+
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
+            _character.EnableAttack = true;
         }
 
-        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded() && _character.EnableAttack)
+        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded())
         {
             _dasher.StartDash();
             _character.EnableMove = false;
             _character.EnableTurn = false;
+            _character.EnableAttack = true;
         }
 
         // Debug
-        if(_gamepad.GetButtonDown("X") &&_character.EnableAttack)
+        if(_gamepad.GetButtonDown("X"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
             {
                 return;
+            }
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Dash"))
+            {
+                _dasher.StopDash();
             }
 
             _animator.SetTrigger("Punch");
