@@ -126,7 +126,7 @@ public class Damage : MonoBehaviour
                     }
 
                     // Debug
-                    //FindObjectOfType<HitStop>().Stop(0.02f);
+                    //FindObjectOfType<HitStop>().Stop(1.0f,0.5f);
 
                     if (_hitStopTime != 0.0f)
                     {
