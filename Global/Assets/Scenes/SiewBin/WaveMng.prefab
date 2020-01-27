@@ -43,112 +43,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf39153ee61d0e439201a59cdb67e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveSpawn:
+  _waveSpawn:
   - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 5
-      spawnTime: 2.5
-      massSpawnCnt: 1
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 10
+      _spawnTime: 2.5
+      _massSpawnCnt: 0
   - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 10
-      spawnTime: 2
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 0
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 9
-      spawnTime: 2.5
-      massSpawnCnt: 3
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 2
-      maxCnt: 5
-      spawnTime: 1.5
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 10
-      spawnTime: 1.5
-      massSpawnCnt: 1
-    - prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
-        type: 3}
-      fromRight: 0
-      spawnType: 1
-      maxCnt: 1
-      spawnTime: 5
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 5
-      spawnTime: 2
-      massSpawnCnt: 3
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 2
-      maxCnt: 5
-      spawnTime: 2.5
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 10
-      spawnTime: 1
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 6
-      spawnTime: 2.5
-      massSpawnCnt: 6
-  - wave:
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 0
-      spawnType: 2
-      maxCnt: 5
-      spawnTime: 1.5
-      massSpawnCnt: 2
-    - prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
-        type: 3}
-      fromRight: 1
-      spawnType: 1
-      maxCnt: 1
-      spawnTime: 1
-      massSpawnCnt: 1
-  - wave:
-    - prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
-        type: 3}
-      fromRight: 0
-      spawnType: 0
-      maxCnt: 5
-      spawnTime: 1
-      massSpawnCnt: 1
-    - prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
-        type: 3}
-      fromRight: 1
-      spawnType: 1
-      maxCnt: 1
-      spawnTime: 1
-      massSpawnCnt: 1
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 3
+  - wave: []
+  - wave: []
+  - wave: []
+  - wave: []
+  - wave: []
+  - wave: []
+  - wave: []
+  - wave: []
+  _factoryCnt:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _score: {fileID: 0}

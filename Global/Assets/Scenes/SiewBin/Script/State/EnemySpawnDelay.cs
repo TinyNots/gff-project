@@ -1,24 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySpawnDelay : IState<Enemy>
 {
-    float waitTime = 1;
-    float timeStart;
+    float _waitTime = 1;
+    float _timeStart;
 
     // Start is called before the first frame update
     public void Enter(Enemy enemy)
     {
-        timeStart = Time.time;
+        _timeStart = Time.time;
     }
 
     public void Execute(Enemy enemy)
     {
-            if (Time.time > timeStart + waitTime)
-            {
-                enemy.ChangeState(new EnemyPatrol());
-            }
+        if (Time.time > _timeStart + _waitTime)
+        {
+            enemy._tmpPlayer = enemy.FindRandomPlayer();
+            enemy.TargetChangeable = false;
+            enemy.IsTargeting = true;
+
+
+            enemy.ChangeState(new EnemyPatrol());
+        }
     }
 
     public void Exit(Enemy enemy)

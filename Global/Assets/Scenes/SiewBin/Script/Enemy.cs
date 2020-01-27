@@ -6,89 +6,101 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject sprite;
-    private Vector3 curDest;    //現在の目的地
-    bool isJumping = false;     //跳んでるか
-    Rigidbody2D rb;             
-    public Vector3[] dest;      
-    private StateMachine<Enemy> stateMachine;   //有限オートマトン
-    private Health health;      //HPの情報
-    private float oldHP;
-    private Vector3 shadowPos;  //立ってる高さ
-    private float offset;     //画像のサイズ
-    private bool dieFlag = false;
-    private GetHit getHitObj;       //攻撃される時の挙動
+    private GameObject _sprite;
+    private Vector3 _curDest;    //現在の目的地
+    bool _isJumping = false;     //跳んでるか
+    Rigidbody2D _rb;             
+    private StateMachine<Enemy> _stateMachine;   //有限オートマトン
+    private Health _health;      //HPの情報
+    private float _oldHP;
+    private Vector3 _shadowPos;  //立ってる高さ
+    private Vector2 _imgSize;
+    private float _shadowOffset;     //画像のサイズ
+    private bool _dieFlag = false;
+    private GetHit _getHitObj;       //攻撃される時の挙動
     [SerializeField]
-    private bool isRanged = false;  //遠攻撃できるか
+    private bool _isRanged = false;  //遠攻撃できるか
     [SerializeField]
-    private bool isBoss = false;  //遠攻撃できるか
-    private bool isTargeting = false;
-    public GameObject tmpPlayer;
-    public ParticleSystem particle;
+    private bool _isBoss = false;  //遠攻撃できるか
+    private bool _isTargeting = false;
+    public GameObject _tmpPlayer;
+    public ParticleSystem _particle;
+    private bool _targetChangeable;
+    private float _chgTargetTime;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        getHitObj = GetComponent<GetHit>();
-        //if (isRanged)
+        _imgSize = new Vector2(_sprite.GetComponent<SpriteRenderer>().sprite.texture.width, _sprite.GetComponent<SpriteRenderer>().sprite.texture.height);
+        _getHitObj = GetComponent<GetHit>();
+        //if (_isRanged)
         //{
-        //    offset.y += 0.2f;
+        //    _offset.y += 0.2f;
         //}
-        rb = GetComponent<Rigidbody2D>();
-        health = transform.Find("Sprite").gameObject.GetComponent<Health>();
+        _rb = GetComponent<Rigidbody2D>();
+        _health = transform.Find("Sprite").gameObject.GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
-        dest[0]  = new Vector3(wsize.x, transform.position.y,0);
-        dest[1] = new Vector3(-8, transform.position.y, 0);
-        stateMachine = new StateMachine<Enemy>();
-        stateMachine.Setup(this, new EnemySpawnDelay());
+        _stateMachine = new StateMachine<Enemy>();
+        _stateMachine.Setup(this, new EnemySpawnDelay());
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ステートの更新
-        stateMachine.Update();
-        if (dieFlag) return;
-        if (health.ReceiveDmgFlag)
+        if ( Time.time > _chgTargetTime + 5)
         {
-            //if ((collision.gameObject.transform.parent.rotation.y % 360) == transform.rotation.y)
-            //{
-            //    transform.Rotate(new Vector3(0, 180f));
-            //}
-            if (health.HP > 0)
+            _targetChangeable = true;
+        }
+        //ステートの更新
+        _stateMachine.Update();
+        if (_dieFlag) return;
+        if (_health.ReceiveDmgFlag)
+        {
+            if (_tmpPlayer != null)
+            {
+                _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+
+            }
+            _tmpPlayer = _health.DmgOrigin;
+            _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
+            _isTargeting = true;
+            _targetChangeable = false;
+            _chgTargetTime = Time.time;
+            if (_health.HP > 0)
             {
                 ChangeState(new EnemyGetHit());
+                return;
             }
 
         }
-        if (health.HP <= 0)
+        if (_health.HP <= 0)
         {
-            dieFlag = true;
+            _dieFlag = true;
             ChangeState(new EnemyDie());
+            return;
         }
 
 
         //if (!IsJumping)
         //{
-        //    shadowPos = transform.position - offset;
+        //    _shadowPos = transform.position - _offset;
         //}
         //else
         //{
-        //    shadowPos = new Vector3(transform.position.x, shadowPos.y, 0);
+        //    _shadowPos = new Vector3(transform.position.x, _shadowPos.y, 0);
 
         //}
-        //if (transform.position.y - offset.y <= shadowPos.y)
+        //if (transform.position.y - _offset.y <= _shadowPos.y)
         //{
         //    IsJumping = false;
-        //    shadowPos = transform.position - offset;
+        //    _shadowPos = transform.position - _offset;
 
         //}
-        //Debug.DrawLine(new Vector3(transform.position.x, shadowPos.y, 0), new Vector3(transform.position.x + 2, shadowPos.y, 0), Color.red);
+        //Debug.DrawLine(new Vector3(transform.position.x, _shadowPos.y, 0), new Vector3(transform.position.x + 2, _shadowPos.y, 0), Color.red);
         //Damage();
         //画像の回転
-        if (isTargeting)
+        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             if (GetMoveDir(CurrentDest).x < 0)
             {
@@ -101,9 +113,9 @@ public class Enemy : MonoBehaviour
             }
         }
         //上から生成し、落下させる
-        if (isJumping)
+        if (_isJumping)
         {
-            if (transform.Find("Sprite").transform.position.y -offset -0.2f > transform.Find("Shadow").transform.position.y)
+            if (transform.Find("Sprite").transform.position.y -_shadowOffset -0.2f > transform.Find("Shadow").transform.position.y)
             {
 
                 if (transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder < 0)
@@ -117,8 +129,8 @@ public class Enemy : MonoBehaviour
             else
             {
                 transform.Find("Sprite").transform.position = new Vector3(transform.Find("Sprite").transform.position.x,
-                                                                transform.Find("Shadow").transform.position.y + offset,0f);
-                isJumping = false;
+                                                                transform.Find("Shadow").transform.position.y + _shadowOffset,0f);
+                _isJumping = false;
             }
         }
     }
@@ -128,66 +140,74 @@ public class Enemy : MonoBehaviour
     }
     public Rigidbody2D GetRigidbody()
     {
-        return rb;
+        return _rb;
     }
 
     public void ChangeState(IState<Enemy> state)
     {
-        stateMachine.ChangeState(state);
-        Debug.Log(stateMachine.GetCurrentState);
+        _stateMachine.ChangeState(state);
+        Debug.Log(_stateMachine.GetCurrentState);
     }
 
     public bool IsJumping
     {
-        get { return isJumping; }
-        set { isJumping = value; }
+        get { return _isJumping; }
+        set { _isJumping = value; }
     }
 
     public Vector3 CurrentDest
     {
-        get { return curDest; }
-        set { curDest = value; }
+        get { return _curDest; }
+        set { _curDest = value; }
     }
 
     public Vector3 ShadowPos
     {
-        get { return shadowPos; }
-        set { shadowPos = value; }
+        get { return _shadowPos; }
+        set { _shadowPos = value; }
     }
 
-    public float OffSet
+    public float ShadowOffSet
     {
-        set { offset = value; }
-        get { return offset; }
+        set { _shadowOffset = value; }
+        get { return _shadowOffset; }
     }
 
-    
+    public Vector2 ImgOffSet
+    {
+        get { return _imgSize; }
+    }
 
     public GameObject Sprite
     {
-        get { return sprite; }
+        get { return _sprite; }
     }
 
     public GetHit GetHitObj
     {
-        get { return getHitObj; }
+        get { return _getHitObj; }
     }
 
     public bool IsRanged
     {
-        get { return isRanged; }
+        get { return _isRanged; }
     }
 
     public bool IsBoss
     {
-        get { return isBoss; }
+        get { return _isBoss; }
     }
 
     public bool IsTargeting
     {
-        get { return isTargeting; }
-        set { isTargeting = value; }
+        get { return _isTargeting; }
+        set { _isTargeting = value; }
+    }
 
+    public bool TargetChangeable
+    {
+        get { return _targetChangeable; }
+        set { _targetChangeable = value; }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -209,6 +229,10 @@ public class Enemy : MonoBehaviour
     //最近くのプレイヤー
     public GameObject FindClosestPlayer()
     {
+        if (!_targetChangeable)
+        {
+            return _tmpPlayer;
+        }
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");
         GameObject closest = null;
@@ -216,7 +240,7 @@ public class Enemy : MonoBehaviour
         Vector3 position = transform.position;
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<Health>().hp <= 0) continue;
+            if (player.GetComponent<Health>()._hp <= 0) continue;
             Vector3 diff = player.transform.position - position;
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)
@@ -226,6 +250,18 @@ public class Enemy : MonoBehaviour
             }
         }
         return closest;
+    }
+
+    public GameObject FindRandomPlayer()
+    {
+        if (!_targetChangeable)
+        {
+            return _tmpPlayer;
+        }
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        int idx = Random.Range(0, PlayerManager._playerTotalIndex + 1);
+        return players[idx];
     }
 
     private void Damage()

@@ -140,8 +140,8 @@ MonoBehaviour:
   _damageValue: 1
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 0}
-  _isRange: 0
-  target: 1
+  _isRange: 1
+  _target: 1
 --- !u!50 &7633025247324117803
 Rigidbody2D:
   serializedVersion: 4

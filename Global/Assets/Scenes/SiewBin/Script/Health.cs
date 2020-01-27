@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public float hp = 100;
+    public float _hp = 100;
     [SerializeField]
-    private GameObject dmgImage;
-    private GameObject prefab = null; 
-    private bool receiveDmgFlag = false;
+    private GameObject _dmgImage;
+    private GameObject _prefab = null; 
+    private bool _receiveDmgFlag = false;
+    private GameObject _dmgOrigin = null;
 
     // Start is called before the first frame update
     void Start()
@@ -23,42 +24,54 @@ public class Health : MonoBehaviour
     {
         ReceiveDmgEffect();
     }
-    public void ReceiveDmg(float value)
+    public void ReceiveDmg(float value,GameObject dmgOrigin)
     {
-        hp -= value;
+        _hp -= value;
         Debug.Log(value + "Damage");
-        dmgImage.GetComponent<Text>().text = value.ToString();
-        receiveDmgFlag = true;
+        _dmgImage.GetComponent<Text>().text = value.ToString();
+        _receiveDmgFlag = true;
+        _dmgOrigin = dmgOrigin;
+    }
+
+    private void LateUpdate()
+    {
+        _receiveDmgFlag = false;
+
     }
 
     public void ReceiveDmgEffect()
     {
 
-        if (!receiveDmgFlag)
+        if (!_receiveDmgFlag)
         {
             return;
         };
 
-        prefab = Instantiate(dmgImage, transform.position, transform.rotation) as GameObject;
+        _prefab = Instantiate(_dmgImage, transform.position, transform.rotation) as GameObject;
 
         GameObject canvas = GameObject.Find("Canvas");
 
-        prefab.transform.SetParent(canvas.transform);
-        prefab.SetActive(true);
-        prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y +1f, this.transform.position.z));
-        prefab.transform.rotation = Quaternion.Euler(new Vector3(0, 0));
-        receiveDmgFlag = false;
+        _prefab.transform.SetParent(canvas.transform);
+        _prefab.SetActive(true);
+        _prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y +1f, this.transform.position.z));
+        _prefab.transform.rotation = Quaternion.Euler(new Vector3(0, 0));
 
 
     }
 
     public float HP
     {
-        get { return hp; }
+        get { return _hp; }
     }
 
     public bool ReceiveDmgFlag
     {
-        get { return receiveDmgFlag; }
+        get { return _receiveDmgFlag; }
+    }
+
+    public GameObject DmgOrigin
+    {
+        get { return _dmgOrigin; }
+
     }
 }

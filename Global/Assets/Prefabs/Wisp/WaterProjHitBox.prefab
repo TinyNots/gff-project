@@ -156,9 +156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238992371ef8b94478de50d18f3aa86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmgVal: 1
+  _hitStopTime: 0.05
+  _damageValue: 1
   _owner: {fileID: 0}
-  target: 1
+  _hitPrefab: {fileID: 0}
+  _isRange: 0
+  _target: 1
 --- !u!50 &4139845117884496490
 Rigidbody2D:
   serializedVersion: 4
