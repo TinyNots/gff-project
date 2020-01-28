@@ -161,8 +161,8 @@ MonoBehaviour:
   _damageValue: 1
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 4862435727324404, guid: 8c7ea97680627c54993cfacbc81c4a87, type: 3}
-  _isRange: 0
-  target: 1
+  _isRange: 1
+  _target: 1
 --- !u!50 &6313299383213363623
 Rigidbody2D:
   serializedVersion: 4

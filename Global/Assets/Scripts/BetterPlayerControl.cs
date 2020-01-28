@@ -101,7 +101,7 @@ public class BetterPlayerControl : MonoBehaviour
             _character.EnableAttack = true;
         }
 
-        if(_gamepad.GetButtonDown("B") && _jumpStatus.GetIsGrounded())
+        if(_gamepad.GetButtonDown("B"))
         {
             _dasher.StartDash();
             _character.EnableMove = false;
@@ -154,5 +154,10 @@ public class BetterPlayerControl : MonoBehaviour
     public void RumbleController(float timer, float fadeTime,Vector2 power)
     {
         _gamepad.AddRumble(timer, fadeTime, power);
+    }
+
+    public Controller GetGamepad()
+    {
+        return _gamepad;
     }
 }

@@ -76,7 +76,7 @@ MonoBehaviour:
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 4881254934017106, guid: 6b5d0a6176259624ab334336fcf46dd3, type: 3}
   _isRange: 0
-  target: 1
+  _target: 1
 --- !u!114 &1929552010116671227
 MonoBehaviour:
   m_ObjectHideFlags: 0
