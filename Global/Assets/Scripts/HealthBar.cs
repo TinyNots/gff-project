@@ -33,7 +33,7 @@ public class HealthBar : MonoBehaviour
             }
         }
  
-        slider.value = health.hp / maxhp;
+        slider.value = health._hp / maxhp;
 
     }
 

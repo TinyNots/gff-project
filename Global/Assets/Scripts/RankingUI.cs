@@ -20,7 +20,7 @@ public class RankingUI : MonoBehaviour
 
     void Awake()
     {
-        for (int i = 0; i < Leaderboard.EntryCount; ++i)
+        for (int i = 0; i < Leaderboard.entryCount; ++i)
         {
             var entry = Leaderboard.GetEntry(i);
         

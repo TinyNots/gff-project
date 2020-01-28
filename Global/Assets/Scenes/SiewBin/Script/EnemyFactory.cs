@@ -5,18 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public struct FactoryInfo
 {
-    public Enemy prototype;
+    public Enemy _prototype;
     public enum SpawnType
     {
         Side,   //左右から生成
         OneTime,//一度だけ生成
         Top     //上から生成
     }
-    public bool fromRight; //右から生成
-    public SpawnType spawnType;    //生成する方法
-    public int maxCnt;        //最大生成数
-    public float spawnTime;    //生成要る時間
-    public int massSpawnCnt;  //大量生成数
+    public bool _fromRight; //右から生成
+    public SpawnType _spawnType;    //生成する方法
+    public int _maxCnt;        //最大生成数
+    public float _spawnTime;    //生成要る時間
+    public int _massSpawnCnt;  //大量生成数
 }
 
 public class EnemyFactory : MonoBehaviour
@@ -46,32 +46,32 @@ public class EnemyFactory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initInfo.fromRight = true;
-        initInfo.maxCnt = 10;
-        initInfo.spawnTime = 3;
-        initInfo.massSpawnCnt = 1;
+        //initInfo._fromRight = true;
+        //initInfo._maxCnt = 10;
+        //initInfo._spawnTime = 3;
+        //initInfo._massSpawnCnt = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (curCnt < initInfo.maxCnt)
+        if (curCnt < initInfo._maxCnt)
         {
-            if (timer >= initInfo.spawnTime)
+            if (timer >= initInfo._spawnTime)
             {
-                for (int i = 0; i < initInfo.massSpawnCnt; i++)
+                for (int i = 0; i < initInfo._massSpawnCnt; i++)
                 {
                     if (Random.Range(0, 2) == 1)
                     {
-                        initInfo.fromRight = !initInfo.fromRight;
+                        initInfo._fromRight = !initInfo._fromRight;
                     }
-                    switch (initInfo.spawnType)
+                    switch (initInfo._spawnType)
                     {
                         case FactoryInfo.SpawnType.Side:
-                            SideSpawn(initInfo.fromRight);
+                            SideSpawn(initInfo._fromRight);
                             break;
                         case FactoryInfo.SpawnType.OneTime:
-                            OneTimeSpawn(initInfo.fromRight);
+                            OneTimeSpawn(initInfo._fromRight);
                             break;
                         case FactoryInfo.SpawnType.Top:
                             TopSpawn();
@@ -83,7 +83,7 @@ public class EnemyFactory : MonoBehaviour
                     }
                     curCnt++;
                 }
-                if (initInfo.spawnType == FactoryInfo.SpawnType.OneTime)
+                if (initInfo._spawnType == FactoryInfo.SpawnType.OneTime)
                 {
                     isSpawned = true;
                 }
@@ -101,7 +101,7 @@ public class EnemyFactory : MonoBehaviour
 
     Enemy Spawn()
     {
-        return Instantiate(initInfo.prototype, this.transform.position, Quaternion.identity);
+        return Instantiate(initInfo._prototype, this.transform.position, Quaternion.identity);
     }
 
     void SideSpawn(bool fromRight = true)
@@ -111,13 +111,13 @@ public class EnemyFactory : MonoBehaviour
 
         if (fromRight)
         {
-            enemy.transform.position = new Vector3(wsize.x + 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3(wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         }
         else
         {
-            enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3( -wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
         Debug.Log("Side Spawn");
@@ -131,16 +131,16 @@ public class EnemyFactory : MonoBehaviour
 
         if (fromRight)
         {
-            enemy.transform.position = new Vector3( wsize.x + 1 , Random.Range(0 - wsize.y / 2,2.8f), 0);
+            enemy.transform.position = new Vector3( wsize.x +  2, Random.Range(0 - wsize.y / 2,2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         }
         else
         {
-            enemy.transform.position = new Vector3( -wsize.x - 1, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3( -wsize.x -  2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
-        initInfo.maxCnt = 1;
+        initInfo._maxCnt = 1;
         Debug.Log("One Time Spawn");
 
     }
@@ -149,13 +149,13 @@ public class EnemyFactory : MonoBehaviour
         var enemy = Spawn();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        enemy.transform.position = new Vector3(Random.Range(0 - wsize.x / 2, 0 + wsize.x), Random.Range(0 - wsize.y / 2, 2.8f), 0);
+        enemy.transform.position = new Vector3(Random.Range(0 - wsize.x / 2 - 2, 0 + wsize.x + 2), Random.Range(0 - wsize.y / 2, 2.8f), 0);
         if(Random.Range(0,2) == 1)
         {
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         }
-        enemy.OffSet = initInfo.prototype.transform.Find("Sprite").transform.position.y - initInfo.prototype.transform.Find("Shadow").transform.position.y;
+        enemy.ShadowOffSet = initInfo._prototype.transform.Find("Sprite").transform.position.y - initInfo._prototype.transform.Find("Shadow").transform.position.y;
 
         enemy.transform.Find("Sprite").transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y + wsize.y, 0);
         //enemy.transform.position = new Vector3(enemy.ShadowPos.x, enemy.ShadowPos.y + wsize.y, enemy.ShadowPos.z);

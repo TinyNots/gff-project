@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class EnemyGetHit : IState<Enemy>
 {
-    private float hitTime;
-    private float hitLen;
-    private float tiltLen;
+    private float _hitTime;
+    private float _hitLen;
+    private float _tiltLen;
     public void Enter(Enemy enemy)
     {
 
         enemy.Sprite.GetComponent<Animator>().SetTrigger("Hit");
-        hitTime = Time.time;
-        hitLen = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        _hitTime = Time.time;
+        _hitLen = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
 
-        tiltLen = 2;
-        enemy.GetHitObj.GetHitInit(hitLen);
+        _tiltLen = 2;
+        enemy.GetHitObj.GetHitInit(_hitLen);
+
 
     }
 

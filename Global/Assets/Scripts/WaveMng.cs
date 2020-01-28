@@ -6,19 +6,20 @@ using UnityEngine;
 
 public class WaveMng : MonoBehaviour
 {
-    private float waitTime =0;
-    private float timer = 0;
-    private int waveCnt = 0;
-    private bool waveReadyFlag = true;
-    public Wave[] waveSpawn;
-    public EnemyFactory[] factoryCnt = new EnemyFactory[3];
-    public Score score;
+    private float _waitTime =0;
+    private float _timer = 0;
+    private int _waveCnt = 0;
+    private bool _waveReadyFlag = true;
+    public Wave[] _waveSpawn;
+    public EnemyFactory[] _factoryCnt = new EnemyFactory[3];
+    public Score _score;
+    private GameObject _enemy;
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i <factoryCnt.Length; i++)
+        for (int i = 0; i <_factoryCnt.Length; i++)
         {
-            factoryCnt[i].gameObject.SetActive(false);
+            _factoryCnt[i].gameObject.SetActive(false);
         }
     }
 
@@ -26,48 +27,56 @@ public class WaveMng : MonoBehaviour
     void Update()
     {
         WaveStart();
-        timer += Time.deltaTime;
-        if ( timer >waitTime)
+        _timer += Time.deltaTime;
+        if (_timer > _waitTime)
         {
-            timer = 0;
-            waveReadyFlag = true;
+            _enemy = GameObject.FindGameObjectWithTag("Enemy");
+            if (_enemy == null)
+            {
+                _timer = 0;
+                _waveReadyFlag = true;
+            }
+            else
+            {
+                _waitTime += 5;
+            }
         }
        
     }
 
     void WaveStart()
     {
-        int tmpCnt = waveCnt;
-        if (tmpCnt >= waveSpawn.Length)
+        int tmpCnt = _waveCnt;
+        if (tmpCnt >= _waveSpawn.Length)
         {
-            tmpCnt = waveSpawn.Length - 1;
+            tmpCnt = _waveSpawn.Length - 1;
         }
-        if (waveReadyFlag)
+        if (_waveReadyFlag)
         {
-            Debug.Log("Wave" + (waveCnt + 1));
-            waitTime = 0;
-            for (int i = 0; i < waveSpawn[tmpCnt].wave.Length; i++)
+            Debug.Log("Wave" + (_waveCnt + 1));
+            _waitTime = 0;
+            for (int i = 0; i < _waveSpawn[tmpCnt].wave.Length; i++)
             {
-                factoryCnt[i].WaveInit(waveSpawn[tmpCnt].wave[i]);
-                factoryCnt[i].gameObject.SetActive(true);
-                var tmpInfo = waveSpawn[tmpCnt].wave[i];
-                var tmpWaitTime = tmpInfo.spawnTime * tmpInfo.maxCnt / tmpInfo.massSpawnCnt;
-                if (tmpWaitTime > waitTime)
+                _factoryCnt[i].WaveInit(_waveSpawn[tmpCnt].wave[i]);
+                _factoryCnt[i].gameObject.SetActive(true);
+                var tmpInfo = _waveSpawn[tmpCnt].wave[i];
+                var tmpWaitTime = tmpInfo._spawnTime * tmpInfo._maxCnt / tmpInfo._massSpawnCnt + 3;
+                if (tmpWaitTime > _waitTime)
                 {
-                    waitTime = tmpWaitTime;
+                    _waitTime = tmpWaitTime;
                 }
-                if (waveCnt >= waveSpawn.Length)
+                if (_waveCnt >= _waveSpawn.Length)
                 {
-                    waveSpawn[tmpCnt].wave[i].maxCnt += 1;
+                    _waveSpawn[tmpCnt].wave[i]._maxCnt += 1;
                 }
             }
-            if (waitTime < 8)
+            if (_waitTime < 8)
             {
-                waitTime = 8;
+                _waitTime = 8;
             }
-            waveCnt ++;
-            score.AddScore(1);
-            waveReadyFlag = false;
+            _waveCnt ++;
+            _score.AddScore(1);
+            _waveReadyFlag = false;
         }
     }
 }

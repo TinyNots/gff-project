@@ -4,38 +4,38 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    private static string playerName;
-    private static int score = 0;
+    private static string _playerName;
+    private static int _score = 0;
     // Start is called before the first frame update
 
     void Start()
     {
         // シーン遷移によるオブジェクト破棄をしない
         DontDestroyOnLoad(this.gameObject);
-        score = 0;
-        playerName = " A A A A A ";
+        _score = 0;
+        _playerName = " A A A A A ";
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("score:" + score);
+        Debug.Log("score:" + _score);
     }
 
     public void AddScore(int val)
     {
-        score += val;
+        _score += val;
     }
 
     public int ScoreSetting
     {
-        set { score = value; }
-        get { return score; }
+        set { _score = value; }
+        get { return _score; }
     }
 
     public string PlayerName
     {
-        set { playerName = value; }
-        get { return playerName; }
+        set { _playerName = value; }
+        get { return _playerName; }
     }
 }

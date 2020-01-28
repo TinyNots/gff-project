@@ -115,12 +115,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307b3163b91e14b4a9cfbb0a43c32a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 579688072188907347}
-  dest:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  isRanged: 1
-  tmpPlayer: {fileID: 0}
+  _sprite: {fileID: 579688072188907347}
+  _dest: []
+  _isRanged: 1
+  _isBoss: 0
+  _tmpPlayer: {fileID: 0}
+  _particle: {fileID: 0}
 --- !u!114 &6261987709501706601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,8 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 6
-  dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
+  _hp: 100
+  _dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &2697231986513570319
 MonoBehaviour:
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d0b15c8218e6145a3822c711b810c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackBox: {fileID: 5942882132917811376, guid: ec30a87c2a58a1b4c891ad7d84addaba,
+  _attackBox: {fileID: 5942882132917811376, guid: ec30a87c2a58a1b4c891ad7d84addaba,
     type: 3}
 --- !u!50 &1020639020945207501
 Rigidbody2D:

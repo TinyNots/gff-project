@@ -2,22 +2,23 @@
 
 public class EnemyDie : IState<Enemy>
 {
-    float dieTime = 0;
+    float _dieTime = 0;
     public void Enter(Enemy enemy)
     {
         enemy.Sprite.GetComponent<Animator>().SetTrigger("Dying");
         enemy.Sprite.GetComponent<BoxCollider2D>().enabled = false;
-        dieTime = Time.time;
+        _dieTime = Time.time;
     }
 
     public void Execute(Enemy enemy)
     {
         var anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
-        if (Time.time > dieTime + anim.length)
+        if (Time.time > _dieTime + anim.length)
         {
-            enemy.tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+            enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
             enemy.IsTargeting = false;
             Debug.Log("Destroy enemy");
+            
             enemy.DestroySelf();
         }
     }

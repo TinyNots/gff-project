@@ -126,6 +126,7 @@ MonoBehaviour:
   _dashTime: 0.2
   _ghostPrefab: {fileID: 5129229558922230418, guid: b878aae491c187642af1c0a3c0b216e1,
     type: 3}
+  _ghostCount: 2
 --- !u!1 &3197176238671561993
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
+  _hp: 100
+  _dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &1879922139932863923
 MonoBehaviour:

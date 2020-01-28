@@ -11,7 +11,7 @@ public class Damage : MonoBehaviour
     private int _damageValue = 1;
 
     //[TagSelector]
-    private string[] targetTag = new string[] { "Enemy", "Player" };
+    private string[] _targetTag = new string[] { "Enemy", "Player" };
     private Transform _shadow;
     private Vector2 _shadowSize = new Vector2(0.0f, 0.0f);
 
@@ -32,7 +32,7 @@ public class Damage : MonoBehaviour
         Enemy,
         Player
     };
-    public SelectableTag target = SelectableTag.Enemy;
+    public SelectableTag _target = SelectableTag.Enemy;
     float _depth; 
 
     // Start is called before the first frame update
@@ -74,7 +74,7 @@ public class Damage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == targetTag[(int)target])
+        if (collision.gameObject.tag == _targetTag[(int)_target])
         {
             Transform collisionShadow = collision.transform.parent.Find("Shadow");
 
@@ -116,10 +116,10 @@ public class Damage : MonoBehaviour
 
                 if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
-                    collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue);
-                    Debug.Log(targetTag[(int)target] + " got hit");
+                    collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue,_owner.gameObject);
+                    Debug.Log(_targetTag[(int)_target] + " got hit");
 
-                    if (collision.gameObject.tag == targetTag[(int)SelectableTag.Enemy])
+                    if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])
                     {
                         // rumble the controller
                         BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
@@ -135,7 +135,7 @@ public class Damage : MonoBehaviour
                         }
                     }
 
-                    if (collision.gameObject.tag == targetTag[(int)SelectableTag.Player])
+                    if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Player])
                     {
                         BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
                         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
@@ -171,9 +171,9 @@ public class Damage : MonoBehaviour
             //    if (collision.gameObject.GetComponent<Health>().HP > 0)
             //    {
             //        collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue);
-            //        Debug.Log(targetTag[(int)target] + " got hit");
+            //        Debug.Log(_targetTag[(int)_target] + " got hit");
 
-            //        if (collision.gameObject.tag == targetTag[(int)SelectableTag.Enemy])
+            //        if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])
             //        {
             //            // rumble the controller
             //            BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
@@ -189,7 +189,7 @@ public class Damage : MonoBehaviour
             //            }
             //        }
 
-            //        if(collision.gameObject.tag == targetTag[(int)SelectableTag.Player])
+            //        if(collision.gameObject.tag == _targetTag[(int)SelectableTag.Player])
             //        {
             //            BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
             //            playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));

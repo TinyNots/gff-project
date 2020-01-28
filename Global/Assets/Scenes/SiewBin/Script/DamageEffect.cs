@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DamageEffect : MonoBehaviour
 {
-    private float dmgVel;
+    private float _dmgVel;
 
     // Start is called before the first frame update
     void Start()
     {
-       dmgVel = 10f;
+       _dmgVel = 10f;
     }
 
     // Update is called once per frame
@@ -17,11 +17,11 @@ public class DamageEffect : MonoBehaviour
     {
         if (this.gameObject.activeSelf)
         {
-            dmgVel += 30f * Time.deltaTime;
+            _dmgVel += 30f * Time.deltaTime;
             this.gameObject.transform.localScale += new Vector3(1f * Time.deltaTime,1f * Time.deltaTime,0);
-            transform.Translate(Vector2.up * dmgVel * Time.deltaTime);
+            transform.Translate(Vector2.up * _dmgVel * Time.deltaTime);
         }
-        if (dmgVel > 50f)
+        if (_dmgVel > 50f)
         {
             this.gameObject.SetActive(false);
             Destroy(this.gameObject);

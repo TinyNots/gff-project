@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class Leaderboard
 {
-    public const int EntryCount = 5;
+    public const int entryCount = 5;
 
     public struct ScoreEntry
     {
@@ -20,18 +20,18 @@ public static class Leaderboard
         }
     }
 
-    private static List<ScoreEntry> s_Entries;
+    private static List<ScoreEntry> _entryInstance;
 
     private static List<ScoreEntry> Entries
     {
         get
         {
-            if (s_Entries == null)
+            if (_entryInstance == null)
             {
-                s_Entries = new List<ScoreEntry>();
+                _entryInstance = new List<ScoreEntry>();
                 LoadScores();
             }
-            return s_Entries;
+            return _entryInstance;
         }
     }
 
@@ -39,19 +39,19 @@ public static class Leaderboard
 
     private static void SortScores()
     {
-        s_Entries.Sort((a, b) => b.score.CompareTo(a.score));
+        _entryInstance.Sort((a, b) => b.score.CompareTo(a.score));
     }
 
     private static void LoadScores()
     {
-        s_Entries.Clear();
+        _entryInstance.Clear();
 
-        for (int i = 0; i < EntryCount; ++i)
+        for (int i = 0; i < entryCount; ++i)
         {
             ScoreEntry entry;
             entry.name = PlayerPrefs.GetString(PlayerPrefsBaseKey + "[" + i + "].name", "");
             entry.score = PlayerPrefs.GetInt(PlayerPrefsBaseKey + "[" + i + "].score", 0);
-            s_Entries.Add(entry);
+            _entryInstance.Add(entry);
         }
 
         SortScores();
@@ -59,9 +59,9 @@ public static class Leaderboard
 
     private static void SaveScores()
     {
-        for (int i = 0; i < EntryCount; ++i)
+        for (int i = 0; i < entryCount; ++i)
         {
-            var entry = s_Entries[i];
+            var entry = _entryInstance[i];
             PlayerPrefs.SetString(PlayerPrefsBaseKey + "[" + i + "].name", entry.name);
             PlayerPrefs.SetInt(PlayerPrefsBaseKey + "[" + i + "].score", entry.score);
         }
