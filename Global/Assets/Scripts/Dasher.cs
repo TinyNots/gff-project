@@ -21,6 +21,11 @@ public class Dasher : MonoBehaviour
     private Character _character;
     private ParticleSystem _dashParticle;
 
+    private Controller _gamepad;
+    private Vector2 _stickVelocity;
+
+    private bool _isDashing;
+
     private void Start()
     {
         _rb = transform.GetComponent<Rigidbody2D>();
@@ -32,6 +37,10 @@ public class Dasher : MonoBehaviour
         _animator = transform.Find("Sprite").GetComponent<Animator>();
         _character = transform.GetComponent<Character>();
         _dashParticle = transform.Find("DashParticle").GetComponent<ParticleSystem>();
+
+        _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
+        _stickVelocity = Vector2.zero;
+        _isDashing = false;
     }
 
     private void Update()
@@ -45,16 +54,24 @@ public class Dasher : MonoBehaviour
 
         if(_timer > 0)
         {
-            Instantiate(_ghostPrefab, transform.Find("Sprite").position, transform.Find("Sprite").rotation);
+            Transform ghost = Instantiate(_ghostPrefab, transform.Find("Sprite").position, transform.Find("Sprite").rotation);
+            ghost.GetComponent<SpriteRenderer>().sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite;
 
-            if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
+            if (_gamepad == null)
             {
-                _rb.velocity = Vector2.left * _velocity;
+                _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
             }
-            else
-            {
-                _rb.velocity = Vector2.right * _velocity;
-            }
+
+            _rb.velocity = _stickVelocity * _velocity;
+
+            //if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
+            //{
+            //    _rb.velocity = Vector2.left * _velocity;
+            //}
+            //else
+            //{
+            //    _rb.velocity = Vector2.right * _velocity;
+            //}
 
             _timer -= Time.deltaTime;
         }
@@ -70,6 +87,16 @@ public class Dasher : MonoBehaviour
         {
             _timer = _dashTime;
             _dashParticle.Play();
+          
+            if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
+            {
+                _stickVelocity = new Vector2(-1.0f, _gamepad.GetStickL().Y / 2.0f);
+            }
+            else
+            {
+                _stickVelocity = new Vector2(1.0f, _gamepad.GetStickL().Y / 2.0f);
+            }
+            _isDashing = true;
         }
     }
 
@@ -80,5 +107,12 @@ public class Dasher : MonoBehaviour
         _character.EnableTurn = true;
         _timer = 0;
         _dashParticle.Stop();
+        _isDashing = false;
+    }
+
+    public bool IsDashing
+    {
+        get { return _isDashing; }
+        set { _isDashing = value; }
     }
 }

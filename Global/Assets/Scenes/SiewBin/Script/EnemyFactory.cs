@@ -49,7 +49,7 @@ public class EnemyFactory : MonoBehaviour
         //initInfo._fromRight = true;
         //initInfo._maxCnt = 10;
         //initInfo._spawnTime = 3;
-        //initInfo._massSpawnCnt = 1;
+        initInfo._massSpawnCnt = 1;
     }
 
     // Update is called once per frame

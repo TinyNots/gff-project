@@ -54,7 +54,6 @@ public class Damage : MonoBehaviour
         //else
         //{
         //    _shadow = transform.parent.parent.Find("Shadow");
-
         //}
 
         _shadowSize = _shadow.GetComponent<Renderer>().bounds.size;
@@ -100,7 +99,7 @@ public class Damage : MonoBehaviour
 
                 if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
-                    collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue,_owner.gameObject);
+                    collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue, _owner.gameObject);
                     Debug.Log(_targetTag[(int)_target] + " got hit");
 
                     if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])

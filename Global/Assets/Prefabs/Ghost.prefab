@@ -95,5 +95,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fadeTime: 0.5
-  _sprite: {fileID: 21300000, guid: f3081451f9291224fa40612729815aa9, type: 3}
+  _sprite: {fileID: 0}
   _trailColor: {r: 0.85098046, g: 0.34117648, b: 0.38823533, a: 0.2509804}

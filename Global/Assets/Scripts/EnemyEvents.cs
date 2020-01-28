@@ -6,14 +6,14 @@ public class EnemyEvents : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField]
-    private Transform _coinPrefab;
+    private Transform[] _coinPrefabs;
 
     public void SpawnCoin(int min = 1, int max = 1)
     {
         int randomNumber = Random.Range(min, max);
         for (int i = 0; i < randomNumber; i++)
         {
-            Transform coin = Instantiate(_coinPrefab, transform.parent.Find("Shadow").position, Quaternion.identity);
+            Transform coin = Instantiate(_coinPrefabs[Random.Range(0, _coinPrefabs.Length)], transform.parent.Find("Shadow").position, Quaternion.identity);
             float speed = 150.0f * Time.deltaTime;
             coin.GetComponent<Rigidbody2D>().velocity = Random.onUnitSphere * speed;
         }

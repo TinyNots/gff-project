@@ -21,7 +21,7 @@ public class Ghost : MonoBehaviour
     {
         _sr = transform.GetComponent<SpriteRenderer>();
 
-        _sr.sprite = _sprite;
+        //_sr.sprite = _sprite;
         _sr.color = _trailColor;
         _originColor = _sr.color;
     }
