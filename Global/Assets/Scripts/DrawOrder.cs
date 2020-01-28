@@ -13,8 +13,12 @@ public class DrawOrder : MonoBehaviour
         _sp = transform.Find("Sprite").transform.GetComponent<SpriteRenderer>();
         if(_sp == null)
         {
-            Debug.LogError("Sprite is missing");
-            return;
+            _sp = gameObject.GetComponent<SpriteRenderer>();
+            if (_sp == null)
+            {
+                Debug.LogError("Sprite is missing");
+                return;
+            }
         }
 
         _shadow = transform.Find("Shadow");

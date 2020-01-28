@@ -51,7 +51,7 @@ MonoBehaviour:
       _spawnType: 0
       _maxCnt: 10
       _spawnTime: 2.5
-      _massSpawnCnt: 0
+      _massSpawnCnt: 2
   - wave:
     - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}

@@ -100,6 +100,7 @@ public class Damage : MonoBehaviour
 
                 if (collision.gameObject.GetComponent<Health>().HP > 0)
                 {
+                    
                     collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue,_owner.gameObject);
                     Debug.Log(_targetTag[(int)_target] + " got hit");
 
@@ -148,6 +149,11 @@ public class Damage : MonoBehaviour
                     collision.transform.GetComponent<Flasher>().StartFlash(0.05f);
                     Character character = collision.transform.parent.transform.GetComponent<Character>();
                     character.IsHurt = true;
+
+                    if (gameObject.GetComponent<Projectile>() != null)
+                    {
+                        Destroy(gameObject);
+                    }
                 }
             }
         }

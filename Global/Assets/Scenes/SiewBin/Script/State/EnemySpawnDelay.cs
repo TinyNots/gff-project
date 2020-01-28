@@ -15,9 +15,16 @@ public class EnemySpawnDelay : IState<Enemy>
     {
         if (Time.time > _timeStart + _waitTime)
         {
-            enemy._tmpPlayer = enemy.FindRandomPlayer();
-            enemy.TargetChangeable = false;
-            enemy.IsTargeting = true;
+            var tmp = enemy.FindRandomPlayer();
+            if (tmp.GetComponent<TargetNum>().TargettedNum < 5)
+            {
+                enemy._tmpPlayer = tmp;
+                enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
+
+                enemy.IsTargeting = true;
+                enemy.TargetChangeable = false;
+
+            }
 
 
             enemy.ChangeState(new EnemyPatrol());

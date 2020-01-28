@@ -341,12 +341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307b3163b91e14b4a9cfbb0a43c32a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 651891991989151937}
-  dest:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  isRanged: 0
-  tmpPlayer: {fileID: 0}
+  _sprite: {fileID: 651891991989151937}
+  _isRanged: 0
+  _isBoss: 0
+  _tmpPlayer: {fileID: 0}
+  _particle: {fileID: 0}
 --- !u!114 &7068923808578343700
 MonoBehaviour:
   m_ObjectHideFlags: 0

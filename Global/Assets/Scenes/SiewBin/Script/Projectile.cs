@@ -83,19 +83,7 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.gameObject.tag == "Player")
-        //{
-        //    _depth = _shadow.GetComponent<Depth>().DepthSetting;
-
-        //    float depthB = collision.gameObject.transform.parent.Find("Shadow").GetComponent<Depth>().DepthSetting;
-        //    if (depthB <= _depth + _shadowSize.y / 2.0f && depthB >= _depth - _shadowSize.y / 2.0f)
-        //    {
-        //        if (collision.gameObject.GetComponent<Health>().HP > 0)
-        //        {
-        //            Destroy(gameObject);
-        //        }
-        //    }
-        //}
+        
     }
 
     public void NormalShot()

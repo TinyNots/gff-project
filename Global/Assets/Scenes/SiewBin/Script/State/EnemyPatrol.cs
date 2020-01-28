@@ -144,7 +144,7 @@ public class EnemyPatrol : IState<Enemy>
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
         if (enemy.transform.position.x > -wsize.x && enemy.transform.position.x < wsize.x )
         {
-            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >3.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >1.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
             {
                 if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
                 {

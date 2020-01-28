@@ -161,8 +161,8 @@ MonoBehaviour:
   _damageValue: 1
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 4862435727324404, guid: 8c7ea97680627c54993cfacbc81c4a87, type: 3}
-  _isRange: 0
-  target: 1
+  _isRange: 1
+  _target: 1
 --- !u!50 &6313299383213363623
 Rigidbody2D:
   serializedVersion: 4
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4366148260354003837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
