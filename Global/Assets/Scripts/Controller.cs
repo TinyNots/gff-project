@@ -259,4 +259,9 @@ public class Controller
         get { return _haveTarget; }
         set { _haveTarget = value; }
     }
+
+    public void StopRumble()
+    {
+        GamePad.SetVibration(_playerIndex, 0.0f, 0.0f);
+    }
 }

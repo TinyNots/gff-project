@@ -15,15 +15,43 @@ public class CollisionData : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    { 
-        if(collision.tag == "Attack")
+    {
+        if (collision.CompareTag("Player"))
         {
-            float depthA = _shadow.GetComponent<Depth>().DepthSetting;
-            float depthB = collision.GetComponent<Depth>().DepthSetting;
+            Transform collisionShadow = collision.transform.parent.Find("Shadow");
+            float collisionDepth = collisionShadow.GetComponent<Depth>().DepthSetting;
+            Vector2 collisionShadowSize = collisionShadow.GetComponent<Renderer>().bounds.size;
 
-            if (depthB <= depthA + _shadowSize.y / 2.0f && depthB >= depthA - _shadowSize.y / 2.0f)
+            Rect shadowA = new Rect((Vector2)_shadow.position - _shadowSize / 2.0f, _shadowSize);
+            Rect shadowB = new Rect((Vector2)collisionShadow.position - collisionShadowSize / 2.0f, collisionShadowSize);
+
+            if (shadowA.Overlaps(shadowB,true))
             {
-                Debug.Log("Hit!!!");
+                Transform sprite = transform.Find("Sprite");
+                sprite.GetComponent<Flasher>().StartFlash(0.2f);
+                sprite.GetComponent<Animator>().SetBool("Collected", true);
+                Destroy(gameObject, 0.3f);
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Transform collisionShadow = collision.transform.parent.Find("Shadow");
+            float collisionDepth = collisionShadow.GetComponent<Depth>().DepthSetting;
+            Vector2 collisionShadowSize = collisionShadow.GetComponent<Renderer>().bounds.size;
+
+            Rect shadowA = new Rect((Vector2)_shadow.position - _shadowSize / 2.0f, _shadowSize);
+            Rect shadowB = new Rect((Vector2)collisionShadow.position - collisionShadowSize / 2.0f, collisionShadowSize);
+
+            if (shadowA.Overlaps(shadowB, true))
+            {
+                Transform sprite = transform.Find("Sprite");
+                sprite.GetComponent<Flasher>().StartFlash(0.2f);
+                sprite.GetComponent<Animator>().SetBool("Collected", true);
+                Destroy(gameObject, 0.3f);
             }
         }
     }

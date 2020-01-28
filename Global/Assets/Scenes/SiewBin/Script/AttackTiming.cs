@@ -12,6 +12,7 @@ public class AttackTiming : MonoBehaviour
     bool _waitFlag = false;
     int _projIdx = 0;
     bool _delayFlag = false;
+    private float _destroyTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,11 +54,10 @@ public class AttackTiming : MonoBehaviour
     //攻撃する
     public void SpawnAttack()
     {
-
-
-        _tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
-        _tmpSlash.GetComponent<Damage>().SetOwner(transform);
-        _tmpSlash.SetActive(true);
+        tmpSlash = Instantiate(AttackBox, transform.position,transform.rotation);
+        tmpSlash.GetComponent<Damage>().SetOwner(transform);
+        tmpSlash.SetActive(true);
+        Destroy(tmpSlash, 0.2f);
     }
 
     //攻撃終わる

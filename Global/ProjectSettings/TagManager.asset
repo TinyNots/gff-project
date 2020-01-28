@@ -11,6 +11,7 @@ TagManager:
   - PlayerAttack
   - Punch
   - Slash
+  - Coin
   layers:
   - Default
   - TransparentFX

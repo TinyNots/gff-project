@@ -130,4 +130,12 @@ public class GamePadManager : MonoBehaviour
         }
         return 0;
     }
+
+    private void OnApplicationQuit()
+    {
+        for (int i = 0; i < _gamepadCount; i++) 
+        {
+            _gamepads[i].StopRumble();
+        }
+    }
 }

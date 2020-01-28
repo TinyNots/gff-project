@@ -38,24 +38,24 @@ public class Damage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if(!_isRange)
-        //{
-        //    _shadow = transform.parent.parent.Find("Shadow");
-        //}
-        //else
-        //{
-        //    _shadow = transform.Find("Shadow");
-        //}
-
-        if (_owner)
+        if (!_isRange)
         {
             _shadow = _owner.parent.Find("Shadow");
         }
         else
         {
-            _shadow = transform.parent.parent.Find("Shadow");
-
+            _shadow = transform.Find("Shadow");
         }
+
+        //if (_owner)
+        //{
+        //    _shadow = _owner.parent.Find("Shadow");
+        //}
+        //else
+        //{
+        //    _shadow = transform.parent.parent.Find("Shadow");
+
+        //}
 
         _shadowSize = _shadow.GetComponent<Renderer>().bounds.size;
         _depth = _shadow.GetComponent<Depth>().DepthSetting;
@@ -81,27 +81,11 @@ public class Damage : MonoBehaviour
             float collisionDepth = collisionShadow.GetComponent<Depth>().DepthSetting;
             Vector2 collisionShadowSize = collisionShadow.GetComponent<Renderer>().bounds.size;
 
-            // Debug
-            //Debug.DrawLine(
-            //    new Vector2(collision.transform.position.x, collisionDepth) - collisionShadowSize / 2.0f,
-            //    new Vector2(collision.transform.position.x, collisionDepth) + collisionShadowSize / 2.0f,
-            //    Color.blue);
-
-            //Debug.DrawLine(
-            //    new Vector2(transform.position.x, _depth) - _shadowSize / 2.0f,
-            //    new Vector2(transform.position.x, _depth) + _shadowSize / 2.0f,
-            //    Color.green);
-
             Rect shadowA = new Rect((Vector2)_shadow.position - _shadowSize / 2.0f, _shadowSize);
             Rect shadowB = new Rect((Vector2)collisionShadow.position - collisionShadowSize / 2.0f, collisionShadowSize);
 
             Debug.DrawLine(shadowA.min, shadowB.min, Color.green);
             Debug.DrawLine(shadowB.min, shadowB.max, Color.blue);
-
-            //Rect shadowA = new Rect(0.0f, 0.0f, _shadowSize.x, _shadowSize.y);
-            //Rect shadowB = new Rect(0.0f, 0.0f, collisionShadowSize.x, collisionShadowSize.y);
-
-            //shadowA.Overlaps(shadowB,true)
 
             if (shadowA.Overlaps(shadowB, true))
             {
@@ -142,7 +126,7 @@ public class Damage : MonoBehaviour
                     }
 
                     // Debug
-                    //FindObjectOfType<HitStop>().Stop(0.02f);
+                    //FindObjectOfType<HitStop>().Stop(1.0f,0.5f);
 
                     if (_hitStopTime != 0.0f)
                     {
@@ -165,62 +149,7 @@ public class Damage : MonoBehaviour
                     Character character = collision.transform.parent.transform.GetComponent<Character>();
                     character.IsHurt = true;
                 }
-
-            //if (collisionDepth <= _depth + _shadowSize.y / 2.0f && collisionDepth >= _depth - _shadowSize.y / 2.0f)
-            //{
-            //    if (collision.gameObject.GetComponent<Health>().HP > 0)
-            //    {
-            //        collision.gameObject.GetComponent<Health>().ReceiveDmg(_damageValue);
-            //        Debug.Log(_targetTag[(int)_target] + " got hit");
-
-            //        if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])
-            //        {
-            //            // rumble the controller
-            //            BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
-            //            playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
-
-            //            CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
-
-            //            // trigger the hit
-            //            if(_nextHit)
-            //            {
-            //                Animator playerAnimator = transform.parent.GetComponent<Animator>();
-            //                playerAnimator.SetTrigger("Hit");
-            //            }
-            //        }
-
-            //        if(collision.gameObject.tag == _targetTag[(int)SelectableTag.Player])
-            //        {
-            //            BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
-            //            playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
-            //        }
-
-            //        // Debug
-            //        //FindObjectOfType<HitStop>().Stop(0.02f);
-
-            //        if(_hitStopTime != 0.0f)
-            //        {
-            //            Animator ownerAnimator = transform.parent.GetComponent<Animator>();
-            //            Animator otherAnimator = collision.transform.GetComponent<Animator>();
-            //            FindObjectOfType<AnimationStopper>().StopAnimation(ownerAnimator, _hitStopTime);
-            //            FindObjectOfType<AnimationStopper>().StopAnimation(otherAnimator, _hitStopTime);
-            //        }
-
-            //        if(_hitPrefab != null)
-            //        {
-            //            Instantiate(_hitPrefab, collision.transform.position, Quaternion.identity);
-            //        }
-            //        else
-            //        {
-            //            Debug.LogError("Hit Prefab is missing");
-            //        }
-
-            //        collision.transform.GetComponent<Flasher>().StartFlash(0.05f);
-            //        Character character = collision.transform.parent.transform.GetComponent<Character>();
-            //        character.IsHurt = true;
-            //    }
             }
-
         }
     }
 
