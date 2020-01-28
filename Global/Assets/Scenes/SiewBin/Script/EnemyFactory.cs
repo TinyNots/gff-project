@@ -120,6 +120,11 @@ public class EnemyFactory : MonoBehaviour
             enemy.transform.position = new Vector3( -wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
+        if (initInfo._prototype.IsBoss)
+        {
+            enemy.transform.position = new Vector3(-wsize.x, 0, 0);
+
+        }
         Debug.Log("Side Spawn");
     }
 

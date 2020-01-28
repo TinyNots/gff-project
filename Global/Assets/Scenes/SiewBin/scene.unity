@@ -9006,12 +9006,17 @@ PrefabInstance:
     - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: _waveSpawn.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: _waveSpawn.Array.data[2].wave.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
@@ -9078,6 +9083,48 @@ PrefabInstance:
     - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: _waveSpawn.Array.data[2].wave.Array.data[1]._massSpawnCnt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[0]._prototype
+      value: 
+      objectReference: {fileID: 5678104704693580632, guid: dbbb0d2c57e777343bcc6d83b18f9038,
+        type: 3}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[0]._maxCnt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[0]._spawnTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[0]._massSpawnCnt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[1]._prototype
+      value: 
+      objectReference: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[1]._maxCnt
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[1]._spawnTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[3].wave.Array.data[1]._massSpawnCnt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2650929440071613873, guid: 3157bdacd0b4d13428150356826c3446,

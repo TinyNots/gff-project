@@ -26,6 +26,9 @@ public class Damage : MonoBehaviour
 
     [SerializeField]
     private bool _isRange = false;
+    [SerializeField]
+    private bool _isBoss = false;
+
 
     public enum SelectableTag
     {
@@ -41,6 +44,10 @@ public class Damage : MonoBehaviour
         if (!_isRange)
         {
             _shadow = _owner.parent.Find("Shadow");
+        }
+        else if (_isBoss)
+        {
+            _shadow = transform.GetChild(0).Find("Shadow");
         }
         else
         {

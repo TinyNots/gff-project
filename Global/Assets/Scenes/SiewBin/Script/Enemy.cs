@@ -69,8 +69,11 @@ public class Enemy : MonoBehaviour
             _chgTargetTime = Time.time;
             if (_health.HP > 0)
             {
-                ChangeState(new EnemyGetHit());
-                return;
+                if (!IsBoss)
+                {
+                    ChangeState(new EnemyGetHit());
+                    return;
+                }
             }
 
         }
