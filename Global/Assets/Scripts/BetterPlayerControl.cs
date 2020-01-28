@@ -96,6 +96,12 @@ public class BetterPlayerControl : MonoBehaviour
                 return;
             }
 
+            if(_dasher.IsDashing)
+            {
+                _animator.SetTrigger("JumpAttack");
+                _dasher.StopDash();
+            }
+
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
             _character.EnableAttack = true;
