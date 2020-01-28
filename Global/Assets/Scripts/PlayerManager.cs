@@ -57,6 +57,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public List<GameObject> GetPlayerList()
+    {
+        return _playerGroup;
+    }
+
     // Update is called once per frame
     void Update()
     {
