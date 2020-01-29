@@ -24,6 +24,8 @@ public class BetterPlayerControl : MonoBehaviour
     private ParticleSystem.EmissionModule _dustEmission;
     [SerializeField]
     private Dasher _dasher;
+    [SerializeField]
+    private SkillManager _skillManager;
 
     private Rigidbody2D _rb;
 
@@ -132,6 +134,19 @@ public class BetterPlayerControl : MonoBehaviour
             if (_jumpStatus.GetIsGrounded())
             {
                 _character.EnableMove = false;
+            }
+        }
+
+        if(_gamepad.GetButtonDown("RB"))
+        {
+            _skillManager.StartSkill();
+        }
+
+        if(_gamepad.GetButtonDown("LB"))
+        {
+            if(!_skillManager.GetTrigger())
+            {
+                _skillManager.ClearClones();
             }
         }
 

@@ -7451,7 +7451,7 @@ PrefabInstance:
     - target: {fileID: 1280720655093515403, guid: 364091a6cbc091b4db6de72fbd271200,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2436145641854047064, guid: 364091a6cbc091b4db6de72fbd271200,
         type: 3}
@@ -8383,7 +8383,7 @@ MonoBehaviour:
   _idPrefab: {fileID: 8765597703202601071, guid: 01f4e317ee63a4f44b039c8a56944f1e,
     type: 3}
   _isDebuging: 1
-  _playerCount: 1
+  _playerCount: 2
 --- !u!4 &1912457530
 Transform:
   m_ObjectHideFlags: 0

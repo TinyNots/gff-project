@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dasher : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    private Transform _sprite;
 
     [SerializeField]
     private float _velocity = 20.0f;
@@ -26,6 +27,16 @@ public class Dasher : MonoBehaviour
 
     private bool _isDashing;
 
+    [Header("Clone Setting")]
+    [SerializeField]
+    private Transform _clonePrefab;
+    [SerializeField]
+    private int _maxClone = 4;
+
+    private List<Transform> _clones;
+    [SerializeField]
+    private SkillManager _skillManager;
+
     private void Start()
     {
         _rb = transform.GetComponent<Rigidbody2D>();
@@ -34,13 +45,22 @@ public class Dasher : MonoBehaviour
             Debug.Log("Rigidbody is missing");
         }
 
-        _animator = transform.Find("Sprite").GetComponent<Animator>();
+        _sprite = transform.Find("Sprite");
+        if(_sprite == null)
+        {
+            Debug.LogError("Sprite is missing");
+        }
+
+        _animator = _sprite.GetComponent<Animator>();
         _character = transform.GetComponent<Character>();
         _dashParticle = transform.Find("DashParticle").GetComponent<ParticleSystem>();
 
         _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
         _stickVelocity = Vector2.zero;
         _isDashing = false;
+
+        // clone init
+        _clones = null;
     }
 
     private void Update()
@@ -54,13 +74,8 @@ public class Dasher : MonoBehaviour
 
         if(_timer > 0)
         {
-            Transform ghost = Instantiate(_ghostPrefab, transform.Find("Sprite").position, transform.Find("Sprite").rotation);
-            ghost.GetComponent<SpriteRenderer>().sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite;
-
-            if (_gamepad == null)
-            {
-                _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
-            }
+            Transform ghost = Instantiate(_ghostPrefab, _sprite.position, _sprite.rotation);
+            ghost.GetComponent<SpriteRenderer>().sprite = _sprite.GetComponent<SpriteRenderer>().sprite;
 
             _rb.velocity = _stickVelocity * _velocity;
 
@@ -87,8 +102,13 @@ public class Dasher : MonoBehaviour
         {
             _timer = _dashTime;
             _dashParticle.Play();
-          
-            if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
+
+            if (_gamepad == null)
+            {
+                _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
+            }
+
+            if (_sprite.transform.eulerAngles.y == 180.0f)
             {
                 _stickVelocity = new Vector2(-1.0f, _gamepad.GetStickL().Y / 2.0f);
             }
@@ -97,6 +117,8 @@ public class Dasher : MonoBehaviour
                 _stickVelocity = new Vector2(1.0f, _gamepad.GetStickL().Y / 2.0f);
             }
             _isDashing = true;
+
+            SpawnClone();
         }
     }
 
@@ -114,5 +136,24 @@ public class Dasher : MonoBehaviour
     {
         get { return _isDashing; }
         set { _isDashing = value; }
+    }
+
+    private void SpawnClone()
+    {
+        if(_clones == null)
+        {
+           _clones = _skillManager.GetClones();
+        }
+
+        if(_clones.Count < _maxClone)
+        {
+            if(!_skillManager.GetTrigger())
+            {
+                Transform clone = Instantiate(_clonePrefab, transform.position, Quaternion.identity);
+                clone.Find("Sprite").rotation = _sprite.rotation;
+                _clones.Add(clone);
+
+            }
+        }
     }
 }
