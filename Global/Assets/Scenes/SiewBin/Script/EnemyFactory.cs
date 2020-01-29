@@ -108,16 +108,18 @@ public class EnemyFactory : MonoBehaviour
     {
         var enemy = Spawn();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+        enemy.GetComponent<Character>().enabled = false;
+
 
         if (fromRight)
         {
-            enemy.transform.position = new Vector3(wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3(wsize.x + 2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         }
         else
         {
-            enemy.transform.position = new Vector3( -wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3( -wsize.x - 2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
 
         }
         if (initInfo._prototype.IsBoss)
@@ -138,7 +140,6 @@ public class EnemyFactory : MonoBehaviour
         {
             enemy.transform.position = new Vector3( wsize.x +  2, Random.Range(0 - wsize.y / 2,2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-
         }
         else
         {

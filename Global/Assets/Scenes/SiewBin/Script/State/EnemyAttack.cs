@@ -81,6 +81,15 @@ public class EnemyAttack : IState<Enemy>
             //目標が攻撃範囲から離れた
             if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
             {
+                if (Random.Range(0, 2) == 0)
+                {
+                    Debug.Log("ChangeToPatrol");
+                    enemy.ChangeState(new EnemyPatrol());
+                    return;
+                }
+            }
+            if (Mathf.Abs(distX) > 3.0f || Mathf.Abs(distY) > 2.0f)
+            {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
                 return;
@@ -96,6 +105,8 @@ public class EnemyAttack : IState<Enemy>
     {
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
         if (Time.time > _attTime + _anim.length+2)
         {
             if (Mathf.Abs(distX) >7.5f || Mathf.Abs(distY) > 0.5f)
@@ -104,6 +115,17 @@ public class EnemyAttack : IState<Enemy>
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
                 return;
+            }
+            if (enemy.transform.position.x > -wsize.x + 1f && enemy.transform.position.x < wsize.x - 1f)
+            {
+                if (Mathf.Abs(distX) < 5.0f && Mathf.Abs(distY) < 0.2f)
+                {
+                    //目標が攻撃範囲から離れた
+                    Debug.Log("ChangeToPatrol");
+                    enemy.ChangeState(new EnemyPatrol());
+                    enemy.IsRetreat = true;
+                    return;
+                }
             }
             Debug.Log("Attack");
             //enemy.GetComponent<BoxCollider2D>().isTrigger = true;

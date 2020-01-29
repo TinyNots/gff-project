@@ -56,6 +56,14 @@ public class EnemyPatrol : IState<Enemy>
             enemy.IsTargeting = true;
 
         }
+        if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum > 5 && enemy.IsTargeting)
+        {
+            if(Random.Range(0,2) == 0)
+            {
+                enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                enemy.IsTargeting = false;
+            }
+        }
         enemy.CurrentDest = enemy._tmpPlayer.transform.position;
 
         _selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
@@ -131,7 +139,7 @@ public class EnemyPatrol : IState<Enemy>
                 var heading = _targetDepth - _selfDepth;
                 heading = heading >= 0f ? 1f : -1f;
 
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
             }
         }
     
@@ -142,23 +150,41 @@ public class EnemyPatrol : IState<Enemy>
         //攻撃範囲内だったら攻撃する
 
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        if (enemy.transform.position.x > -wsize.x && enemy.transform.position.x < wsize.x )
+        if (enemy.transform.position.x > -wsize.x +1f && enemy.transform.position.x < wsize.x -1f)
         {
-            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >1.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >1.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f && !enemy.IsRetreat)
             {
                 if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
                 {
                     enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
+                    enemy.IsRetreat = false;
                     return;
                 }
             }
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 5.0f && enemy.IsRetreat)
+            {
+                    enemy.IsRetreat = false;
+            }
+
+        }
+        else
+        {
+            if (enemy.IsRetreat)
+            {
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemyAttack());
+                enemy.IsRetreat = false;
+                return;
+            }
+            
         }
         //スクリーン内に見えるまで移動
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 6.0f ||
-            !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x))
+            !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x) ||
+            enemy.IsRetreat)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
+            enemy.transform.position += enemy.transform.TransformDirection(4.0f, 0.0f, 0.0f) * Time.deltaTime;
         }
         //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
         //{
@@ -172,7 +198,7 @@ public class EnemyPatrol : IState<Enemy>
             {
                 var heading = _targetDepth - _selfDepth;
                 heading = heading >= 0f ? 1f : -1f;
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
             }
         }
     }

@@ -8998,11 +8998,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 579688071638682248, guid: 7f85596796ae3d041a86806e5b9e1a75,
-        type: 3}
-      propertyPath: _waveSpawn.Array.data[1].wave.Array.data[0]._massSpawnCnt
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: _waveSpawn.Array.size
@@ -9190,6 +9185,11 @@ PrefabInstance:
     - target: {fileID: 2650929440071613887, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 579688071638682248, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      propertyPath: _waveSpawn.Array.data[1].wave.Array.data[0]._massSpawnCnt
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

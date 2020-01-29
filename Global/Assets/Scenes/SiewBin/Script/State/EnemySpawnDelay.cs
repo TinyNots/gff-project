@@ -26,7 +26,6 @@ public class EnemySpawnDelay : IState<Enemy>
 
             }
 
-
             enemy.ChangeState(new EnemyPatrol());
         }
     }

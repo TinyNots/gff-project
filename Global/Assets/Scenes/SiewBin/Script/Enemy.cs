@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     public ParticleSystem _particle;
     private bool _targetChangeable;
     private float _chgTargetTime;
+    private bool _isRetreat = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
+        if (GetComponent<Character>().enabled == false && (transform.position.x > -wsize.x && transform.position.x < wsize.x))
+        {
+            GetComponent<Character>().enabled = true;
+        }
+
         if ( Time.time > _chgTargetTime + 5)
         {
             _targetChangeable = true;
@@ -105,14 +113,29 @@ public class Enemy : MonoBehaviour
         //画像の回転
         if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            if (GetMoveDir(CurrentDest).x < 0)
+            if (!_isRetreat)
             {
-                transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                if (GetMoveDir(CurrentDest).x < 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                }
             }
             else
             {
-                transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                if (GetMoveDir(CurrentDest).x < 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                }
             }
         }
         //上から生成し、落下させる
@@ -205,6 +228,12 @@ public class Enemy : MonoBehaviour
     {
         get { return _isTargeting; }
         set { _isTargeting = value; }
+    }
+
+    public bool IsRetreat
+    {
+        get { return _isRetreat; }
+        set { _isRetreat = value; }
     }
 
     public bool TargetChangeable

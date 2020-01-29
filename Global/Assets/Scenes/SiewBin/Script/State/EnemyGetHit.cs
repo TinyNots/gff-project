@@ -16,7 +16,10 @@ public class EnemyGetHit : IState<Enemy>
 
         _tiltLen = 2;
         enemy.GetHitObj.GetHitInit(_hitLen);
-
+        if (enemy.IsRanged && !enemy.IsRetreat)
+        {
+            enemy.IsRetreat = true;
+        }
 
     }
 
