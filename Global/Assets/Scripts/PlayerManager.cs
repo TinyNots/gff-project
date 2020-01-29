@@ -20,8 +20,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private int _playerCount = 4;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         //_playerTotalIndex = 0;
         _playerGroup = new List<GameObject>();
@@ -32,7 +31,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         int tmpCount = _playerTotalIndex;
-        if(_isDebuging)
+        if (_isDebuging)
         {
             tmpCount = _playerCount;
         }
@@ -44,10 +43,10 @@ public class PlayerManager : MonoBehaviour
             player.transform.parent = gameObject.transform;
 
             GameObject id = Instantiate(_idPrefab, player.transform);
-			foreach (Transform child in id.transform)
-			{
-				child.GetComponent<WorldToScreenUI>().Target = player;
-			}
+            foreach (Transform child in id.transform)
+            {
+                child.GetComponent<WorldToScreenUI>().Target = player;
+            }
             Text text = id.transform.Find("Text").GetComponent<Text>();
 
             text.text = "P" + i;
@@ -55,6 +54,44 @@ public class PlayerManager : MonoBehaviour
             _playerGroup.Add(player);
             _playerGroup[i - 1].GetComponent<BetterPlayerControl>().SetControllerIndex(i);
         }
+
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+   //     //_playerTotalIndex = 0;
+   //     _playerGroup = new List<GameObject>();
+   //     if (_playerPrefab == null)
+   //     {
+   //         Debug.LogError("Player prefab is missing");
+   //         return;
+   //     }
+
+   //     int tmpCount = _playerTotalIndex;
+   //     if(_isDebuging)
+   //     {
+   //         tmpCount = _playerCount;
+   //     }
+
+   //     for (int i = 1; i <= tmpCount; i++)
+   //     {
+   //         GameObject player = Instantiate(_playerPrefab);
+   //         player.name = "Player " + i;
+   //         player.transform.parent = gameObject.transform;
+
+   //         GameObject id = Instantiate(_idPrefab, player.transform);
+			//foreach (Transform child in id.transform)
+			//{
+			//	child.GetComponent<WorldToScreenUI>().Target = player;
+			//}
+   //         Text text = id.transform.Find("Text").GetComponent<Text>();
+
+   //         text.text = "P" + i;
+
+   //         _playerGroup.Add(player);
+   //         _playerGroup[i - 1].GetComponent<BetterPlayerControl>().SetControllerIndex(i);
+   //     }
     }
 
     public List<GameObject> GetPlayerList()
