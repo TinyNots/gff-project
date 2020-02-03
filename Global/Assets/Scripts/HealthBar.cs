@@ -23,12 +23,20 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        _oldSlider.value = slider.value;
-        _oldSliderVal = _oldSlider.value;
+        if(slider != null)
+        {
+            _oldSlider.value = slider.value;
+            _oldSliderVal = _oldSlider.value;
+        }
     }
     // Update is called once per frame
     void Update()
     {
+        if (slider == null)
+        {
+            return;
+        }
+
         if (player == null)
         {
             var tmpString = "Player " + playerCnt;
@@ -42,6 +50,11 @@ public class HealthBar : MonoBehaviour
                     transform.GetChild(a).gameObject.SetActive(true);
                 }
             }
+        }
+
+        if(health == null)
+        {
+            return;
         }
  
         slider.value = health._hp / maxhp;
@@ -73,6 +86,4 @@ public class HealthBar : MonoBehaviour
         }
         flashCnt++;
     }
-
-
 }

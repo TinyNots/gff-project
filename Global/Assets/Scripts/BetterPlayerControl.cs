@@ -56,6 +56,10 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         _gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
+        if(_gamepad != null)
+        {
+            return;
+        }
 
         // 移動関連
         _character.MoveInput = new Vector2(_gamepad.GetStickL().X, _gamepad.GetStickL().Y);
