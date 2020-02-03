@@ -34,8 +34,14 @@ public class EnemyAttack : IState<Enemy>
 
         if (enemy.IsBoss)
         {
-            BossAttack(enemy);
+            if (enemy.IsRanged)
+            {
+                BossRangedAttack(enemy);
+            }
+            else
+            {
 
+            }
         }
         else
         {
@@ -51,7 +57,7 @@ public class EnemyAttack : IState<Enemy>
         }
     }
 
-    
+
 
     public void Exit(Enemy enemy)
     {
@@ -61,13 +67,13 @@ public class EnemyAttack : IState<Enemy>
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void MeleeAttack(Enemy enemy)
@@ -76,7 +82,7 @@ public class EnemyAttack : IState<Enemy>
         var distY = _selfDepth - _targetDepth;
 
 
-        if (Time.time > _attTime + _anim.length+1)
+        if (Time.time > _attTime + _anim.length + 1)
         {
             //目標が攻撃範囲から離れた
             if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
@@ -101,20 +107,23 @@ public class EnemyAttack : IState<Enemy>
         }
     }
 
-    void RangedAttack (Enemy enemy)
+    void RangedAttack(Enemy enemy)
     {
         var distX = enemy.transform.position.x - enemy.CurrentDest.x;
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        if (Time.time > _attTime + _anim.length+2)
+        if (Time.time > _attTime + _anim.length + 2)
         {
-            if (Mathf.Abs(distX) >7.5f || Mathf.Abs(distY) > 0.5f)
+            if (Mathf.Abs(distX) > 7.5f || Mathf.Abs(distY) > 0.5f)
             {
-                //目標が攻撃範囲から離れた
-                Debug.Log("ChangeToPatrol");
-                enemy.ChangeState(new EnemyPatrol());
-                return;
+                if (Random.Range(0, 2) == 0)
+                {
+                    //目標が攻撃範囲から離れた
+                    Debug.Log("ChangeToPatrol");
+                    enemy.ChangeState(new EnemyPatrol());
+                    return;
+                }
             }
             if (enemy.transform.position.x > -wsize.x + 1f && enemy.transform.position.x < wsize.x - 1f)
             {
@@ -134,7 +143,7 @@ public class EnemyAttack : IState<Enemy>
         }
     }
 
-    void BossAttack(Enemy enemy)
+    void BossRangedAttack(Enemy enemy)
     {
         if (Time.time > _attTime + _anim.length + 2)
         {
@@ -160,8 +169,12 @@ public class EnemyAttack : IState<Enemy>
 
                 }
             }
-          
+
         }
-     
+
+    }
+
+    void BossMeleeAttack(Enemy enemy)
+    {
     }
 }

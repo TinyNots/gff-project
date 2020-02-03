@@ -49,9 +49,10 @@ MonoBehaviour:
         type: 3}
       _fromRight: 0
       _spawnType: 0
-      _maxCnt: 10
+      _maxCnt: 2
       _spawnTime: 2.5
       _massSpawnCnt: 2
+      _bossSpot: 0
   - wave:
     - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}
@@ -59,7 +60,8 @@ MonoBehaviour:
       _spawnType: 2
       _maxCnt: 3
       _spawnTime: 1
-      _massSpawnCnt: 0
+      _massSpawnCnt: 1
+      _bossSpot: 0
     - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
         type: 3}
       _fromRight: 0
@@ -67,14 +69,353 @@ MonoBehaviour:
       _maxCnt: 3
       _spawnTime: 1
       _massSpawnCnt: 3
-  - wave: []
-  - wave: []
-  - wave: []
-  - wave: []
-  - wave: []
-  - wave: []
-  - wave: []
-  - wave: []
+      _bossSpot: 0
+  - wave:
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 0
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 2.5
+      _massSpawnCnt: 1
+      _bossSpot: 0
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 2.5
+      _massSpawnCnt: 1
+      _bossSpot: 0
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 0
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 2.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 2
+      _spawnTime: 2.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 2.5
+      _massSpawnCnt: 1
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 2.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 4
+      _spawnTime: 2.5
+      _massSpawnCnt: 4
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 5678104704693580632, guid: dbbb0d2c57e777343bcc6d83b18f9038,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 0
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 10
+      _spawnTime: 2.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 6
+      _spawnTime: 2.5
+      _massSpawnCnt: 3
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 2
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 3
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 3
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 10
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 1
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 5
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 8
+      _spawnTime: 1.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 4
+      _spawnTime: 1
+      _massSpawnCnt: 4
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1.5
+      _massSpawnCnt: 2
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 8
+      _spawnTime: 1
+      _massSpawnCnt: 8
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 6
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 3
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 6
+      _spawnTime: 1
+      _massSpawnCnt: 6
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 2
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 3
+      _spawnTime: 1
+      _massSpawnCnt: 3
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 2625305396237038696, guid: 0e7898a114c804b4baa4c83e923c80f1,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 4
+      _spawnTime: 1
+      _massSpawnCnt: 4
+      _bossSpot: 1
+    - _prototype: {fileID: 7396415397651807787, guid: 77036c4074ffc76458f05614d2a592fe,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 2
+      _maxCnt: 4
+      _spawnTime: 1
+      _massSpawnCnt: 4
+      _bossSpot: 2
+    - _prototype: {fileID: 2697231986964575100, guid: 7f85596796ae3d041a86806e5b9e1a75,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 0
+      _maxCnt: 4
+      _spawnTime: 1
+      _massSpawnCnt: 4
+      _bossSpot: 2
+  - wave:
+    - _prototype: {fileID: 5678104704693580632, guid: dbbb0d2c57e777343bcc6d83b18f9038,
+        type: 3}
+      _fromRight: 0
+      _spawnType: 1
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 1
+    - _prototype: {fileID: 5678104704693580632, guid: dbbb0d2c57e777343bcc6d83b18f9038,
+        type: 3}
+      _fromRight: 1
+      _spawnType: 1
+      _maxCnt: 1
+      _spawnTime: 1
+      _massSpawnCnt: 1
+      _bossSpot: 2
   _factoryCnt:
   - {fileID: 0}
   - {fileID: 0}

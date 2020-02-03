@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
+   
     [SerializeField]
     private GameObject _sprite;
     private Vector3 _curDest;    //現在の目的地
@@ -28,6 +29,8 @@ public class Enemy : MonoBehaviour
     private bool _targetChangeable;
     private float _chgTargetTime;
     private bool _isRetreat = false;
+    public float _maxTargetNum = 3;
+    private BossSpawnSpot _bossSpot;
 
     // Start is called before the first frame update
     void Start()
@@ -65,16 +68,20 @@ public class Enemy : MonoBehaviour
         if (_dieFlag) return;
         if (_health.ReceiveDmgFlag)
         {
-            if (_tmpPlayer != null)
+            if (_health.DmgOrigin.transform.parent.tag == "Player")
             {
-                _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                if (_tmpPlayer != null)
+                {
+                    _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
 
+                }
+                _tmpPlayer = _health.DmgOrigin;
+
+                _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
+                _isTargeting = true;
+                _targetChangeable = false;
+                _chgTargetTime = Time.time;
             }
-            _tmpPlayer = _health.DmgOrigin;
-            _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
-            _isTargeting = true;
-            _targetChangeable = false;
-            _chgTargetTime = Time.time;
             if (_health.HP > 0)
             {
                 if (!IsBoss)
@@ -111,7 +118,7 @@ public class Enemy : MonoBehaviour
         //Debug.DrawLine(new Vector3(transform.position.x, _shadowPos.y, 0), new Vector3(transform.position.x + 2, _shadowPos.y, 0), Color.red);
         //Damage();
         //画像の回転
-        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") && !_isBoss)
         {
             if (!_isRetreat)
             {
@@ -241,6 +248,14 @@ public class Enemy : MonoBehaviour
         get { return _targetChangeable; }
         set { _targetChangeable = value; }
     }
+
+    public BossSpawnSpot BossSpot
+    {
+        get { return _bossSpot; }
+        set { _bossSpot = value; }
+
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

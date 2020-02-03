@@ -105,7 +105,7 @@ public class AttackTiming : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             Quaternion target = Quaternion.AngleAxis(90 * i + (1 * (_projIdx - (_maxNum / 2))), new Vector3(0, 0, 1));
-            _tmpSlash = Instantiate(AttackBox, transform.position, target * transform.rotation);
+            _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0,1.2f,0), target * transform.rotation);
             //// tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
             if (Random.Range(0, 2) == 0)
             {
@@ -115,7 +115,6 @@ public class AttackTiming : MonoBehaviour
             _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y, -_tmpSlash.transform.rotation.z);
             _tmpSlash.SetActive(true);
             _projIdx++;
-
         }
         if (_projIdx >= 36 * 4)
         {
@@ -130,7 +129,7 @@ public class AttackTiming : MonoBehaviour
             {
                 var offset = 18 * (_projIdx / 10 % 2 );
                 Quaternion target = Quaternion.AngleAxis(offset + (36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
-                _tmpSlash = Instantiate(AttackBox, transform.position, target * transform.rotation);
+                _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0, 1.2f, 0), target * transform.rotation);
                 // tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
                 if (Random.Range(0, 2) == 0)
                 {

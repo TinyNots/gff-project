@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2099321409189719186}
   - component: {fileID: 2105117765405238821}
   - component: {fileID: 4139845117884496490}
+  - component: {fileID: 265125937640154706}
   m_Layer: 0
   m_Name: WaterProjHitBox
   m_TagString: Attack
@@ -161,6 +162,7 @@ MonoBehaviour:
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 0}
   _isRange: 1
+  _isBoss: 0
   _target: 1
 --- !u!50 &4139845117884496490
 Rigidbody2D:
@@ -183,6 +185,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &265125937640154706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942882132917811376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sp: {fileID: 48560737261891841}
+  _shadow: {fileID: 8173077715431157603}
 --- !u!1001 &1877010864854386487
 PrefabInstance:
   m_ObjectHideFlags: 0

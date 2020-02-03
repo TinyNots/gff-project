@@ -16,7 +16,7 @@ public class EnemySpawnDelay : IState<Enemy>
         if (Time.time > _timeStart + _waitTime)
         {
             var tmp = enemy.FindRandomPlayer();
-            if (tmp.GetComponent<TargetNum>().TargettedNum < 5)
+            if (tmp.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum)
             {
                 enemy._tmpPlayer = tmp;
                 enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
