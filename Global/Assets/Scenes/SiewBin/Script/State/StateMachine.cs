@@ -34,6 +34,7 @@ public class StateMachine <T>
         if (_currentState != null) _currentState.Execute(_owner);
     }
 
+
     public void ChangeState(IState<T> newState)
     {
         if (_currentState != null)

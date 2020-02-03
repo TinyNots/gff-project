@@ -27,7 +27,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        moveableArea = Camera.main.transform.Find("MoveableArea");
+        moveableArea = GameObject.Find("MoveableArea").transform;
     }
 
     public void Update()

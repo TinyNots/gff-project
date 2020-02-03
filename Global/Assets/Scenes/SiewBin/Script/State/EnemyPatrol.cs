@@ -10,6 +10,8 @@ public class EnemyPatrol : IState<Enemy>
     private float _targetDepth;
     private bool _waitFlag;
     private Vector2 _patrolMag = new Vector2(5.0f, 0.0f);
+    private bool _patrolFlag;
+    private float patrolCnt;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,7 @@ public class EnemyPatrol : IState<Enemy>
             enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
             enemy.ChangeState(new EnemySpawnDelay());
         }
-        if (!enemy.IsTargeting && enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum < 5)
+        if (!enemy.IsTargeting && enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum)
         {
             enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
             enemy.IsTargeting = true;
@@ -38,36 +40,62 @@ public class EnemyPatrol : IState<Enemy>
 
     public void Execute(Enemy enemy)
     {
-        var tmp = enemy.FindClosestPlayer();
-        if (tmp == null)
+        if (patrolCnt > 120)
         {
-            enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
-            enemy.ChangeState(new EnemySpawnDelay());
+            _patrolFlag = false;
         }
-        if (tmp.GetComponent<TargetNum>().TargettedNum <5 && !enemy.IsTargeting)
+        if (!enemy.IsTargeting)
         {
-            if (tmp != enemy._tmpPlayer)
+            if (Random.Range(0, 3) == 0)
             {
-                enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
-                enemy._tmpPlayer = tmp;
+                _patrolFlag = true;
+            }
+        }
+        
+        if (!_patrolFlag)
+        {
+            var tmp = enemy.FindClosestPlayer();
+            if (tmp == null)
+            {
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemySpawnDelay());
+            }
+            if (tmp.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum && !enemy.IsTargeting)
+            {
+                if (tmp != enemy._tmpPlayer)
+                {
+                    enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                    enemy._tmpPlayer = tmp;
+
+                }
+                tmp.GetComponent<TargetNum>().TargettedNum++;
+                enemy.IsTargeting = true;
 
             }
-            tmp.GetComponent<TargetNum>().TargettedNum++;
-            enemy.IsTargeting = true;
+            if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum > enemy._maxTargetNum && enemy.IsTargeting)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                    enemy.IsTargeting = false;
+                }
+            }
+            enemy.CurrentDest = enemy._tmpPlayer.transform.position;
 
+            _selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
+
+            _targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
         }
-        enemy.CurrentDest = enemy._tmpPlayer.transform.position;
-
-        _selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
-
-        _targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
-        if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum >=5 && !enemy.IsTargeting)
+        else
+        {
+            Patrol(enemy);
+        }
+        if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum >= enemy._maxTargetNum && !enemy.IsTargeting)
         {
             Patrol(enemy);
         }
         if (enemy.IsTargeting)
         {
-
             if (enemy.IsBoss)
             {
                 BossChase(enemy);
@@ -89,8 +117,9 @@ public class EnemyPatrol : IState<Enemy>
         }
 
 
-
+        patrolCnt++;
     }
+    
     public void Exit(Enemy enemy)
     {
 
@@ -104,7 +133,7 @@ public class EnemyPatrol : IState<Enemy>
 
     void MoveState()
     {
-
+      
     }
 
     void MeleeChase(Enemy enemy)
@@ -131,7 +160,7 @@ public class EnemyPatrol : IState<Enemy>
                 var heading = _targetDepth - _selfDepth;
                 heading = heading >= 0f ? 1f : -1f;
 
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
             }
         }
     
@@ -142,23 +171,41 @@ public class EnemyPatrol : IState<Enemy>
         //攻撃範囲内だったら攻撃する
 
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        if (enemy.transform.position.x > -wsize.x && enemy.transform.position.x < wsize.x )
+        if (enemy.transform.position.x > -wsize.x +1f && enemy.transform.position.x < wsize.x -1f)
         {
-            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >3.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f)
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >1.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f && !enemy.IsRetreat)
             {
                 if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
                 {
                     enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                     enemy.ChangeState(new EnemyAttack());
+                    enemy.IsRetreat = false;
                     return;
                 }
             }
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 5.0f && enemy.IsRetreat)
+            {
+                    enemy.IsRetreat = false;
+            }
+
+        }
+        else
+        {
+            if (enemy.IsRetreat)
+            {
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemyAttack());
+                enemy.IsRetreat = false;
+                return;
+            }
+            
         }
         //スクリーン内に見えるまで移動
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 6.0f ||
-            !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x))
+            !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x) ||
+            enemy.IsRetreat)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
+            enemy.transform.position += enemy.transform.TransformDirection(4.0f, 0.0f, 0.0f) * Time.deltaTime;
         }
         //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
         //{
@@ -172,15 +219,39 @@ public class EnemyPatrol : IState<Enemy>
             {
                 var heading = _targetDepth - _selfDepth;
                 heading = heading >= 0f ? 1f : -1f;
-                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 5.0f * 0.7f, 0.0f) * Time.deltaTime;
+                enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
             }
         }
     }
 
     void BossChase(Enemy enemy)
     {
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
         enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
-        if (enemy.transform.position.x > -0.2f  && enemy.transform.position.x <0.2f)
+        bool stateChgFlag = false;
+        switch(enemy.BossSpot)
+        {
+            case BossSpawnSpot.Half:
+                if (enemy.transform.position.x > -0.2f && enemy.transform.position.x < 0.2f)
+                {
+                    stateChgFlag = true;
+                }
+                break;
+            case BossSpawnSpot.OneOverFour:
+                if (enemy.transform.position.x > -0.2f - wsize.x / 2 && enemy.transform.position.x < 0.2f - wsize.x / 2)
+                {
+                    stateChgFlag = true;
+                }
+                break;
+            case BossSpawnSpot.ThreeOverFour:
+                if (enemy.transform.position.x > -0.2f + wsize.x / 2 && enemy.transform.position.x < 0.2f + wsize.x / 2)
+                {
+                    stateChgFlag = true;
+                }
+                break;
+        }
+        if (stateChgFlag)
         {
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
@@ -191,23 +262,28 @@ public class EnemyPatrol : IState<Enemy>
 
     void Patrol(Enemy enemy)
     {
-        Collider[] cols = Physics.OverlapSphere(enemy.transform.position, 0.5f);
-        foreach ( Collider col in cols)
+        Collider2D[] cols = Physics2D.OverlapCircleAll(enemy.transform.position, 0.2f);
+        foreach ( Collider2D col in cols)
         {
             if (col.transform.tag == "Player")
             {
-                if (enemy.IsRanged)
+                if (col.GetComponent<TargetNum>().TargettedNum < 5)
                 {
-                    RangedChase(enemy);
-                    
-                    Debug.Log("Ranged Att");
+                    enemy.IsTargeting = true;
+                    _patrolFlag = false;
+                    enemy._tmpPlayer = col.gameObject;
+                    col.GetComponent<TargetNum>().TargettedNum++;
+                    if (enemy.IsRanged)
+                    {
+                        RangedChase(enemy);
+
+                    }
+                    else
+                    {
+                        MeleeChase(enemy);
+                    }
+                    return;
                 }
-                else
-                {
-                    MeleeChase(enemy);
-                    Debug.Log("Melee Att");
-                }
-                return;
             }
               
 
@@ -256,11 +332,11 @@ public class EnemyPatrol : IState<Enemy>
             {
                 if (enemy.transform.position.y > 0f)
                 {
-                    _patrolMag.y = -5.0f;
+                    _patrolMag.y = -2.0f;
                 }
                 else
                 {
-                    _patrolMag.y = 5.0f;
+                    _patrolMag.y = 2.0f;
                 }
             }
             else

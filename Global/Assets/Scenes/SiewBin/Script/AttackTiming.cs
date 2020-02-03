@@ -11,7 +11,8 @@ public class AttackTiming : MonoBehaviour
     float _frame = 0;
     bool _waitFlag = false;
     int _projIdx = 0;
-    bool _delayFlag = false;
+    bool _spiralFlag = false;
+    bool _circleFlag = false;
     private float _destroyTime = 0.2f;
     // Start is called before the first frame update
     void Start()
@@ -22,26 +23,18 @@ public class AttackTiming : MonoBehaviour
     void Update()
     {
         _frame++;
-        if (_delayFlag)
+        if (_spiralFlag)
         {
-            if (_frame % 10 == 0)
+            if (_frame % 7 == 0)
             {
-                Quaternion target = Quaternion.AngleAxis((20 * (_projIdx - (_maxNum / 2))), new Vector3(0, 0, 1));
-                _tmpSlash = Instantiate(AttackBox, transform.position, target * transform.rotation);
-                //// tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
-                if (Random.Range(0, 2) == 0)
-                {
-                    _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
-                }
-                _tmpSlash.GetComponent<Damage>().SetOwner(transform);
-                _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y,- _tmpSlash.transform.rotation.z);
-                _tmpSlash.SetActive(true);
-                _projIdx++;
-                if (_projIdx >= 18)
-                {
-                    _delayFlag = false;
-                    _projIdx = 0;
-                }
+                SpiralShot();
+            }
+        }
+        if (_circleFlag)
+        {
+            if (_frame % 15 == 0)
+            {
+                CircleShot();
             }
         }
     }
@@ -69,6 +62,13 @@ public class AttackTiming : MonoBehaviour
         }
     }
 
+    public void SpawnProjectile()
+    {
+        _tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
+        _tmpSlash.GetComponent<Damage>().SetOwner(transform);
+        _tmpSlash.SetActive(true);
+    }
+
     public void SpawnMultipleProjectile()
     {
         for (int i = 0; i < _maxNum; i++)
@@ -89,10 +89,47 @@ public class AttackTiming : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
 
+            _circleFlag = true;
+           
+
+
+        }
+        else
+        {
+            _spiralFlag = true;
+        }
+    }
+
+    private void SpiralShot()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Quaternion target = Quaternion.AngleAxis(90 * i + (1 * (_projIdx - (_maxNum / 2))), new Vector3(0, 0, 1));
+            _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0,1.2f,0), target * transform.rotation);
+            //// tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
+            if (Random.Range(0, 2) == 0)
+            {
+                _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
+            }
+            _tmpSlash.GetComponent<Damage>().SetOwner(transform);
+            _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y, -_tmpSlash.transform.rotation.z);
+            _tmpSlash.SetActive(true);
+            _projIdx++;
+        }
+        if (_projIdx >= 36 * 4)
+        {
+            _spiralFlag = false;
+            _projIdx = 0;
+        }
+    }
+    private void CircleShot()
+    {
+        
             for (int i = 0; i < 10; i++)
             {
-                Quaternion target = Quaternion.AngleAxis((36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
-                _tmpSlash = Instantiate(AttackBox, transform.position, target * transform.rotation);
+                var offset = 18 * (_projIdx / 10 % 2 );
+                Quaternion target = Quaternion.AngleAxis(offset + (36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
+                _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0, 1.2f, 0), target * transform.rotation);
                 // tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
                 if (Random.Range(0, 2) == 0)
                 {
@@ -103,14 +140,15 @@ public class AttackTiming : MonoBehaviour
                     }
                 }
                 _tmpSlash.GetComponent<Damage>().SetOwner(transform);
-                _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y,- _tmpSlash.transform.rotation.z);
+                _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y, -_tmpSlash.transform.rotation.z);
                 _tmpSlash.SetActive(true);
+                _projIdx++;
             }
-           
-        }
-        else
+        if (_projIdx >= 30)
         {
-            _delayFlag = true;
+            _projIdx = 0;
+            _circleFlag = false;
         }
+
     }
 }

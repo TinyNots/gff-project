@@ -9,7 +9,8 @@ public class Health : MonoBehaviour
     public float _hp = 100;
     [SerializeField]
     private GameObject _dmgImage;
-    private GameObject _prefab = null; 
+    private GameObject _prefab = null;
+
     private bool _receiveDmgFlag = false;
     private GameObject _dmgOrigin = null;
 
@@ -23,6 +24,11 @@ public class Health : MonoBehaviour
     void Update()
     {
         ReceiveDmgEffect();
+    }
+
+    private void FixedUpdate()
+    {
+       
     }
     public void ReceiveDmg(float value,GameObject dmgOrigin)
     {
@@ -48,14 +54,13 @@ public class Health : MonoBehaviour
         };
 
         _prefab = Instantiate(_dmgImage, transform.position, transform.rotation) as GameObject;
-
         GameObject canvas = GameObject.Find("Canvas");
 
         _prefab.transform.SetParent(canvas.transform);
         _prefab.SetActive(true);
-        _prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y +1f, this.transform.position.z));
+        var offset = Random.Range(-gameObject.GetComponent<Collider2D>().bounds.size.x / 2, gameObject.GetComponent<Collider2D>().bounds.size.x/2);
+        _prefab.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x + offset, this.transform.position.y + 1f, this.transform.position.z));
         _prefab.transform.rotation = Quaternion.Euler(new Vector3(0, 0));
-
 
     }
 
@@ -63,7 +68,6 @@ public class Health : MonoBehaviour
     {
         get { return _hp; }
     }
-
     public bool ReceiveDmgFlag
     {
         get { return _receiveDmgFlag; }

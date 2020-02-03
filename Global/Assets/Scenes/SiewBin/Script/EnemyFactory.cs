@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BossSpawnSpot
+{
+    Half,
+    OneOverFour,
+    ThreeOverFour
+}
+
 [System.Serializable]
 public struct FactoryInfo
 {
@@ -17,6 +24,9 @@ public struct FactoryInfo
     public int _maxCnt;        //最大生成数
     public float _spawnTime;    //生成要る時間
     public int _massSpawnCnt;  //大量生成数
+  
+    public BossSpawnSpot _bossSpot;
+
 }
 
 public class EnemyFactory : MonoBehaviour
@@ -108,16 +118,25 @@ public class EnemyFactory : MonoBehaviour
     {
         var enemy = Spawn();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+        enemy.GetComponent<Character>().enabled = false;
+
 
         if (fromRight)
         {
-            enemy.transform.position = new Vector3(wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3(wsize.x + 2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         }
         else
         {
-            enemy.transform.position = new Vector3( -wsize.x , Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.transform.position = new Vector3( -wsize.x - 2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+
+        }
+        if (initInfo._prototype.IsBoss)
+        {
+            enemy.transform.position = new Vector3(-wsize.x, 0, 0);
+            enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            enemy.BossSpot = initInfo._bossSpot;
 
         }
         Debug.Log("Side Spawn");
@@ -133,11 +152,13 @@ public class EnemyFactory : MonoBehaviour
         {
             enemy.transform.position = new Vector3( wsize.x +  2, Random.Range(0 - wsize.y / 2,2.8f), 0);
             enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            enemy.BossSpot = initInfo._bossSpot;
 
         }
         else
         {
             enemy.transform.position = new Vector3( -wsize.x -  2, Random.Range(0 - wsize.y / 2, 2.8f), 0);
+            enemy.BossSpot = initInfo._bossSpot;
 
         }
         initInfo._maxCnt = 1;

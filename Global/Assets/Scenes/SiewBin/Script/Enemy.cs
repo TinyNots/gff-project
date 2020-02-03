@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
+   
     [SerializeField]
     private GameObject _sprite;
     private Vector3 _curDest;    //現在の目的地
@@ -27,6 +28,9 @@ public class Enemy : MonoBehaviour
     public ParticleSystem _particle;
     private bool _targetChangeable;
     private float _chgTargetTime;
+    private bool _isRetreat = false;
+    public float _maxTargetNum = 3;
+    private BossSpawnSpot _bossSpot;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +52,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
+        if (GetComponent<Character>().enabled == false && (transform.position.x > -wsize.x && transform.position.x < wsize.x))
+        {
+            GetComponent<Character>().enabled = true;
+        }
+
         if ( Time.time > _chgTargetTime + 5)
         {
             _targetChangeable = true;
@@ -64,7 +75,6 @@ public class Enemy : MonoBehaviour
                     _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
 
                 }
-
                 _tmpPlayer = _health.DmgOrigin;
 
                 _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
@@ -74,8 +84,11 @@ public class Enemy : MonoBehaviour
             }
             if (_health.HP > 0)
             {
-                ChangeState(new EnemyGetHit());
-                return;
+                if (!IsBoss)
+                {
+                    ChangeState(new EnemyGetHit());
+                    return;
+                }
             }
 
         }
@@ -105,16 +118,31 @@ public class Enemy : MonoBehaviour
         //Debug.DrawLine(new Vector3(transform.position.x, _shadowPos.y, 0), new Vector3(transform.position.x + 2, _shadowPos.y, 0), Color.red);
         //Damage();
         //画像の回転
-        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") && !_isBoss)
         {
-            if (GetMoveDir(CurrentDest).x < 0)
+            if (!_isRetreat)
             {
-                transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                if (GetMoveDir(CurrentDest).x < 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                }
             }
             else
             {
-                transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                if (GetMoveDir(CurrentDest).x < 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                }
             }
         }
         //上から生成し、落下させる
@@ -209,11 +237,25 @@ public class Enemy : MonoBehaviour
         set { _isTargeting = value; }
     }
 
+    public bool IsRetreat
+    {
+        get { return _isRetreat; }
+        set { _isRetreat = value; }
+    }
+
     public bool TargetChangeable
     {
         get { return _targetChangeable; }
         set { _targetChangeable = value; }
     }
+
+    public BossSpawnSpot BossSpot
+    {
+        get { return _bossSpot; }
+        set { _bossSpot = value; }
+
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

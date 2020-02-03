@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!114 &7396415397651807787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,11 +139,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sprite: {fileID: 5458452447301337604}
-  _dest: []
   _isRanged: 1
   _isBoss: 0
   _tmpPlayer: {fileID: 0}
   _particle: {fileID: 0}
+  _maxTargetNum: 3
 --- !u!114 &1525640599081704510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +173,7 @@ GameObject:
   - component: {fileID: 7396415398107522887}
   - component: {fileID: 7396415398107522904}
   - component: {fileID: 5611818727705984410}
+  - component: {fileID: 6988680542149177030}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Enemy
@@ -353,6 +356,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6988680542149177030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5458452447301337604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cf188a82d7e34408f39ccb3ca6b76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5458452447844169105
 PrefabInstance:
   m_ObjectHideFlags: 0

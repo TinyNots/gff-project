@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class DrawOrder : MonoBehaviour
 {
+    [SerializeField]
     private SpriteRenderer _sp;
+    [SerializeField]
     private Transform _shadow;
 
     // Start is called before the first frame update
     void Start()
     {
-        _sp = transform.Find("Sprite").transform.GetComponent<SpriteRenderer>();
         if(_sp == null)
         {
-            Debug.LogError("Sprite is missing");
-            return;
+            _sp = transform.Find("Sprite").transform.GetComponent<SpriteRenderer>();
+            if (_sp == null)
+            {
+                Debug.LogError("Sprite is missing");
+                return;
+            }
         }
 
-        _shadow = transform.Find("Shadow");
+        if (_shadow == null)
+        {
+            _shadow = transform.Find("Shadow");
+        }
     }
 
     // Update is called once per frame

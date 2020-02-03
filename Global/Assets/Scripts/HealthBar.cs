@@ -10,10 +10,21 @@ public class HealthBar : MonoBehaviour
     Health health;
     public int playerCnt;
     Slider slider;
+    private float _oldSliderVal;
+    [SerializeField]
+    private Slider _oldSlider;
+    private bool _moveOldSlider;
+    private float _moveTiming = 1f;
+    private float _sliderChgTime;
+    [SerializeField]
+    private GameObject _bg;
+    int flashCnt = 0;
     // Start is called before the first frame update
     void Start()
     {
         slider = GetComponent<Slider>();
+        _oldSlider.value = slider.value;
+        _oldSliderVal = _oldSlider.value;
     }
     // Update is called once per frame
     void Update()
@@ -34,7 +45,33 @@ public class HealthBar : MonoBehaviour
         }
  
         slider.value = health._hp / maxhp;
-
+        if (slider.value != _oldSliderVal)
+        {
+            _oldSliderVal = slider.value;
+            _moveTiming = 1f;
+            _sliderChgTime = Time.time;
+        }
+        if (Time.time > _sliderChgTime + _moveTiming)
+        {
+            if (_oldSlider.value > _oldSliderVal)
+            {
+                _oldSlider.value -= (_oldSlider.value - _oldSliderVal) * Time.deltaTime;
+            }
+        }
+        if (slider.value < 0.3f)
+        {
+            var tmp = _bg.GetComponent<Image>().color;
+            if (flashCnt / 10 % 2 == 0)
+            {
+                tmp.a = 0;
+            }
+            else
+            {
+                tmp.a = 1;
+            }
+            _bg.GetComponent<Image>().color = tmp;
+        }
+        flashCnt++;
     }
 
 
