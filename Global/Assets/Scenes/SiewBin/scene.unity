@@ -7469,6 +7469,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6932504439234608838, guid: 364091a6cbc091b4db6de72fbd271200,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7317042302584380352, guid: 364091a6cbc091b4db6de72fbd271200,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7523,6 +7528,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197024124090501073, guid: 364091a6cbc091b4db6de72fbd271200,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197024124090501073, guid: 364091a6cbc091b4db6de72fbd271200,
+        type: 3}
+      propertyPath: m_SleepingMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 364091a6cbc091b4db6de72fbd271200, type: 3}

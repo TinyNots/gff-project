@@ -104,7 +104,9 @@ public class Damage : MonoBehaviour
 
                     if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])
                     {
-                        if(transform.parent.CompareTag("Player"))
+                        Destroy(gameObject);
+
+                        if (transform.parent.CompareTag("Player"))
                         {
                             BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
                             playerControl.RumbleController(0.1f, 0.0f, new Vector2(0.5f, 0.5f));
