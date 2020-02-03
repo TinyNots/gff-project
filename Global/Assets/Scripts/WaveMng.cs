@@ -79,6 +79,11 @@ public class WaveMng : MonoBehaviour
             _waveReadyFlag = false;
         }
     }
+
+    public bool GetFlag()
+    {
+        return _waveReadyFlag;
+    }
 }
 
 [System.Serializable]
@@ -86,4 +91,3 @@ public class Wave
 {
     public FactoryInfo[] wave;
 }
-

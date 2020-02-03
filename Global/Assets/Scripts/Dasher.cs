@@ -36,6 +36,7 @@ public class Dasher : MonoBehaviour
     private List<Transform> _clones;
     [SerializeField]
     private SkillManager _skillManager;
+    private Jumper _jumpState;
 
     private void Start()
     {
@@ -61,6 +62,7 @@ public class Dasher : MonoBehaviour
 
         // clone init
         _clones = null;
+        _jumpState = _sprite.GetComponent<Jumper>();
     }
 
     private void Update()
@@ -79,15 +81,6 @@ public class Dasher : MonoBehaviour
 
             _rb.velocity = _stickVelocity * _velocity;
 
-            //if (transform.Find("Sprite").transform.eulerAngles.y == 180.0f)
-            //{
-            //    _rb.velocity = Vector2.left * _velocity;
-            //}
-            //else
-            //{
-            //    _rb.velocity = Vector2.right * _velocity;
-            //}
-
             _timer -= Time.deltaTime;
         }
         else
@@ -100,6 +93,10 @@ public class Dasher : MonoBehaviour
     {
         if(_timer == 0)
         {
+            SoundManager.Instance.PlaySe("Dash Light Armor 2_04");
+
+            FindObjectOfType<RippleEffect>().Emit(Camera.main.WorldToViewportPoint(_sprite.position));
+
             _timer = _dashTime;
             _dashParticle.Play();
 
@@ -118,7 +115,10 @@ public class Dasher : MonoBehaviour
             }
             _isDashing = true;
 
-            SpawnClone();
+            if(_jumpState.GetIsGrounded())
+            {
+                SpawnClone();
+            }
         }
     }
 

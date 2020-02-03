@@ -104,8 +104,6 @@ public class Damage : MonoBehaviour
 
                     if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Enemy])
                     {
-                        Destroy(gameObject);
-
                         if (transform.parent.CompareTag("Player"))
                         {
                             BetterPlayerControl playerControl = transform.parent.parent.GetComponent<BetterPlayerControl>();
@@ -113,7 +111,7 @@ public class Damage : MonoBehaviour
                         }
                         // rumble the controller
 
-                        CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
+                        //CameraShaker.ShakeOnce(0.05f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.5f);
 
                         // trigger the hit
                         if (_nextHit)

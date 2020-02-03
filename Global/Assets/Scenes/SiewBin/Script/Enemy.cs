@@ -57,16 +57,21 @@ public class Enemy : MonoBehaviour
         if (_dieFlag) return;
         if (_health.ReceiveDmgFlag)
         {
-            if (_tmpPlayer != null)
+            if (_health.DmgOrigin.transform.parent.tag == "Player")
             {
-                _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
+                if (_tmpPlayer != null)
+                {
+                    _tmpPlayer.GetComponent<TargetNum>().TargettedNum--;
 
+                }
+
+                _tmpPlayer = _health.DmgOrigin;
+
+                _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
+                _isTargeting = true;
+                _targetChangeable = false;
+                _chgTargetTime = Time.time;
             }
-            _tmpPlayer = _health.DmgOrigin;
-            _tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
-            _isTargeting = true;
-            _targetChangeable = false;
-            _chgTargetTime = Time.time;
             if (_health.HP > 0)
             {
                 ChangeState(new EnemyGetHit());

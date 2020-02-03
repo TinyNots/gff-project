@@ -8,6 +8,7 @@ public class SkillManager : MonoBehaviour
     private Vector3 _centerPoint;
     private List<float> _radians;
     private bool _trigger;
+    private bool _wait;
 
     [Header("General")]
     [SerializeField]
@@ -20,6 +21,7 @@ public class SkillManager : MonoBehaviour
         _centerPoint = Vector3.zero;
         _trigger = false;
         _radians = new List<float>();
+        _wait = false;
     }
 
     // Update is called once per frame
@@ -36,10 +38,10 @@ public class SkillManager : MonoBehaviour
                 }
             }
 
-            if (counter == _clones.Count)
+            if (counter == _clones.Count && !_wait)
             {
                 ClearClones();
-                _trigger = false;
+                StartCoroutine("Wait");
             }
         }
     }
@@ -116,5 +118,14 @@ public class SkillManager : MonoBehaviour
     public bool GetTrigger()
     {
         return _trigger;
+    }
+
+    IEnumerator Wait()
+    {
+        _wait = true;
+        yield return new WaitForSeconds(2.0f);
+        Debug.Log("Fail");
+        _trigger = false;
+        _wait = false;
     }
 }

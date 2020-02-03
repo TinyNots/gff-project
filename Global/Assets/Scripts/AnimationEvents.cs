@@ -41,7 +41,7 @@ public class AnimationEvents : MonoBehaviour
 
     public void AttackWithShake()
     {
-        CameraShaker.ShakeOnce(0.2f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 0.2f);
+        CameraShaker.ShakeOnce(0.5f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 1.0f);
         BetterPlayerControl playerControl = transform.parent.GetComponent<BetterPlayerControl>();
         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.65f, 0.65f));
         Attack();
