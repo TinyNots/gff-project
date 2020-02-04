@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class WorldToScreenUI : MonoBehaviour
 {
-    [SerializeField, Tooltip("ターゲットプレイヤー")]
+    // ターゲットプレイヤー
     private GameObject _target;
     [SerializeField, Tooltip("オフセット")]
     private Vector3 _offset;
@@ -23,6 +23,11 @@ public class WorldToScreenUI : MonoBehaviour
 
     private void ScreenToWorld()
     {
+        if(_target == null)
+        {
+            Debug.LogError("ターゲットが存在しません");
+            return;
+        }
         _rectTrans.position = Camera.main.WorldToScreenPoint(_target.transform.position + _offset);
     }
 

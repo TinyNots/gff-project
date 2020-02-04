@@ -39,6 +39,11 @@ public class Health : MonoBehaviour
         _dmgOrigin = dmgOrigin;
     }
 
+    public void Repair()
+    {
+        Resurrection canvas = GameObject.Find("RecoverySlider" + i).GetComponent<Resurrection>();
+    }
+
     private void LateUpdate()
     {
         _receiveDmgFlag = false;

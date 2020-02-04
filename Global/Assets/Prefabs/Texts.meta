@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Global/Assets/Prefabs/Texts.meta
 guid: 319ce8754f3476d4d98a3e2ae6c9101e
 folderAsset: yes
 DefaultImporter:
+=======
+guid: afe2b1405049b984597a3cb66bdb5ec4
+PrefabImporter:
+>>>>>>> Shiraeda:Global/Assets/Prefabs/PlayerUI.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
