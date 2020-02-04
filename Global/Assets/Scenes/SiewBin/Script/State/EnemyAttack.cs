@@ -220,7 +220,7 @@ public class EnemyAttack : IState<Enemy>
 
         if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
-            if (Mathf.Abs(distX) > enemy.ColliderBox.x + 2.0f )
+            if (Mathf.Abs(distX) > enemy.ColliderBox.x + 5.0f )
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());

@@ -152,6 +152,7 @@ public class SelectName : MonoBehaviour
             _nowCharID--;
             Debug.Log("下入力");
         }
+
         if (_gamePad.GetButtonDown("DPad_Down"))
         {
             _nowCharID++;
@@ -162,6 +163,15 @@ public class SelectName : MonoBehaviour
 
         }
 
+        if(_gamePad.GetTriggerTapR())
+        {
+            _nowCharID++;
+        }
+
+        if(_gamePad.GetTriggerTapL())
+        {
+            _nowCharID--;
+        }
 
         if (_nowCharID > 25)
         {

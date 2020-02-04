@@ -15,6 +15,8 @@ public class EnemyEvents : MonoBehaviour
 
     public void SpawnCoin()
     {
+        SoundManager.Instance.PlaySe("money-drop2");
+
         int randomNumber = Random.Range(min, max);
         for (int i = 0; i < randomNumber; i++)
         {

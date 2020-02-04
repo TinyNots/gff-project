@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb829142c9c82346b6e13c03bd0d8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 0.2
 --- !u!114 &2105117765405238821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitStopTime: 0.05
-  _damageValue: 10
+  _damageValue: 7
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 4012009233190986, guid: ed0c022a338d3384d9ee622d354a94e2, type: 3}
   _isRange: 1

@@ -74,7 +74,7 @@ MonoBehaviour:
   _hitStopTime: 0.05
   _damageValue: 50
   _owner: {fileID: 0}
-  _hitPrefab: {fileID: 4881254934017106, guid: 6b5d0a6176259624ab334336fcf46dd3, type: 3}
+  _hitPrefab: {fileID: 4031853742088624, guid: dc1397204bb5ee84895af2b49dac2d49, type: 3}
   _isRange: 0
   _isBoss: 0
   _target: 1

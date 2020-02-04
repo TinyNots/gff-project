@@ -8,7 +8,7 @@ public class WaveMng : MonoBehaviour
 {
     private float _waitTime =0;
     private float _timer = 0;
-    private int _waveCnt = 0;
+    private int _waveCnt =0;
     private bool _waveReadyFlag = true;
     public Wave[] _waveSpawn;
     public EnemyFactory[] _factoryCnt = new EnemyFactory[3];
@@ -49,7 +49,7 @@ public class WaveMng : MonoBehaviour
         int tmpCnt = _waveCnt;
         if (tmpCnt >= _waveSpawn.Length)
         {
-            tmpCnt = _waveSpawn.Length - 1;
+            tmpCnt = _waveCnt - _waveSpawn.Length;
         }
         if (_waveReadyFlag)
         {
@@ -67,7 +67,7 @@ public class WaveMng : MonoBehaviour
                 }
                 if (_waveCnt >= _waveSpawn.Length)
                 {
-                    _waveSpawn[tmpCnt].wave[i]._maxCnt += 1;
+                    _waveSpawn[tmpCnt].wave[i]._maxCnt *= 2;
                 }
             }
             if (_waitTime < 8)

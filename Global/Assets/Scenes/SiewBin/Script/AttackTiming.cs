@@ -16,6 +16,7 @@ public class AttackTiming : MonoBehaviour
     bool _spiralFlag = false;
     bool _circleFlag = false;
     private float _destroyTime = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +25,15 @@ public class AttackTiming : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         _frame++;
         if (_spiralFlag)
         {
-            if (_frame % 7 == 0)
+            if (_frame % 2 == 0)
             {
                 SpiralShot();
             }
@@ -121,6 +127,8 @@ public class AttackTiming : MonoBehaviour
 
     private void SpiralShot()
     {
+        SoundManager.Instance.PlaySe("Shot01");
+
         for (int i = 0; i < 4; i++)
         {
             Quaternion target = Quaternion.AngleAxis(90 * i + (1 * (_projIdx - (_maxNum / 2))), new Vector3(0, 0, 1));
@@ -143,31 +151,31 @@ public class AttackTiming : MonoBehaviour
     }
     private void CircleShot()
     {
-        
-            for (int i = 0; i < 10; i++)
+        SoundManager.Instance.PlaySe("Shot01");
+
+        for (int i = 0; i < 10; i++)
+        {
+            var offset = 18 * (_projIdx / 10 % 2);
+            Quaternion target = Quaternion.AngleAxis(offset + (36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
+            _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0, 1.2f, 0), target * transform.rotation);
+            // tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
+            if (Random.Range(0, 2) == 0)
             {
-                var offset = 18 * (_projIdx / 10 % 2 );
-                Quaternion target = Quaternion.AngleAxis(offset + (36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
-                _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0, 1.2f, 0), target * transform.rotation);
-                // tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
+                _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
                 if (Random.Range(0, 2) == 0)
                 {
-                    _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
-                    if (Random.Range(0, 2) == 0)
-                    {
-                        _tmpSlash.GetComponent<Projectile>().ReverseSigmoid = true;
-                    }
+                    _tmpSlash.GetComponent<Projectile>().ReverseSigmoid = true;
                 }
-                _tmpSlash.GetComponent<Damage>().SetOwner(transform);
-                _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y, -_tmpSlash.transform.rotation.z);
-                _tmpSlash.SetActive(true);
-                _projIdx++;
             }
+            _tmpSlash.GetComponent<Damage>().SetOwner(transform);
+            _tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(_tmpSlash.transform.rotation.x, _tmpSlash.transform.rotation.y, -_tmpSlash.transform.rotation.z);
+            _tmpSlash.SetActive(true);
+            _projIdx++;
+        }
         if (_projIdx >= 30)
         {
             _projIdx = 0;
             _circleFlag = false;
         }
-
     }
 }

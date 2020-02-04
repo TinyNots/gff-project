@@ -102,7 +102,12 @@ public class BetterPlayerControl : MonoBehaviour
                 return;
             }
 
-            if(_dasher.IsDashing)
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Die"))
+            {
+                return;
+            }
+
+            if (_dasher.IsDashing)
             {
                 _animator.SetTrigger("JumpAttack");
                 _dasher.StopDash();
@@ -115,6 +120,11 @@ public class BetterPlayerControl : MonoBehaviour
 
         if(_gamepad.GetButtonDown("B"))
         {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Die"))
+            {
+                return;
+            }
+
             _dasher.StartDash();
             _character.EnableMove = false;
             _character.EnableTurn = false;
@@ -144,14 +154,6 @@ public class BetterPlayerControl : MonoBehaviour
         if(_gamepad.GetButtonDown("RB"))
         {
             _skillManager.StartSkill();
-        }
-
-        if(_gamepad.GetButtonDown("LB"))
-        {
-            if(!_skillManager.GetTrigger())
-            {
-                _skillManager.ClearClones();
-            }
         }
 
         var health = _sprite.GetComponent<Health>();

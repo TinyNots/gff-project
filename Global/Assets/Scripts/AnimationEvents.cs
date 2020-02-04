@@ -15,6 +15,8 @@ public class AnimationEvents : MonoBehaviour
     private Transform _shadow;
     private Animator _animator;
     private int _comboCount;
+    [SerializeField]
+    private SkillManager _skillManager;
 
     // Temporary
     private Character _character;
@@ -124,5 +126,10 @@ public class AnimationEvents : MonoBehaviour
     public void PlayRunSound()
     {
         SoundManager.Instance.PlaySe("Light Armor Gravel Running 1_0" + Random.Range(1, 9));
+    }
+
+    public void ResetClone()
+    {
+        _skillManager.ClearClones();
     }
 }

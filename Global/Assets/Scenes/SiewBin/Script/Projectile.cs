@@ -17,6 +17,9 @@ public class Projectile : MonoBehaviour
     private bool _reverseSigmoid = false;
     float _theta = 0;
 
+    [SerializeField]
+    private float _speed = 0.1f;
+
     public bool SigmoidMove
     {
         set { _sigmoidMove = value; }
@@ -26,8 +29,6 @@ public class Projectile : MonoBehaviour
     {
         set { _reverseSigmoid = value; }
     }
-
-  
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +46,17 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //スクリーン外だったら廃棄する
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+        if (gameObject.transform.position.x > wsize.x  + 2f || gameObject.transform.position.x < -wsize.x -2f||
+            gameObject.transform.position.y > wsize.y|| gameObject.transform.position.y < -wsize.y)
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    private void FixedUpdate()
+    {
         if (gameObject.activeSelf)
         {
             if (!_multiShotFlag)
@@ -54,11 +65,11 @@ public class Projectile : MonoBehaviour
                 {
                     if (_reverseSigmoid)
                     {
-                        gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, -gameObject.transform.position.x / (1f + Mathf.Abs(gameObject.transform.position.x)) * Time.deltaTime, 0.0f);
+                        gameObject.transform.position += gameObject.transform.TransformDirection(_speed, -gameObject.transform.position.x / (1f + Mathf.Abs(gameObject.transform.position.x)) * Time.deltaTime, 0.0f);
                     }
                     else
                     {
-                        gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, gameObject.transform.position.x / (1f + Mathf.Abs(gameObject.transform.position.x)) * Time.deltaTime, 0.0f);
+                        gameObject.transform.position += gameObject.transform.TransformDirection(_speed, gameObject.transform.position.x / (1f + Mathf.Abs(gameObject.transform.position.x)) * Time.deltaTime, 0.0f);
                     }
                 }
                 else
@@ -70,17 +81,9 @@ public class Projectile : MonoBehaviour
             {
                 MultiShot();
             }
-
-
-        }
-        //スクリーン外だったら廃棄する
-        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        if (gameObject.transform.position.x > wsize.x  + 2f || gameObject.transform.position.x < -wsize.x -2f||
-            gameObject.transform.position.y > wsize.y|| gameObject.transform.position.y < -wsize.y)
-        {
-            Destroy(gameObject);
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -88,7 +91,7 @@ public class Projectile : MonoBehaviour
 
     public void NormalShot()
     {
-        gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, 0.0f, 0.0f);
+        gameObject.transform.position += gameObject.transform.TransformDirection(_speed, 0.0f, 0.0f);
     }
 
     public void MultiShot()
@@ -109,7 +112,7 @@ public class Projectile : MonoBehaviour
                 break;
 
         }
-        gameObject.transform.position += gameObject.transform.TransformDirection(0.1f, 0.0f, 0.0f);
+        gameObject.transform.position += gameObject.transform.TransformDirection(_speed, 0.0f, 0.0f);
 
     }
 

@@ -275,7 +275,7 @@ public class EnemyPatrol : IState<Enemy>
 
         if (enemy.transform.position.x > -wsize.x && enemy.transform.position.x < wsize.x)
         {
-            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < enemy.ColliderBox.x + 5f)
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < enemy.ColliderBox.x + 3f)
             {
                 //if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
                 //{

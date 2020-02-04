@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4853506028574213754
 Transform:
   m_ObjectHideFlags: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb829142c9c82346b6e13c03bd0d8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 0.1
 --- !u!114 &8347446175306354152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,10 +159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitStopTime: 0.05
-  _damageValue: 1
+  _damageValue: 5
   _owner: {fileID: 0}
   _hitPrefab: {fileID: 4862435727324404, guid: 8c7ea97680627c54993cfacbc81c4a87, type: 3}
   _isRange: 1
+  _isBoss: 0
   _target: 1
 --- !u!50 &6313299383213363623
 Rigidbody2D:
@@ -196,6 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!1001 &8422448229235436794
 PrefabInstance:
   m_ObjectHideFlags: 0

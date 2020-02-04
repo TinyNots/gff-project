@@ -83,6 +83,8 @@ public class SkillManager : MonoBehaviour
                 return;
             }
 
+            SoundManager.Instance.PlaySe("Evil Attack 04");
+
             _trigger = true;
 
             Vector3 centerPoint = Vector3.zero;

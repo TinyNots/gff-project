@@ -317,6 +317,7 @@ MonoBehaviour:
     type: 3}
   _dashPrefab: {fileID: 688485031364168358, guid: c7f2a7567f6321649aadedc15e623d86,
     type: 3}
+  _skillManager: {fileID: 1239910974211237711}
   _delayTime: 0.25
 --- !u!114 &3866411021295745226
 MonoBehaviour:
@@ -330,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 100
+  _hp: 250
   _dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &1879922139932863923
