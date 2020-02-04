@@ -6,6 +6,8 @@ public class AttackTiming : MonoBehaviour
 {
     [SerializeField]
     private GameObject _attackBox;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
+    [SerializeField]
+    private GameObject _attackBox2;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
     private GameObject _tmpSlash;    //プロトタイプを複製
     private int _maxNum = 3;
     float _frame = 0;
@@ -48,6 +50,23 @@ public class AttackTiming : MonoBehaviour
     public void SpawnAttack()
     {
         _tmpSlash = Instantiate(AttackBox, transform.parent.position, transform.rotation);
+        _tmpSlash.GetComponent<Damage>().SetOwner(transform);
+        _tmpSlash.SetActive(true);
+        Destroy(_tmpSlash, 0.2f);
+    }
+
+    public void SpawnBossMeleeAttack()
+    {
+        _tmpSlash = Instantiate(AttackBox);
+        _tmpSlash.GetComponent<Damage>().SetOwner(transform);
+        _tmpSlash.SetActive(true);
+        Destroy(_tmpSlash, 0.2f);
+    }
+
+    //攻撃する
+    public void SpawnAttack2()
+    {
+        _tmpSlash = Instantiate(_attackBox2, transform.parent.position, transform.rotation);
         _tmpSlash.GetComponent<Damage>().SetOwner(transform);
         _tmpSlash.SetActive(true);
         Destroy(_tmpSlash, 0.2f);

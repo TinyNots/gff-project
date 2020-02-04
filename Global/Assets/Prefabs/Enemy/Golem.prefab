@@ -109,6 +109,7 @@ MonoBehaviour:
   _unstunnable: 1
   _multiAttackPattern: 1
   _attDelay: 2.5
+  _moveSpeed: 5
 --- !u!1 &1615066692176278247
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +167,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0e7670c77d743c49a5d2150e80274a3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -309,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackBox: {fileID: 2457734122542826734, guid: 924735451ce0cc94485d086c59bd0d02,
     type: 3}
+  _attackBox2: {fileID: 0}
 --- !u!114 &3573778411461566050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +340,8 @@ MonoBehaviour:
   - {fileID: 3461867488734143035, guid: 9aa963ea45e23e0418b6260a0a416d88, type: 3}
   - {fileID: 1394245069045651331, guid: 9292ccb098e851f42aad0991086666cb, type: 3}
   - {fileID: 8915625258552012830, guid: 9f705dabc6706124a9bfb3ab4fad008d, type: 3}
+  min: 10
+  max: 20
 --- !u!1 &7737432163287691205
 GameObject:
   m_ObjectHideFlags: 0

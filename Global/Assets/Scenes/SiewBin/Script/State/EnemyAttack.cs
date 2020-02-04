@@ -40,7 +40,7 @@ public class EnemyAttack : IState<Enemy>
             }
             else
             {
-
+                BossMeleeAttack(enemy);
             }
         }
         else
@@ -215,5 +215,39 @@ public class EnemyAttack : IState<Enemy>
 
     void BossMeleeAttack(Enemy enemy)
     {
+        var distX = enemy.transform.position.x - enemy.CurrentDest.x;
+        var distY = _selfDepth - _targetDepth;
+
+        if (Time.time > _attTime + _anim.length + enemy.AttDelay)
+        {
+            if (Mathf.Abs(distX) > enemy.ColliderBox.x + 2.0f )
+            {
+                Debug.Log("ChangeToPatrol");
+                enemy.ChangeState(new EnemyPatrol());
+                return;
+            }
+            Debug.Log("Attack");
+            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            if (enemy.MultiAttackPattern)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+                }
+                else
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack 2");
+
+
+                }
+            }
+            else
+            {
+                enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+            }
+            _attTime = Time.time;
+        }
     }
 }

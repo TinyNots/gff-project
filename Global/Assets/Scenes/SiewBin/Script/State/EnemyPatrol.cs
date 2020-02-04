@@ -98,7 +98,14 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (enemy.IsBoss)
             {
-                BossChase(enemy);
+                if (enemy.IsRanged)
+                {
+                    BossRangedChase(enemy);
+                }
+                else
+                {
+                    BossMeleeChase(enemy);
+                }
 
             }
             else
@@ -151,7 +158,7 @@ public class EnemyPatrol : IState<Enemy>
         }
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > enemy.ColliderBox.x)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
+            enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         }
         
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
@@ -206,7 +213,7 @@ public class EnemyPatrol : IState<Enemy>
             !(enemy.transform.position.x > -wsize.x  && enemy.transform.position.x < wsize.x) ||
             enemy.IsRetreat)
         {
-            enemy.transform.position += enemy.transform.TransformDirection(4.0f, 0.0f, 0.0f) * Time.deltaTime;
+            enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         }
         //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
         //{
@@ -225,11 +232,11 @@ public class EnemyPatrol : IState<Enemy>
         }
     }
 
-    void BossChase(Enemy enemy)
+    void BossRangedChase(Enemy enemy)
     {
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
+        enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         bool stateChgFlag = false;
         switch(enemy.BossSpot)
         {
@@ -258,6 +265,41 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.ChangeState(new EnemyAttack());
                 return;
         }
+
+    }
+
+    void BossMeleeChase(Enemy enemy)
+    {
+        //攻撃範囲内だったら攻撃する
+        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+
+        if (enemy.transform.position.x > -wsize.x && enemy.transform.position.x < wsize.x)
+        {
+            if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < enemy.ColliderBox.x + 5f)
+            {
+                //if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
+                //{
+                enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
+                enemy.ChangeState(new EnemyAttack());
+                return;
+                //}
+            }
+        }
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > enemy.ColliderBox.x)
+        {
+            enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
+        }
+
+        //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
+        //{
+        //    if (Mathf.Abs(_selfDepth - _targetDepth) > 0.2f)
+        //    {
+        //        var heading = _targetDepth - _selfDepth;
+        //        heading = heading >= 0f ? 1f : -1f;
+
+        //        enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
+        //    }
+        //}
 
     }
 

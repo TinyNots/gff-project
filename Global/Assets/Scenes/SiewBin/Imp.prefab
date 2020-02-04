@@ -147,6 +147,7 @@ MonoBehaviour:
   _unstunnable: 0
   _multiAttackPattern: 0
   _attDelay: 2
+  _moveSpeed: 5
 --- !u!114 &1525640599081704510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +178,7 @@ GameObject:
   - component: {fileID: 7396415398107522904}
   - component: {fileID: 5611818727705984410}
   - component: {fileID: 6988680542149177030}
+  - component: {fileID: 139512467181535734}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Enemy
@@ -338,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackBox: {fileID: 4366148260354003837, guid: 7ce57c5af9ca5ef41b52f473c8be1d8b,
     type: 3}
+  _attackBox2: {fileID: 0}
 --- !u!50 &5611818727705984410
 Rigidbody2D:
   serializedVersion: 4
@@ -371,6 +374,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13cf188a82d7e34408f39ccb3ca6b76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &139512467181535734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5458452447301337604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543ff1fa539c2cb45952c9d1b7563357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinPrefabs:
+  - {fileID: 2373030256897207410, guid: 7c7cbebd69a021f4d9243770de6004a4, type: 3}
+  - {fileID: 3461867488734143035, guid: 9aa963ea45e23e0418b6260a0a416d88, type: 3}
+  - {fileID: 1394245069045651331, guid: 9292ccb098e851f42aad0991086666cb, type: 3}
+  - {fileID: 8915625258552012830, guid: 9f705dabc6706124a9bfb3ab4fad008d, type: 3}
+  min: 2
+  max: 5
 --- !u!1001 &5458452447844169105
 PrefabInstance:
   m_ObjectHideFlags: 0
