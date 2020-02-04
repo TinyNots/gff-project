@@ -160,7 +160,7 @@ MonoBehaviour:
   _hitStopTime: 0.05
   _damageValue: 1
   _owner: {fileID: 0}
-  _hitPrefab: {fileID: 0}
+  _hitPrefab: {fileID: 4012009233190986, guid: ed0c022a338d3384d9ee622d354a94e2, type: 3}
   _isRange: 1
   _isBoss: 0
   _target: 1

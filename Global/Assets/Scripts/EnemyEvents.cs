@@ -14,7 +14,7 @@ public class EnemyEvents : MonoBehaviour
         for (int i = 0; i < randomNumber; i++)
         {
             Transform coin = Instantiate(_coinPrefabs[Random.Range(0, _coinPrefabs.Length)], transform.parent.Find("Shadow").position, Quaternion.identity);
-            float speed = 150.0f * Time.deltaTime;
+            float speed = 200.0f * Time.deltaTime;
             coin.GetComponent<Rigidbody2D>().velocity = Random.onUnitSphere * speed;
         }
     }

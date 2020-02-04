@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8915625258552012831}
   - component: {fileID: 1751761265529353286}
   - component: {fileID: 3276268464878110771}
+  - component: {fileID: 8324036506838719005}
   m_Layer: 0
   m_Name: Red Gem
   m_TagString: Untagged
@@ -85,6 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!114 &3276268464878110771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9d6450764980846906ad7f4184f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _textPrefab: {fileID: 2193351446819070702, guid: fb3e30b972d4c144d892c5358ee6979c,
+    type: 3}
+  _value: 250
+  _color: {r: 0.9607843, g: 0.26666668, b: 0.26666668, a: 1}
+  _playerName: Player 1
+--- !u!114 &8324036506838719005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8915625258552012828}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ad29f43cbc57e4b93189c11915dd9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 150
+  _collider: {fileID: 3154956328239295198}
 --- !u!1 &8915625259108529607
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,6 +276,11 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5796697866666109068, guid: c76a25ed8998e3947a11f7ba258ce838,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7737432163361925204, guid: c76a25ed8998e3947a11f7ba258ce838,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -334,6 +361,12 @@ PrefabInstance:
 --- !u!4 &1214362631325460998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7737432163361925204, guid: c76a25ed8998e3947a11f7ba258ce838,
+    type: 3}
+  m_PrefabInstance: {fileID: 8915625259625284178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &3154956328239295198 stripped
+CapsuleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5796697866666109068, guid: c76a25ed8998e3947a11f7ba258ce838,
     type: 3}
   m_PrefabInstance: {fileID: 8915625259625284178}
   m_PrefabAsset: {fileID: 0}

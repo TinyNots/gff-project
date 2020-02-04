@@ -7,5 +7,11 @@ public class CollectablesEvents : MonoBehaviour
     public void ResetVelocity()
     {
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+        OnCollider();
+    }
+
+    public void OnCollider()
+    {
+        transform.parent.Find("Shadow").GetComponent<Collider2D>().enabled = true;
     }
 }
