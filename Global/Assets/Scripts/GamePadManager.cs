@@ -131,6 +131,14 @@ public class GamePadManager : MonoBehaviour
         return 0;
     }
 
+    public void RumbleAll(float timer,float fadeTime,Vector2 power)
+    {
+        for (int i = 0; i < _gamepads.Count; ++i)
+        {
+            _gamepads[i].AddRumble(timer, fadeTime, power);
+        }
+    }
+
     private void OnApplicationQuit()
     {
         for (int i = 0; i < _gamepadCount; i++) 

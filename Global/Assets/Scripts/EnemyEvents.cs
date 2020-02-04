@@ -27,5 +27,11 @@ public class EnemyEvents : MonoBehaviour
     public void ShakeScreen()
     {
         CameraShaker.ShakeOnce(0.5f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 1.0f);
+        GamePadManager.Instance.RumbleAll(0.2f, 0.0f, new Vector2(0.65f, 0.65f));
+    }
+
+    public void PlaySound(string name)
+    {
+        SoundManager.Instance.PlaySe(name);
     }
 }

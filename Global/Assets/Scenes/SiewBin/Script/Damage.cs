@@ -137,6 +137,8 @@ public class Damage : MonoBehaviour
 
                     if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Player])
                     {
+                        SoundManager.Instance.PlaySe("Punch 4_1");
+
                         BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
                         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
                         _isHit = true;
@@ -231,6 +233,8 @@ public class Damage : MonoBehaviour
 
                     if (collision.gameObject.tag == _targetTag[(int)SelectableTag.Player])
                     {
+                        SoundManager.Instance.PlaySe("Punch 4_1");
+
                         BetterPlayerControl playerControl = collision.transform.parent.GetComponent<BetterPlayerControl>();
                         playerControl.RumbleController(0.2f, 0.0f, new Vector2(0.5f, 0.5f));
                         _isHit = true;

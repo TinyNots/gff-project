@@ -97,6 +97,11 @@ public class AnimationEvents : MonoBehaviour
         SoundManager.Instance.PlaySe(name + Random.Range(1, 5));
     }
 
+    public void PlayNormalSound(string name)
+    {
+        SoundManager.Instance.PlaySe(name);
+    }
+
     public void DashBox()
     {
         GameObject hitBox = Instantiate(_dashPrefab, transform);
@@ -114,5 +119,10 @@ public class AnimationEvents : MonoBehaviour
         _character.EnableAttack = false;
         yield return new WaitForSeconds(time);
         _character.EnableAttack = true;
+    }
+
+    public void PlayRunSound()
+    {
+        SoundManager.Instance.PlaySe("Light Armor Gravel Running 1_0" + Random.Range(1, 9));
     }
 }

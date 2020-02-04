@@ -332,6 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!114 &2625305396237038696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +351,10 @@ MonoBehaviour:
   _isBoss: 0
   _tmpPlayer: {fileID: 0}
   _particle: {fileID: 0}
+  _maxTargetNum: 3
+  _unstunnable: 0
+  _multiAttackPattern: 0
+  _attDelay: 1
 --- !u!114 &7068923808578343700
 MonoBehaviour:
   m_ObjectHideFlags: 0

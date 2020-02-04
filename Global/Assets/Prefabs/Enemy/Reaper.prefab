@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b85dd0649336a44817fae2a10b36e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 50
+  _hp: 1
   _dmgImage: {fileID: 7112399824566562924, guid: 182289b7c35d56f469687a50980adc3d,
     type: 3}
 --- !u!114 &7677490526621305045
@@ -358,7 +358,7 @@ MonoBehaviour:
   _maxTargetNum: 3
   _unstunnable: 1
   _multiAttackPattern: 0
-  _attDelay: 1
+  _attDelay: 2
 --- !u!114 &3241682907277771447
 MonoBehaviour:
   m_ObjectHideFlags: 0
