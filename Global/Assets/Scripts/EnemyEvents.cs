@@ -23,4 +23,9 @@ public class EnemyEvents : MonoBehaviour
     {
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
     }
+
+    public void ShakeScreen()
+    {
+        CameraShaker.ShakeOnce(0.5f, 2.0f, new Vector3(1.0f, 1.0f, 0.0f) * 1.0f);
+    }
 }

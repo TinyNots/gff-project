@@ -71,7 +71,12 @@ public class HealthBar : MonoBehaviour
                 _oldSlider.value -= (_oldSlider.value - _oldSliderVal) * Time.deltaTime;
             }
         }
-        if (slider.value < 0.3f)
+       
+    }
+
+    void FixedUpdate()
+    {
+        if (slider.value < 0.3f && slider.value > 0.0f)
         {
             var tmp = _bg.GetComponent<Image>().color;
             if (flashCnt / 10 % 2 == 0)
@@ -87,3 +92,5 @@ public class HealthBar : MonoBehaviour
         flashCnt++;
     }
 }
+
+

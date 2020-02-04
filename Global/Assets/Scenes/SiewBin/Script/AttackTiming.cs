@@ -47,7 +47,7 @@ public class AttackTiming : MonoBehaviour
     //攻撃する
     public void SpawnAttack()
     {
-        _tmpSlash = Instantiate(AttackBox, transform.position,transform.rotation);
+        _tmpSlash = Instantiate(AttackBox, transform.parent.position, transform.rotation);
         _tmpSlash.GetComponent<Damage>().SetOwner(transform);
         _tmpSlash.SetActive(true);
         Destroy(_tmpSlash, 0.2f);

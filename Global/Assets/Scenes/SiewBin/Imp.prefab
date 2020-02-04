@@ -144,6 +144,9 @@ MonoBehaviour:
   _tmpPlayer: {fileID: 0}
   _particle: {fileID: 0}
   _maxTargetNum: 3
+  _unstunnable: 0
+  _multiAttackPattern: 0
+  _attDelay: 2
 --- !u!114 &1525640599081704510
 MonoBehaviour:
   m_ObjectHideFlags: 0

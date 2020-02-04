@@ -56,7 +56,7 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         _gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
-        if(_gamepad != null)
+        if(_gamepad == null)
         {
             return;
         }

@@ -183,7 +183,7 @@ Animator:
   m_GameObject: {fileID: 5183333098326931810}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f9ec314c8066c0c4db91cba27082f454, type: 2}
+  m_Controller: {fileID: 22100000, guid: e2a66939bd8d81d499b2fbb985ba05ea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d0b15c8218e6145a3822c711b810c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackBox: {fileID: 1016998580034615135, guid: 09119fcdd3e4f7645a4268e0948358ce,
+  _attackBox: {fileID: 2160852445618448675, guid: 8ea723540d6e7a24ca58a61ce907bc56,
     type: 3}
 --- !u!114 &6926439345936537063
 MonoBehaviour:
@@ -279,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183333098885676217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.76386344, y: -0.09856282, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children:
   - {fileID: 5183333098326931812}
@@ -336,6 +336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!114 &7677490525347096011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +355,10 @@ MonoBehaviour:
   _isBoss: 0
   _tmpPlayer: {fileID: 0}
   _particle: {fileID: 0}
+  _maxTargetNum: 3
+  _unstunnable: 1
+  _multiAttackPattern: 0
+  _attDelay: 1
 --- !u!114 &3241682907277771447
 MonoBehaviour:
   m_ObjectHideFlags: 0
