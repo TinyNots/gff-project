@@ -27,6 +27,8 @@ public class BetterPlayerControl : MonoBehaviour
     [SerializeField]
     private SkillManager _skillManager;
 
+    private Health _health;
+
     private Rigidbody2D _rb;
 
     // Debug
@@ -56,7 +58,7 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         _gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
-        if(_gamepad != null)
+        if(_gamepad == null)
         {
             return;
         }
@@ -87,6 +89,12 @@ public class BetterPlayerControl : MonoBehaviour
             {
                 _dasher.StopDash();
             }
+
+            // 別のキャラクターが死亡しているなら
+            if(_health.HP <= 0)
+            {
+                _health.Repair();
+            }       
 
             _animator.SetTrigger("Attack");
             if (_jumpStatus.GetIsGrounded())
@@ -184,5 +192,14 @@ public class BetterPlayerControl : MonoBehaviour
     public Controller GetGamepad()
     {
         return _gamepad;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.name == transform.name)
+        {
+
+            _health = collision.gameObject.GetComponent<Health>();
+        }
     }
 }

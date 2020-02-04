@@ -13,11 +13,14 @@ public class Resurrection : MonoBehaviour
     // バーの開始位置を固定するための変数
     private float _startTime;
 
-    private float _healPoint;
+    private int _healPoint;
     [SerializeField]
-    private Slider _HP;
-    [SerializeField]
-    private Animator animator;
+    private Animator animator = null;
+    private Character _character;
+    public Character GetChara
+    {
+        get { return _character; }
+    }
 
     private void Awake()
     {
@@ -29,6 +32,11 @@ public class Resurrection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    }
+
+    public void SetPlayer(Character character)
+    {
+        _character = character;
     }
 
     private void OnEnable()
@@ -43,12 +51,20 @@ public class Resurrection : MonoBehaviour
 
     public void Recovery()
     {
-        _healPoint = (Mathf.Abs(Mathf.Round(_slider.value * 10)));
+        _healPoint += (int)(Mathf.Abs(Mathf.Round(_slider.value * 10)));
+    }
+    public void ResetHP()
+    {
+        _healPoint = 0;
+    }
+    public int SetHeal()
+    {
+        return _healPoint;
     }
 
-    public void GageAnimation()
+    private void GageAnimation()
     {
-        if (Mathf.CeilToInt(_healPoint) == 0)
+        if (_healPoint == 0)
         {
             animator.SetBool("test", true);
         }
@@ -64,7 +80,5 @@ public class Resurrection : MonoBehaviour
     {
         PingPong();
         GageAnimation();
-        Debug.Log(Mathf.Round(_slider.value * 10));
-        Recovery();
     }
 }

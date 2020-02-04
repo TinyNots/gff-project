@@ -13,12 +13,13 @@ public class AddUIPlayer : MonoBehaviour
     private PlayerManager _playerManager = null;
     // 増やしたオブジェクト
     private List<GameObject> _objects;
+    private List<Character> _charList;
 
     // Start is called before the first frame update
     void Start()
     {
         _objects = new List<GameObject>();
-
+        _charList = new List<Character>();
         CreateUI();
     }
     
@@ -26,30 +27,40 @@ public class AddUIPlayer : MonoBehaviour
     {
         for (int i = 0; i < _playerManager.GetPlayerList().Count; i++)
         {
+            if (!_playerManager.GetPlayerList()[i].TryGetComponent(out Character character))
+            {
+                break;
+            }
+            _charList.Add(character);
             foreach (GameObject prefab in _prefabList)
             {
                 GameObject obj = Instantiate(prefab, transform);
-                WorldToScreenUI world = obj.GetComponent<WorldToScreenUI>();
-                world.Target = _playerManager.GetPlayerList()[i];
+                if(obj.TryGetComponent(out WorldToScreenUI world))
+                {
+                    world.Target = _playerManager.GetPlayerList()[i];
+                }
+                if (obj.TryGetComponent(out Resurrection resurrection))
+                {
+                    resurrection.SetPlayer(character);
+                }
                 obj.transform.parent = this.transform;
-                obj.name = obj.name + _playerManager.GetPlayerList()[i].name;
+                obj.SetActive(character.IsDie);
+                obj.name = prefab.name + i;
+
                 _objects.Add(obj);
             }
         }
     }
 
-    private void SetUI()
-    {
-        for(int i = 0; i < _playerManager.GetPlayerList().Count; i++)
-        {
-            WorldToScreenUI world = GetComponent<WorldToScreenUI>();
-            world.Target = _playerManager.GetPlayerList()[i];
-        }
-    }
-
-
     // Update is called once per frame
     void Update()
     {
+        foreach (GameObject obj in _objects)
+        {
+            if (obj.TryGetComponent(out Resurrection resurrection))
+            {
+                resurrection.gameObject.SetActive(resurrection.GetChara.IsDie);
+            }
+        }
     }
 }

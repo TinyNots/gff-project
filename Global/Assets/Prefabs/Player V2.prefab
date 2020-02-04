@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f6c64dc9b2d6d40bccf7a85011b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sp: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!114 &6559718406238483243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +112,7 @@ MonoBehaviour:
   _dustOverRate: 10
   _dasher: {fileID: 3672127607023164225}
   _skillManager: {fileID: 1239910974211237711}
+  _health: {fileID: 0}
   _tmpPrefab: {fileID: 4650646833976412, guid: 42c427f9d12527f4b86f4e770b4ce034, type: 3}
 --- !u!114 &3672127607023164225
 MonoBehaviour:
