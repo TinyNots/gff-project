@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GetHit : MonoBehaviour
 {
-    private float tiltLen;
+    private float tiltLen = 0;
     private float hitTime;
     private bool moveable = true;
     public float stunTime = 2;
@@ -52,7 +52,10 @@ public class GetHit : MonoBehaviour
     public void GetHitInit(float stunTimeSetting = 2)
     {
         hitTime = Time.time;
-        tiltLen = 16;
+        if (tiltLen < 16)
+        {
+            tiltLen += 16;
+        }
         stunTime = stunTimeSetting;
         moveable = false;
     }

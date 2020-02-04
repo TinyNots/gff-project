@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
     private Health _health;      //HPの情報
     private float _oldHP;
     private Vector3 _shadowPos;  //立ってる高さ
-    private Vector2 _imgSize;
     private float _shadowOffset;     //画像のサイズ
     private bool _dieFlag = false;
     private GetHit _getHitObj;       //攻撃される時の挙動
@@ -31,22 +30,38 @@ public class Enemy : MonoBehaviour
     private bool _isRetreat = false;
     public float _maxTargetNum = 3;
     private BossSpawnSpot _bossSpot;
+    [SerializeField]
+    private bool _unstunnable = false;
+    [SerializeField]
+    private bool _multiAttackPattern = false;
+    private Vector2 _colliderBox;
+    [SerializeField]
+    private float _attDelay = 1;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        _imgSize = new Vector2(_sprite.GetComponent<SpriteRenderer>().sprite.texture.width, _sprite.GetComponent<SpriteRenderer>().sprite.texture.height);
+        _sprite = transform.Find("Sprite").gameObject;
         _getHitObj = GetComponent<GetHit>();
         //if (_isRanged)
         //{
         //    _offset.y += 0.2f;
         //}
         _rb = GetComponent<Rigidbody2D>();
-        _health = transform.Find("Sprite").gameObject.GetComponent<Health>();
+        _health = _sprite.GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
         _stateMachine = new StateMachine<Enemy>();
         _stateMachine.Setup(this, new EnemySpawnDelay());
-
+        if (_multiAttackPattern)
+        {
+            _sprite.GetComponent<Animator>().SetBool("Multi Attack Pattern", true);
+        }
+        if (_unstunnable)
+        {
+            _sprite.GetComponent<Animator>().SetBool("Unstunnable", true);
+        }
+        _colliderBox = _sprite.GetComponent<Collider2D>().bounds.size;
     }
 
     // Update is called once per frame
@@ -84,7 +99,7 @@ public class Enemy : MonoBehaviour
             }
             if (_health.HP > 0)
             {
-                if (!IsBoss)
+                if (!IsBoss && !_unstunnable)
                 {
                     ChangeState(new EnemyGetHit());
                     return;
@@ -118,7 +133,8 @@ public class Enemy : MonoBehaviour
         //Debug.DrawLine(new Vector3(transform.position.x, _shadowPos.y, 0), new Vector3(transform.position.x + 2, _shadowPos.y, 0), Color.red);
         //Damage();
         //画像の回転
-        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") && !_isBoss)
+        if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+             !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack 2") && !_isBoss)
         {
             if (!_isRetreat)
             {
@@ -205,11 +221,7 @@ public class Enemy : MonoBehaviour
         set { _shadowOffset = value; }
         get { return _shadowOffset; }
     }
-
-    public Vector2 ImgOffSet
-    {
-        get { return _imgSize; }
-    }
+    
 
     public GameObject Sprite
     {
@@ -253,9 +265,23 @@ public class Enemy : MonoBehaviour
     {
         get { return _bossSpot; }
         set { _bossSpot = value; }
-
     }
 
+    public bool MultiAttackPattern
+    {
+        get { return _multiAttackPattern; }
+        set { _multiAttackPattern = value; }
+    }
+
+    public Vector2 ColliderBox
+    {
+        get { return _colliderBox; }
+    }
+
+    public float AttDelay
+    {
+        get { return _attDelay; }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

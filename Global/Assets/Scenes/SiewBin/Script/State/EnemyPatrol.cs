@@ -122,6 +122,7 @@ public class EnemyPatrol : IState<Enemy>
     
     public void Exit(Enemy enemy)
     {
+        enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
 
     }
 
@@ -139,7 +140,7 @@ public class EnemyPatrol : IState<Enemy>
     void MeleeChase(Enemy enemy)
     {
         //攻撃範囲内だったら攻撃する
-        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 1.0f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < enemy.ColliderBox.x)
         {
             if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
             {
@@ -148,7 +149,7 @@ public class EnemyPatrol : IState<Enemy>
                 return;
             }
         }
-        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 1.0f)
+        if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > enemy.ColliderBox.x)
         {
             enemy.transform.position += enemy.transform.TransformDirection(5.0f, 0.0f, 0.0f) * Time.deltaTime;
         }

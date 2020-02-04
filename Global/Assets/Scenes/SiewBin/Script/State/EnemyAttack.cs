@@ -17,11 +17,11 @@ public class EnemyAttack : IState<Enemy>
     public void Enter(Enemy enemy)
     {
         //攻撃アニメ
-        _anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
         enemy.Sprite.GetComponent<Animator>().Play("Idle");
         _selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
         _particleStartTime = Time.time;
         _startParticleFlag = false;
+        _anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
 
     }
     public void Execute(Enemy enemy)
@@ -55,6 +55,8 @@ public class EnemyAttack : IState<Enemy>
                 MeleeAttack(enemy);
             }
         }
+        _anim = enemy.Sprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip;
+
     }
 
 
@@ -82,10 +84,10 @@ public class EnemyAttack : IState<Enemy>
         var distY = _selfDepth - _targetDepth;
 
 
-        if (Time.time > _attTime + _anim.length + 1)
+        if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
             //目標が攻撃範囲から離れた
-            if (Mathf.Abs(distX) > 1.0f || Mathf.Abs(distY) > 0.4f)
+            if (Mathf.Abs(distX) > enemy.ColliderBox.x || Mathf.Abs(distY) > 0.4f)
             {
                 if (Random.Range(0, 2) == 0)
                 {
@@ -94,7 +96,7 @@ public class EnemyAttack : IState<Enemy>
                     return;
                 }
             }
-            if (Mathf.Abs(distX) > 3.0f || Mathf.Abs(distY) > 2.0f)
+            if (Mathf.Abs(distX) > enemy.ColliderBox.x  + 2.0f || Mathf.Abs(distY) > 2.0f)
             {
                 Debug.Log("ChangeToPatrol");
                 enemy.ChangeState(new EnemyPatrol());
@@ -102,7 +104,25 @@ public class EnemyAttack : IState<Enemy>
             }
             Debug.Log("Attack");
             //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
-            enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+            if (enemy.MultiAttackPattern)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+                }
+                else
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack 2");
+
+
+                }
+            }
+            else
+            {
+                enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+            }
             _attTime = Time.time;
         }
     }
@@ -113,7 +133,7 @@ public class EnemyAttack : IState<Enemy>
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-        if (Time.time > _attTime + _anim.length + 2)
+        if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
             if (Mathf.Abs(distX) > 7.5f || Mathf.Abs(distY) > 0.5f)
             {
@@ -138,14 +158,33 @@ public class EnemyAttack : IState<Enemy>
             }
             Debug.Log("Attack");
             //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
-            enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+            if (enemy.MultiAttackPattern)
+            {
+                if (Random.Range(0, 2) == 0)
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+                }
+                else
+                {
+                    enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack 2");
+
+
+                }
+            }
+            else
+            {
+                enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
+
+            }
             _attTime = Time.time;
+
         }
     }
 
     void BossRangedAttack(Enemy enemy)
     {
-        if (Time.time > _attTime + _anim.length + 2)
+        if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
             if (!_startParticleFlag)
             {
