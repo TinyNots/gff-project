@@ -8,7 +8,12 @@ public class EnemyEvents : MonoBehaviour
     [SerializeField]
     private Transform[] _coinPrefabs;
 
-    public void SpawnCoin(int min = 1, int max = 1)
+    [SerializeField]
+    private int min = 1;
+    [SerializeField]
+    private int max = 1;
+
+    public void SpawnCoin()
     {
         int randomNumber = Random.Range(min, max);
         for (int i = 0; i < randomNumber; i++)
@@ -33,5 +38,10 @@ public class EnemyEvents : MonoBehaviour
     public void PlaySound(string name)
     {
         SoundManager.Instance.PlaySe(name);
+    }
+
+    public void Destroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 }

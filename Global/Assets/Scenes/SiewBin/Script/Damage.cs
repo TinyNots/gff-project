@@ -81,11 +81,6 @@ public class Damage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(_isHit)
-        {
-            return;
-        }
-
         if (collision.gameObject.tag == _targetTag[(int)_target])
         {
             Transform collisionShadow = collision.transform.parent.Find("Shadow");

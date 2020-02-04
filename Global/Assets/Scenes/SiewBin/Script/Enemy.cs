@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
     private Vector2 _colliderBox;
     [SerializeField]
     private float _attDelay = 1;
+    [SerializeField]
+    private float _moveSpeed = 5;
 
 
     // Start is called before the first frame update
@@ -110,6 +112,7 @@ public class Enemy : MonoBehaviour
         if (_health.HP <= 0)
         {
             _dieFlag = true;
+            Sprite.GetComponent<Animator>().SetTrigger("Dying");
             ChangeState(new EnemyDie());
             return;
         }
@@ -134,30 +137,33 @@ public class Enemy : MonoBehaviour
         //Damage();
         //画像の回転
         if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
-             !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack 2") && !_isBoss)
+             !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
         {
-            if (!_isRetreat)
+            if (!_isBoss || !IsRanged)
             {
-                if (GetMoveDir(CurrentDest).x < 0)
+                if (!_isRetreat)
                 {
-                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                    if (GetMoveDir(CurrentDest).x < 0)
+                    {
+                        transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
+                    }
+                    else
+                    {
+                        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                    }
                 }
                 else
                 {
-                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                }
-            }
-            else
-            {
-                if (GetMoveDir(CurrentDest).x < 0)
-                {
-                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                    if (GetMoveDir(CurrentDest).x < 0)
+                    {
+                        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 
-                }
-                else
-                {
-                    transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                    }
+                    else
+                    {
+                        transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                    }
                 }
             }
         }
@@ -281,6 +287,10 @@ public class Enemy : MonoBehaviour
     public float AttDelay
     {
         get { return _attDelay; }
+    }
+    public float MoveSpeed
+    {
+        get { return _moveSpeed; }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
