@@ -22,7 +22,12 @@ public class NumberTransition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_waveReady.GetFlag())
+        if(Input.GetKeyDown(KeyCode.F2))
+        {
+            _animator.SetTrigger("Change");
+
+        }
+        if (_waveReady.GetFlag())
         {   
             _animator.SetTrigger("Change");
         }

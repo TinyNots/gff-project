@@ -69,6 +69,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_health.HP <= 0)
+        {
+            _dieFlag = true;
+            Sprite.GetComponent<Animator>().SetTrigger("Dying");
+            ChangeState(new EnemyDie());
+            return;
+        }
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
         if (GetComponent<Character>().enabled == false && (transform.position.x > -wsize.x && transform.position.x < wsize.x))
@@ -109,13 +116,7 @@ public class Enemy : MonoBehaviour
             }
 
         }
-        if (_health.HP <= 0)
-        {
-            _dieFlag = true;
-            Sprite.GetComponent<Animator>().SetTrigger("Dying");
-            ChangeState(new EnemyDie());
-            return;
-        }
+       
 
 
         //if (!IsJumping)
