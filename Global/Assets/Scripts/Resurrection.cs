@@ -14,29 +14,20 @@ public class Resurrection : MonoBehaviour
     private float _startTime;
 
     private int _healPoint;
+    private float _ratio;
     [SerializeField]
     private Animator animator = null;
-    private Character _character;
-    public Character GetChara
-    {
-        get { return _character; }
-    }
 
     private void Awake()
     {
+        _ratio = 0;
         _slider = GetComponent<Slider>();
-        _slider.value = 0.5f;
-        _healPoint = 0;
+        _slider.value = 0;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-    }
-
-    public void SetPlayer(Character character)
-    {
-        _character = character;
     }
 
     private void OnEnable()
@@ -51,20 +42,30 @@ public class Resurrection : MonoBehaviour
 
     public void Recovery()
     {
+        _ratio = Mathf.Abs(Mathf.Round(_slider.value * 10));
         _healPoint += (int)(Mathf.Abs(Mathf.Round(_slider.value * 10)));
     }
-    public void ResetHP()
+    public void ResetHeel()
     {
         _healPoint = 0;
     }
-    public int SetHeal()
+    public void SetHeal()
     {
-        return _healPoint;
+        _healPoint += (int)(Mathf.Abs(Mathf.Round(_slider.value * 10)));
+    }
+    public int GetHeal()
+    {
+        return _healPoint * 5;
     }
 
+    public float Slider()
+    {
+        return _slider.value;
+    }
     private void GageAnimation()
     {
-        if (_healPoint == 0)
+        _ratio = Mathf.Abs(Mathf.Round(_slider.value * 10));
+        if ((int)_ratio == 0)
         {
             animator.SetBool("test", true);
         }

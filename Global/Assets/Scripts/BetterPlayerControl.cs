@@ -27,6 +27,15 @@ public class BetterPlayerControl : MonoBehaviour
     [SerializeField]
     private SkillManager _skillManager;
 
+    private Health _heaith;
+    private Resurrection _resurrection;
+    public Resurrection Resurrect
+    {
+        get { return _resurrection; }
+        set { _resurrection = value; }
+    }
+    private int pushCount;
+
     private Rigidbody2D _rb;
 
     // Debug
@@ -41,29 +50,30 @@ public class BetterPlayerControl : MonoBehaviour
         _dustEmission = _dust.emission;
 
         _rb = transform.GetComponent<Rigidbody2D>();
-        if(_rb == null)
+        if (_rb == null)
         {
             Debug.Log("Rigidbody is missing");
         }
+        pushCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_controllerIndex == 0)
+        if (_controllerIndex == 0)
         {
             return;
         }
 
         _gamepad = GamePadManager.Instance.GetGamepad(_controllerIndex);
-        if(_gamepad == null || !_gamepad.IsConnected)
+        if (_gamepad == null || !_gamepad.IsConnected)
         {
             return;
         }
 
         // 移動関連
         _character.MoveInput = new Vector2(_gamepad.GetStickL().X, _gamepad.GetStickL().Y);
-        if(_character.EnableTurn)
+        if (_character.EnableTurn)
         {
             if (_gamepad.GetStickL().X < -0.01f)
             {
@@ -76,26 +86,45 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // ボタン関連
-        if(_gamepad.GetButtonDown("Y") && _character.EnableAttack)
+        if (_gamepad.GetButtonDown("Y") && _character.EnableAttack)
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
             {
                 return;
             }
 
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Dash"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Dash"))
             {
                 _dasher.StopDash();
             }
 
-            _animator.SetTrigger("Attack");
-            if (_jumpStatus.GetIsGrounded())
+            if (_heaith.HP < 0)
             {
-                _character.EnableMove = false;
+                if (_heaith.transform.parent.TryGetComponent(out BetterPlayerControl _better))
+                {
+                    _better.Resurrect.SetHeal();
+                    pushCount++;
+                    if (pushCount >= 5)
+                    {
+                        _heaith._hp = _better.Resurrect.GetHeal();
+                        _better.Resurrect.gameObject.SetActive(false);
+                        _better.Revive();
+                        pushCount = 0;
+                        _better.Resurrect.ResetHeel();
+                    }
+                }
+            }
+            else
+            {
+                _animator.SetTrigger("Attack");
+                if (_jumpStatus.GetIsGrounded())
+                {
+                    _character.EnableMove = false;
+                }
             }
         }
 
-        if(_gamepad.GetButtonDown("A"))
+        if (_gamepad.GetButtonDown("A"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_Air3_End"))
             {
@@ -116,9 +145,21 @@ public class BetterPlayerControl : MonoBehaviour
             _animator.SetBool("IsJumping", true);
             _jumpStatus.StartJump();
             _character.EnableAttack = true;
+
+            if (_heaith != null)
+            {
+                pushCount = 0;
+                if (_heaith.HP < 0)
+                {
+                    if (_resurrection != null)
+                    {
+                        _resurrection.ResetHeel();
+                    }
+                }
+            }
         }
 
-        if(_gamepad.GetButtonDown("B"))
+        if (_gamepad.GetButtonDown("B"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Die"))
             {
@@ -132,7 +173,7 @@ public class BetterPlayerControl : MonoBehaviour
         }
 
         // Debug
-        if(_gamepad.GetButtonDown("X"))
+        if (_gamepad.GetButtonDown("X"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
             {
@@ -151,7 +192,7 @@ public class BetterPlayerControl : MonoBehaviour
             }
         }
 
-        if(_gamepad.GetButtonDown("RB"))
+        if (_gamepad.GetButtonDown("RB"))
         {
             _skillManager.StartSkill();
         }
@@ -159,10 +200,11 @@ public class BetterPlayerControl : MonoBehaviour
         var health = _sprite.GetComponent<Health>();
         if (health.HP <= 0)
         {
+            _resurrection.gameObject.SetActive(true);
             _character.IsDie = true;
         }
 
-        if(_character.EnableMove && _jumpStatus.GetIsGrounded())
+        if (_character.EnableMove && _jumpStatus.GetIsGrounded())
         {
             float movingSpeed = Mathf.Abs(_gamepad.GetStickL().X) + Mathf.Abs(_gamepad.GetStickL().Y);
             _dustEmission.rateOverTime = _dustOverRate * Mathf.Clamp01(movingSpeed);
@@ -178,7 +220,7 @@ public class BetterPlayerControl : MonoBehaviour
         _controllerIndex = index;
     }
 
-    public void RumbleController(float timer, float fadeTime,Vector2 power)
+    public void RumbleController(float timer, float fadeTime, Vector2 power)
     {
         _gamepad.AddRumble(timer, fadeTime, power);
     }
@@ -186,5 +228,28 @@ public class BetterPlayerControl : MonoBehaviour
     public Controller GetGamepad()
     {
         return _gamepad;
+    }
+
+    public void Revive()
+    {
+        _character.IsDie = false;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {       
+            _heaith = collision.GetComponent<Health>();
+        }
+    }
+
+    private void OnTriggerExi2Dt(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            if(_heaith.gameObject.name == collision.gameObject.tag)
+            {
+                _heaith = null;
+            }
+        }
     }
 }

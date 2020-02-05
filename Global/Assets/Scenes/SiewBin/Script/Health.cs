@@ -41,7 +41,6 @@ public class Health : MonoBehaviour
 
     public void Repair()
     {
-        Resurrection canvas = GameObject.Find("RecoverySlider" + i).GetComponent<Resurrection>();
     }
 
     private void LateUpdate()
