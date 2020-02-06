@@ -14,6 +14,10 @@ public class WaveMng : MonoBehaviour
     public EnemyFactory[] _factoryCnt = new EnemyFactory[3];
     public Score _score;
     private GameObject _enemy;
+
+    [SerializeField]
+    private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +30,25 @@ public class WaveMng : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            var go = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject gos in go)
+            {
+                Destroy(gos.transform.parent.gameObject);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            _waveReadyFlag = true;
+            _animator.SetTrigger("Change");
+        }
         WaveStart();
         _timer += Time.deltaTime;
         if (_timer > _waitTime)
         {
             _enemy = GameObject.FindGameObjectWithTag("Enemy");
+           
             if (_enemy == null)
             {
                 _timer = 0;
@@ -49,7 +67,7 @@ public class WaveMng : MonoBehaviour
         int tmpCnt = _waveCnt;
         if (tmpCnt >= _waveSpawn.Length)
         {
-            tmpCnt = _waveCnt - _waveSpawn.Length;
+            tmpCnt = _waveCnt % _waveSpawn.Length;
         }
         if (_waveReadyFlag)
         {

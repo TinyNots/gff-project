@@ -10318,6 +10318,11 @@ PrefabInstance:
       propertyPath: _score
       value: 
       objectReference: {fileID: 2039391675}
+    - target: {fileID: 2650929440071613872, guid: 3157bdacd0b4d13428150356826c3446,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 1164736880}
     - target: {fileID: 2650929440071613873, guid: 3157bdacd0b4d13428150356826c3446,
         type: 3}
       propertyPath: m_LocalPosition.x
