@@ -26,7 +26,6 @@ public class EnemyJump : IState<Enemy>
             Debug.Log(_currentVelocity);
             enemy.IsJumping = true;
             _currentVelocity = _jumpVelocity;
-            //enemy.transform.Translate(Vector2.up * _currentVelocity * Time.deltaTime);
    
         }
         else
@@ -34,12 +33,6 @@ public class EnemyJump : IState<Enemy>
             _currentVelocity -= 10f * Time.deltaTime;
         }
         enemy.transform.position += enemy.transform.TransformDirection(enemy.GetMoveDir(enemy.CurrentDest).x * 0.05f, 0.5f * _currentVelocity * Time.deltaTime, 0.0f);
-
-        //enemy.transform.position += enemy.transform.TransformDirection( 0.0f, 0.1f, 0.0f);
-        
-        //}
-        
-        //enemy.ChangeState(new EnemyPatrol());
 
     }
 

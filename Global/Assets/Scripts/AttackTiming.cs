@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class AttackTiming : MonoBehaviour
 {
+    private const int multi_max_num = 3;        
+    private const int spiral_max_num = 36;
+    private const int circle_max_num = 30;
+
     [SerializeField]
     private GameObject _attackBox;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
     [SerializeField]
     private GameObject _attackBox2;   //近攻撃の範囲か遠攻撃の弾(プロトタイプ)
-    private GameObject _tmpSlash;    //プロトタイプを複製
-    private int _maxNum = 3;
+    private GameObject _tmpSlash;     //プロトタイプを複製
     float _frame = 0;
     bool _waitFlag = false;
     int _projIdx = 0;
-    bool _spiralFlag = false;
-    bool _circleFlag = false;
+    bool _spiralFlag = false;         
+    bool _circleFlag = false;         
     private float _destroyTime = 0.2f;
 
     // Start is called before the first frame update
@@ -96,15 +99,12 @@ public class AttackTiming : MonoBehaviour
 
     public void SpawnMultipleProjectile()
     {
-        for (int i = 0; i < _maxNum; i++)
+        for (int i = 0; i < multi_max_num; i++)
         {
-            //Quaternion _target = Quaternion.AngleAxis((15 * (i - (maxNum / 2))), new Vector3(0,0,1));
-            //tmpSlash = Instantiate(AttackBox, transform.position, _target * transform.rotation);
             _tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
             _tmpSlash.GetComponent<Projectile>().MultiShotIdx = i + 1;
 
             _tmpSlash.GetComponent<Damage>().SetOwner(transform);
-           //tmpSlash.transform.Find("ShadowRotation").transform.rotation = Quaternion.Euler(tmpSlash.transform.rotation.x, tmpSlash.transform.rotation.y,- tmpSlash.transform.rotation.z);
             _tmpSlash.SetActive(true);
         }
     }
@@ -113,11 +113,7 @@ public class AttackTiming : MonoBehaviour
     {
         if (Random.Range(0, 2) == 0)
         {
-
             _circleFlag = true;
-           
-
-
         }
         else
         {
@@ -131,9 +127,9 @@ public class AttackTiming : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            Quaternion target = Quaternion.AngleAxis(90 * i + (1 * (_projIdx - (_maxNum / 2))), new Vector3(0, 0, 1));
+            //4方向に撃つ
+            Quaternion target = Quaternion.AngleAxis(90 * i + _projIdx, new Vector3(0, 0, 1));
             _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0,1.2f,0), target * transform.rotation);
-            //// tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
             if (Random.Range(0, 2) == 0)
             {
                 _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
@@ -143,7 +139,8 @@ public class AttackTiming : MonoBehaviour
             _tmpSlash.SetActive(true);
             _projIdx++;
         }
-        if (_projIdx >= 36 * 4)
+        
+        if (_projIdx >= spiral_max_num * 4)
         {
             _spiralFlag = false;
             _projIdx = 0;
@@ -156,9 +153,8 @@ public class AttackTiming : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             var offset = 18 * (_projIdx / 10 % 2);
-            Quaternion target = Quaternion.AngleAxis(offset + (36 * (i - (_maxNum / 2))), new Vector3(0, 0, 1));
+            Quaternion target = Quaternion.AngleAxis(offset + (36 * i), new Vector3(0, 0, 1));
             _tmpSlash = Instantiate(AttackBox, transform.position - new Vector3(0, 1.2f, 0), target * transform.rotation);
-            // tmpSlash = Instantiate(AttackBox, transform.position, transform.rotation);
             if (Random.Range(0, 2) == 0)
             {
                 _tmpSlash.GetComponent<Projectile>().SigmoidMove = true;
@@ -172,7 +168,7 @@ public class AttackTiming : MonoBehaviour
             _tmpSlash.SetActive(true);
             _projIdx++;
         }
-        if (_projIdx >= 30)
+        if (_projIdx >= circle_max_num)
         {
             _projIdx = 0;
             _circleFlag = false;

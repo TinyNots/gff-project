@@ -80,6 +80,7 @@ public class GamePadManager : MonoBehaviour
         return null;
     }
 
+    // 現在接続しているゲームパットの数をゲットする
     public int ConnectedTotal()
     {
         int total = 0;

@@ -8,7 +8,7 @@ public class Flasher : MonoBehaviour
     private Shader _shaderGUItext;
     private Shader _shaderSpritesDafult;
 
-    // Start is called before the first frame update
+    // 初期化
     private void Start()
     {
         _renderer = transform.GetComponent<SpriteRenderer>();
@@ -16,6 +16,7 @@ public class Flasher : MonoBehaviour
         _shaderSpritesDafult = Shader.Find("Universal Render Pipeline/2D/Sprite-Lit-Default");
     }
 
+    // スプライトを白くなる
     public void StartFlash(float time = 0.01f)
     {
         _renderer.material.shader = _shaderGUItext;

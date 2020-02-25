@@ -162,8 +162,8 @@ public class Controller
             {
                 if (_rumbleEvents[i].timer > 0.0f)
                 {
-                    // Calculate current power
-                    //float timeLeft = Mathf.Clamp(_rumbleEvents[i].timer / _rumbleEvents[i].fadeTime, 0f, 1f);
+                    // 振動の強力を計算する
+                    float timeLeft = Mathf.Clamp(_rumbleEvents[i].timer / _rumbleEvents[i].fadeTime, 0f, 1f);
                     currentPower = new Vector2(Mathf.Max(_rumbleEvents[i].power.x, currentPower.x),
                                                Mathf.Max(_rumbleEvents[i].power.y, currentPower.y));
 
@@ -171,13 +171,14 @@ public class Controller
                 }
                 else
                 {
-                    // Cancel out any phantom vibration
+                    // 振動の指示を更新してリセットする
                     GamePad.SetVibration(_playerIndex, 0.0f, 0.0f);
 
-                    // Remove expired event
+                    // 古いイベントをリストから消す
                     _rumbleEvents.Remove(_rumbleEvents[i]);
                 }
 
+                // 振動時間の更新
                 _rumbleEvents[i].Update();
             }
         }

@@ -7,8 +7,7 @@ using UnityEngine;
 //現時点は敵のみ遠攻撃ができる
 public class Projectile : MonoBehaviour
 {
-    float _depth;
-    private Transform _shadow;
+    private Transform _shadow;  //影
     private Vector2 _shadowSize = new Vector2(0.0f, 0.0f);
     private float _multiShotTimer;
     private int _multiShotIdx;
@@ -38,7 +37,6 @@ public class Projectile : MonoBehaviour
         {
             _shadow = transform.Find("ShadowRotation").Find("Shadow");
         }
-       // multiShotIdx = 0;
         _shadowSize = _shadow.GetComponent<Renderer>().bounds.size;
         _multiShotTimer = Time.time;
 
@@ -61,6 +59,7 @@ public class Projectile : MonoBehaviour
         {
             if (!_multiShotFlag)
             {
+                //シグモイド関数で弾を曲げる
                 if (_sigmoidMove)
                 {
                     if (_reverseSigmoid)

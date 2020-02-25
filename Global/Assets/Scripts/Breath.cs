@@ -17,7 +17,7 @@ public class Breath : MonoBehaviour
     private float _value = 0.01f;
     private float _counter;
 
-    // Start is called before the first frame update
+    // 初期化
     void Start()
     {
         _sr = transform.GetComponent<SpriteRenderer>();
@@ -27,9 +27,10 @@ public class Breath : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // 更新
     void Update()
     {
+        // 透明度はsinカーフを使用して呼吸の効果する
         float alpha = _minAlpha + (_maxAlpha - _minAlpha) * Mathf.Sin(_counter) * Mathf.Sin(_counter);
         _sr.color = new Color(1.0f, 1.0f, 1.0f, alpha);
         _counter += _value;

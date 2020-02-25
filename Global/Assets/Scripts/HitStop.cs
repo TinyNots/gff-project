@@ -6,6 +6,7 @@ public class HitStop : MonoBehaviour
 {
     bool waiting = false;
 
+    // ゲーム時間をストップする
     public void Stop(float duration, float timeScale)
     {
         if(waiting)

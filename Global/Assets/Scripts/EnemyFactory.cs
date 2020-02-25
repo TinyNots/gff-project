@@ -32,21 +32,6 @@ public struct FactoryInfo
 public class EnemyFactory : MonoBehaviour
 {
     FactoryInfo initInfo;
-    //[SerializeField]
-    //Enemy prototype;
-    //public enum SpawnType
-    //{
-    //    Side,   //左右から生成
-    //    OneTime,//一度だけ生成
-    //    Top     //上から生成
-    //}
-    //[SerializeField]
-    //bool fromRight = true; //右から生成
-    //[SerializeField]
-    //SpawnType spawnType;    //生成する方法
-    //public int maxCnt = 10;        //最大生成数
-    //public float spawnTime = 3;    //生成要る時間
-    //public int massSpawnCnt = 1;  //大量生成数
     private float timer = 0;        //次の生成までの時間カウンター
     private int curCnt = 0;         //現在の敵数
 
@@ -56,9 +41,6 @@ public class EnemyFactory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //initInfo._fromRight = true;
-        //initInfo._maxCnt = 10;
-        //initInfo._spawnTime = 3;
         initInfo._massSpawnCnt = 1;
     }
 
@@ -114,6 +96,7 @@ public class EnemyFactory : MonoBehaviour
         return Instantiate(initInfo._prototype, this.transform.position, Quaternion.identity);
     }
 
+    //左右から生成する
     void SideSpawn(bool fromRight = true)
     {
         var enemy = Spawn();
@@ -141,7 +124,8 @@ public class EnemyFactory : MonoBehaviour
         }
         Debug.Log("Side Spawn");
     }
-
+    
+    //一回だけ生成する
     void OneTimeSpawn(bool fromRight = true)
     {
         if (isSpawned) return;
@@ -165,6 +149,8 @@ public class EnemyFactory : MonoBehaviour
         Debug.Log("One Time Spawn");
 
     }
+
+    //上から地面に落ちる
     void TopSpawn(bool fromRight = false)
     {
         var enemy = Spawn();
@@ -179,7 +165,6 @@ public class EnemyFactory : MonoBehaviour
         enemy.ShadowOffSet = initInfo._prototype.transform.Find("Sprite").transform.position.y - initInfo._prototype.transform.Find("Shadow").transform.position.y;
 
         enemy.transform.Find("Sprite").transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y + wsize.y, 0);
-        //enemy.transform.position = new Vector3(enemy.ShadowPos.x, enemy.ShadowPos.y + wsize.y, enemy.ShadowPos.z);
         enemy.IsJumping = true;
        
         Debug.Log("Top Spawn");

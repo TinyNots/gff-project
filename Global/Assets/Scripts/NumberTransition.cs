@@ -12,16 +12,15 @@ public class NumberTransition : MonoBehaviour
     private Text _text;
     private Animator _animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         _text = GetComponent<Text>();
         _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // デバック用
         if(Input.GetKeyDown(KeyCode.F2))
         {
             _animator.SetTrigger("Change");

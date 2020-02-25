@@ -12,33 +12,35 @@ public class Enemy : MonoBehaviour
     bool _isJumping = false;     //跳んでるか
     Rigidbody2D _rb;             
     private StateMachine<Enemy> _stateMachine;   //有限オートマトン
-    private Health _health;      //HPの情報
-    private float _oldHP;
-    private Vector3 _shadowPos;  //立ってる高さ
-    private float _shadowOffset;     //画像のサイズ
-    private bool _dieFlag = false;
-    private GetHit _getHitObj;       //攻撃される時の挙動
+    private Health _health;             //HPの情報
+    private Vector3 _shadowPos;         //立ってる高さ
+    private float _shadowOffset;        //画像のサイズ
+    private bool _dieFlag = false;      //死んだか
+    private GetHit _getHitObj;          //攻撃される時の挙動
     [SerializeField]
-    private bool _isRanged = false;  //遠攻撃できるか
+    private bool _isRanged = false;     //遠攻撃できるか
     [SerializeField]
-    private bool _isBoss = false;  //遠攻撃できるか
-    private bool _isTargeting = false;
-    public GameObject _tmpPlayer;
-    public ParticleSystem _particle;
-    private bool _targetChangeable;
-    private float _chgTargetTime;
-    private bool _isRetreat = false;
-    public float _maxTargetNum = 3;
-    private BossSpawnSpot _bossSpot;
+    private bool _isBoss = false;       //遠攻撃できるか
+    private bool _isTargeting = false;  //プレイヤーにターゲットしているか
+    public GameObject _tmpPlayer;       //ターゲットしているプレイヤ
+    public ParticleSystem _particle;    //ボース専用パーティクル
+    private bool _targetChangeable;     //一定時間経ったらターゲットが変えられる
+    private float _chgTargetTime;       //ターゲットが変えなくなる時
+    private const float unchangeable_time = 5f;  //ターゲットが変えられる必要時間
+    private bool _isRetreat = false;    //遠距離敵が撤退するか
+    public float _maxTargetNum = 3;     //プレイヤ－がターゲットされる最大数
+    private BossSpawnSpot _bossSpot;    //ボースの立つ場所
     [SerializeField]
-    private bool _unstunnable = false;
+    //プレイヤーに攻撃されてもEnemyGetHitのステートに入らない
+    //攻撃は中断できない
+    private bool _unstunnable = false; 
     [SerializeField]
-    private bool _multiAttackPattern = false;
-    private Vector2 _colliderBox;
+    private bool _multiAttackPattern = false;  //複数の攻撃パターンがあるか
+    private Vector2 _colliderBox;           
     [SerializeField]
-    private float _attDelay = 1;
+    private float _attDelay = 1;               //次の攻撃までの待つ時間
     [SerializeField]
-    private float _moveSpeed = 5;
+    private float _moveSpeed = 5;              //移動速度
 
 
     // Start is called before the first frame update
@@ -46,10 +48,6 @@ public class Enemy : MonoBehaviour
     {
         _sprite = transform.Find("Sprite").gameObject;
         _getHitObj = GetComponent<GetHit>();
-        //if (_isRanged)
-        //{
-        //    _offset.y += 0.2f;
-        //}
         _rb = GetComponent<Rigidbody2D>();
         _health = _sprite.GetComponent<Health>();
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height));
@@ -83,7 +81,7 @@ public class Enemy : MonoBehaviour
             GetComponent<Character>().enabled = true;
         }
 
-        if ( Time.time > _chgTargetTime + 5)
+        if ( Time.time > _chgTargetTime + unchangeable_time)
         {
             _targetChangeable = true;
         }
@@ -92,6 +90,7 @@ public class Enemy : MonoBehaviour
         if (_dieFlag) return;
         if (_health.ReceiveDmgFlag)
         {
+            //攻撃された時、攻撃した相手を狙う
             if (_health.DmgOrigin.transform.parent.tag == "Player")
             {
                 if (_tmpPlayer != null)
@@ -117,25 +116,6 @@ public class Enemy : MonoBehaviour
 
         }
        
-
-
-        //if (!IsJumping)
-        //{
-        //    _shadowPos = transform.position - _offset;
-        //}
-        //else
-        //{
-        //    _shadowPos = new Vector3(transform.position.x, _shadowPos.y, 0);
-
-        //}
-        //if (transform.position.y - _offset.y <= _shadowPos.y)
-        //{
-        //    IsJumping = false;
-        //    _shadowPos = transform.position - _offset;
-
-        //}
-        //Debug.DrawLine(new Vector3(transform.position.x, _shadowPos.y, 0), new Vector3(transform.position.x + 2, _shadowPos.y, 0), Color.red);
-        //Damage();
         //画像の回転
         if (_isTargeting && !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
              !_sprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
@@ -159,7 +139,6 @@ public class Enemy : MonoBehaviour
                     if (GetMoveDir(CurrentDest).x < 0)
                     {
                         transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-
                     }
                     else
                     {
@@ -347,16 +326,6 @@ public class Enemy : MonoBehaviour
         int idx = Random.Range(0, PlayerManager._playerTotalIndex + 1);
         return players[idx];
     }
-
-    private void Damage()
-    {
-        if (Input.anyKeyDown)
-        {
-            ChangeState(new EnemyGetHit());
-        }
-    }
-
- 
 
     public void DestroySelf()
     {

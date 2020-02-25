@@ -21,12 +21,11 @@ public class Ghost : MonoBehaviour
     {
         _sr = transform.GetComponent<SpriteRenderer>();
 
-        //_sr.sprite = _sprite;
         _sr.color = _trailColor;
         _originColor = _sr.color;
     }
 
-    // Update is called once per frame
+    // エフェクト残像の更新
     void Update()
     {
         if(_sr.color.a > 0)

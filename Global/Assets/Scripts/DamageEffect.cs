@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//ダメージ値のサイズを拡大しながらフェードアウトしていく
 public class DamageEffect : MonoBehaviour
 {
     private float _dmgVel;
@@ -22,11 +23,6 @@ public class DamageEffect : MonoBehaviour
             this.gameObject.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
             transform.Translate(Vector2.up * _dmgVel * Time.deltaTime);
         }
-        //if (_dmgVel > 50f)
-        //{
-        //    this.gameObject.SetActive(false);
-        //    Destroy(this.gameObject);
-        //}
         if (GetComponent<Text>().color.a <= 0)
         {
             this.gameObject.SetActive(false);
