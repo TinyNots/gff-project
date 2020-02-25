@@ -199,8 +199,9 @@ public class BetterPlayerControl : MonoBehaviour
             _character.IsDie = true;
         }
 
-        //　足元のエフェクトの制御
-        {
+		//　足元のエフェクトの制御
+		if (_character.EnableMove && _jumpStatus.GetIsGrounded())
+		{
             float movingSpeed = Mathf.Abs(_gamepad.GetStickL().X) + Mathf.Abs(_gamepad.GetStickL().Y);
             _dustEmission.rateOverTime = _dustOverRate * Mathf.Clamp01(movingSpeed);
         }
@@ -216,8 +217,9 @@ public class BetterPlayerControl : MonoBehaviour
         _controllerIndex = index;
     }
 
-    // ゲームパットの振動
-    {
+	// ゲームパットの振動
+	public void RumbleController(float timer, float fadeTime, Vector2 power)
+	{
         _gamepad.AddRumble(timer, fadeTime, power);
     }
 
