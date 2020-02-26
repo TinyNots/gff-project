@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     private GameObject _prefab = null;
 
     private bool _receiveDmgFlag = false;
-    private GameObject _dmgOrigin = null;
+    private GameObject _dmgOrigin = null;   //誰かに攻撃されたか
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +45,7 @@ public class Health : MonoBehaviour
 
     }
 
+    //ダメージ値を生成する
     public void ReceiveDmgEffect()
     {
 

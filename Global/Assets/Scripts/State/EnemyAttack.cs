@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyAttack : IState<Enemy>
 {
-
+    private const float screen_width_offset = 1f;
+    private const float particle_charge_time = 5f;
     float _attTime = 1;
     private float _selfDepth;
     private float _targetDepth;
@@ -103,7 +105,7 @@ public class EnemyAttack : IState<Enemy>
                 return;
             }
             Debug.Log("Attack");
-            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            //複数攻撃パターンの検査
             if (enemy.MultiAttackPattern)
             {
                 if (Random.Range(0, 2) == 0)
@@ -133,10 +135,14 @@ public class EnemyAttack : IState<Enemy>
         var distY = enemy.transform.position.y - enemy.CurrentDest.y;
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
+        //次の行動時間
         if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
-            if (Mathf.Abs(distX) > 7.5f || Mathf.Abs(distY) > 0.5f)
+            //攻撃範囲内
+            if (Mathf.Abs(distX) > 7.5f || 
+                Mathf.Abs(distY) > 0.5f)
             {
+                //そのままも一度攻撃か、プレイヤーに追いかけるか
                 if (Random.Range(0, 2) == 0)
                 {
                     //目標が攻撃範囲から離れた
@@ -145,11 +151,14 @@ public class EnemyAttack : IState<Enemy>
                     return;
                 }
             }
-            if (enemy.transform.position.x > -wsize.x + 1f && enemy.transform.position.x < wsize.x - 1f)
+            if (enemy.transform.position.x > -wsize.x + screen_width_offset &&
+                enemy.transform.position.x <  wsize.x - screen_width_offset)
             {
-                if (Mathf.Abs(distX) < 5.0f && Mathf.Abs(distY) < 0.2f)
+                //プレイヤーが迫って来る
+                if (Mathf.Abs(distX) < 5.0f && 
+                    Mathf.Abs(distY) < 0.2f)
                 {
-                    //目標が攻撃範囲から離れた
+                    //退避処理する
                     Debug.Log("ChangeToPatrol");
                     enemy.ChangeState(new EnemyPatrol());
                     enemy.IsRetreat = true;
@@ -157,7 +166,7 @@ public class EnemyAttack : IState<Enemy>
                 }
             }
             Debug.Log("Attack");
-            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            //複数攻撃パターンの検査
             if (enemy.MultiAttackPattern)
             {
                 if (Random.Range(0, 2) == 0)
@@ -186,6 +195,7 @@ public class EnemyAttack : IState<Enemy>
     {
         if (Time.time > _attTime + _anim.length + enemy.AttDelay)
         {
+            //パーティクルチャージ
             if (!_startParticleFlag)
             {
                 _particleStartTime = Time.time;
@@ -195,12 +205,12 @@ public class EnemyAttack : IState<Enemy>
             if (_startParticleFlag)
             {
                 enemy._particle.gameObject.SetActive(true);
-                if (_particleStartTime + 5 < Time.time)
+                if (Time.time > _particleStartTime + particle_charge_time)
                 {
+                    //チャージ終了
+                    //攻撃開始
                     enemy._particle.Stop();
-                    //startParticleFlag = false;
                     Debug.Log("Attack");
-                    //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
                     enemy.Sprite.GetComponent<Animator>().SetTrigger("Attack");
                     _attTime = Time.time;
                     _startParticleFlag = false;
@@ -227,7 +237,7 @@ public class EnemyAttack : IState<Enemy>
                 return;
             }
             Debug.Log("Attack");
-            //enemy.GetComponent<BoxCollider2D>().isTrigger = true;
+            //複数攻撃パターンの検査
             if (enemy.MultiAttackPattern)
             {
                 if (Random.Range(0, 2) == 0)

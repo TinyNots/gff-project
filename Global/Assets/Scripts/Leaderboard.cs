@@ -6,6 +6,7 @@ using UnityEngine;
 
 public static class Leaderboard
 {
+    //Top 5
     public const int entryCount = 5;
 
     public struct ScoreEntry
@@ -37,6 +38,7 @@ public static class Leaderboard
 
     private const string PlayerPrefsBaseKey = "leaderboard";
 
+    
     private static void SortScores()
     {
         _entryInstance.Sort((a, b) => b.score.CompareTo(a.score));

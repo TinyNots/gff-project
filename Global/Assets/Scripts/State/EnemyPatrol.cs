@@ -5,32 +5,31 @@ using UnityEngine;
 
 public class EnemyPatrol : IState<Enemy>
 {
-    float _destY;
-    private float _selfDepth;
-    private float _targetDepth;
+    private const float screen_width_offset = 1f;
+
+    private float _selfDepth;   //敵影の位置
+    private float _targetDepth; //プレイヤー影の位置
     private bool _waitFlag;
-    private Vector2 _patrolMag = new Vector2(5.0f, 0.0f);
+    private Vector2 _patrolMag = new Vector2(5.0f, 0.0f);   //移動速度
     private bool _patrolFlag;
-    private float patrolCnt;
+    private float _patrolCnt;   //巡り時間
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        _destY = wsize.y;
-
     }
 
     public void Enter(Enemy enemy)
     {
         enemy.Sprite.GetComponent<Animator>().SetBool("Running", true);
         enemy._tmpPlayer = enemy.FindClosestPlayer();
+        //プレイヤーが見つかりません
         if(enemy._tmpPlayer == null)
         {
             enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
             enemy.ChangeState(new EnemySpawnDelay());
         }
+        //プレイヤーが一定以上の敵にターゲットされてない
         if (!enemy.IsTargeting && enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum)
         {
             enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum++;
@@ -40,7 +39,7 @@ public class EnemyPatrol : IState<Enemy>
 
     public void Execute(Enemy enemy)
     {
-        if (patrolCnt > 120)
+        if (_patrolCnt > 120)
         {
             _patrolFlag = false;
         }
@@ -60,6 +59,7 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemySpawnDelay());
             }
+            //他のプレイヤーにターゲット遷移
             if (tmp.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum && !enemy.IsTargeting)
             {
                 if (tmp != enemy._tmpPlayer)
@@ -72,6 +72,7 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.IsTargeting = true;
 
             }
+
             if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum > enemy._maxTargetNum && enemy.IsTargeting)
             {
                 if (Random.Range(0, 2) == 0)
@@ -83,13 +84,13 @@ public class EnemyPatrol : IState<Enemy>
             enemy.CurrentDest = enemy._tmpPlayer.transform.position;
 
             _selfDepth = enemy.GetComponentInChildren<Depth>().DepthSetting;
-
             _targetDepth = enemy.FindClosestPlayer().transform.parent.GetComponentInChildren<Depth>().DepthSetting;
         }
         else
         {
             Patrol(enemy);
         }
+        //プレイヤーにターゲットしてない状態
         if (enemy._tmpPlayer.GetComponent<TargetNum>().TargettedNum >= enemy._maxTargetNum && !enemy.IsTargeting)
         {
             Patrol(enemy);
@@ -124,7 +125,7 @@ public class EnemyPatrol : IState<Enemy>
         }
 
 
-        patrolCnt++;
+        _patrolCnt++;
     }
     
     public void Exit(Enemy enemy)
@@ -177,9 +178,9 @@ public class EnemyPatrol : IState<Enemy>
     void RangedChase(Enemy enemy)
     {
         //攻撃範囲内だったら攻撃する
-
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        if (enemy.transform.position.x > -wsize.x +1f && enemy.transform.position.x < wsize.x -1f)
+        if (enemy.transform.position.x > -wsize.x + screen_width_offset && 
+            enemy.transform.position.x < wsize.x - screen_width_offset)
         {
             if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) >1.0f && Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 7.0f && !enemy.IsRetreat)
             {
@@ -195,7 +196,6 @@ public class EnemyPatrol : IState<Enemy>
             {
                     enemy.IsRetreat = false;
             }
-
         }
         else
         {
@@ -206,7 +206,6 @@ public class EnemyPatrol : IState<Enemy>
                 enemy.IsRetreat = false;
                 return;
             }
-            
         }
         //スクリーン内に見えるまで移動
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > 6.0f ||
@@ -215,12 +214,6 @@ public class EnemyPatrol : IState<Enemy>
         {
             enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         }
-        //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 3.0f)
-        //{
-        //    enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-        //    enemy.transform.position += enemy.transform.TransformDirection(0.1f, 0.0f, 0.0f);
-
-        //}
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 9.0f)
         {
             if (Mathf.Abs(_selfDepth - _targetDepth) > 0.2f)
@@ -238,6 +231,7 @@ public class EnemyPatrol : IState<Enemy>
 
         enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         bool stateChgFlag = false;
+        //ボースの位置を決定する
         switch(enemy.BossSpot)
         {
             case BossSpawnSpot.Half:
@@ -277,29 +271,15 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < enemy.ColliderBox.x + 3f)
             {
-                //if (Mathf.Abs(_selfDepth - _targetDepth) < 0.2f)
-                //{
                 enemy.Sprite.GetComponent<Animator>().SetBool("Running", false);
                 enemy.ChangeState(new EnemyAttack());
                 return;
-                //}
             }
         }
         if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) > enemy.ColliderBox.x)
         {
             enemy.transform.position += enemy.transform.TransformDirection(enemy.MoveSpeed, 0.0f, 0.0f) * Time.deltaTime;
         }
-
-        //if (Mathf.Abs(enemy.transform.position.x - enemy.CurrentDest.x) < 4.0f)
-        //{
-        //    if (Mathf.Abs(_selfDepth - _targetDepth) > 0.2f)
-        //    {
-        //        var heading = _targetDepth - _selfDepth;
-        //        heading = heading >= 0f ? 1f : -1f;
-
-        //        enemy.transform.position += enemy.transform.TransformDirection(0.0f, heading * 2.5f, 0.0f) * Time.deltaTime;
-        //    }
-        //}
 
     }
 
@@ -310,7 +290,7 @@ public class EnemyPatrol : IState<Enemy>
         {
             if (col.transform.tag == "Player")
             {
-                if (col.GetComponent<TargetNum>().TargettedNum < 5)
+                if (col.GetComponent<TargetNum>().TargettedNum < enemy._maxTargetNum)
                 {
                     enemy.IsTargeting = true;
                     _patrolFlag = false;
@@ -353,22 +333,13 @@ public class EnemyPatrol : IState<Enemy>
         _waitFlag = true;
         yield return new WaitForSeconds(1f);
         var wsize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-
+        //ランダムな移動処理
         var val = Random.Range(0, 2);
         if (val == 1)
         {
             _patrolMag.x = 5f;
             
             enemy.transform.Rotate(new Vector3(0f, 180f, 0f));
-            //if (enemy.transform.position.x < -wsize.x / 2)
-            //{
-            //    enemy.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            //}
-            //else if(enemy.transform.position.x > wsize.x / 2)
-            //{
-            //    enemy.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-
-            //}
             val = Random.Range(0, 6);
             
             if (val == 1)
