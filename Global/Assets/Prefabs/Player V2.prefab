@@ -136,6 +136,7 @@ MonoBehaviour:
     type: 3}
   _maxClone: 6
   _skillManager: {fileID: 1239910974211237711}
+  _shadow: {fileID: 3197176239624182614}
 --- !u!114 &7972625785379416598
 MonoBehaviour:
   m_ObjectHideFlags: 0

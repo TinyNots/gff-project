@@ -38,6 +38,9 @@ public class Dasher : MonoBehaviour
     private SkillManager _skillManager;
     private Jumper _jumpState;
 
+    [SerializeField]
+    private Transform _shadow;
+
     private void Start()
     {
         _rb = transform.GetComponent<Rigidbody2D>();
@@ -149,7 +152,7 @@ public class Dasher : MonoBehaviour
         {
             if(!_skillManager.GetTrigger())
             {
-                Transform clone = Instantiate(_clonePrefab, transform.position, Quaternion.identity);
+                Transform clone = Instantiate(_clonePrefab, _shadow.position, Quaternion.identity);
                 clone.Find("Sprite").rotation = _sprite.rotation;
                 _clones.Add(clone);
 

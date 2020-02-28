@@ -51,7 +51,7 @@ public class AnimationEvents : MonoBehaviour
 
     public void AttackNextHit()
     {
-        GameObject slashBox = Instantiate(_meleePrefab, transform);
+        GameObject slashBox = Instantiate(_slashPrefab, transform);
         slashBox.GetComponent<Damage>().EnableNextHit();
         slashBox.GetComponent<Damage>().SetOwner(transform);
         Destroy(slashBox, 0.2f);
