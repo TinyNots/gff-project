@@ -23,8 +23,10 @@ public class CameraShaker : MonoBehaviour
         _camera = GetComponent<Camera>();
     }
 
+    // メインカメラ（デフォルト）をゲットして振動する
     public static void ShakeOnce(float duration = 1.0f,float speed = 10.0f,Vector3? amount = null,Camera camera = null,bool deltaMovement = true,AnimationCurve curve = null)
     {
+        // 初期化のセット
         CameraShaker instance = ((camera != null) ? camera : Camera.main).gameObject.AddComponent<CameraShaker>();
         instance._duration = duration;
         instance._speed = speed;
@@ -50,12 +52,13 @@ public class CameraShaker : MonoBehaviour
 
     private void LateUpdate()
     {
+        // 常にチェックする
         if(_time > 0)
         {
             _time -= Time.deltaTime;
             if(_time > 0)
             {
-                //next position based on perlin noise
+                // カメラの位置はパーリンノイズで動かす
                 _newPos = (Mathf.PerlinNoise(_time * _speed, _time * _speed * 2) - 0.5f) * _amount.x * transform.right * _curve.Evaluate(1f - _time / _duration) +
                           (Mathf.PerlinNoise(_time * _speed * 2, _time * _speed) - 0.5f) * _amount.y * transform.up * _curve.Evaluate(1f - _time / _duration);
                 _newFoV = (Mathf.PerlinNoise(_time * _speed * 2, _time * _speed * 2) - 0.5f) * _amount.z * _curve.Evaluate(1f - _time / _duration);
@@ -77,6 +80,7 @@ public class CameraShaker : MonoBehaviour
         }
     }
 
+    // カメラのリセット
     private void ResetCamera()
     {
         _camera.transform.Translate(_deltaMovement ? -_oldPos : Vector3.zero);

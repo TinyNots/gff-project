@@ -111,7 +111,6 @@ public class SoundManager : MonoBehaviour
 
     private long frameCounter;
 
-    //------------------------------------------------------------------------------
     void Awake()
     {
         if (this != Instance)
@@ -143,7 +142,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    //------------------------------------------------------------------------------
     void Update()
     {
         bgmSource.mute = volume.mute;
@@ -161,26 +159,22 @@ public class SoundManager : MonoBehaviour
         frameCounter++;
     }
 
-    //------------------------------------------------------------------------------
     public int GetSeIndex(string name)
     {
         return seIndexes[name];
     }
 
-    //------------------------------------------------------------------------------
     public int GetBgmIndex(string name)
     {
         return bgmIndexes[name];
     }
 
-    //------------------------------------------------------------------------------
     public Handle PlayBgm(string name)
     {
         int index = bgmIndexes[name];
         return PlayBgm(index);
     }
 
-    //------------------------------------------------------------------------------
     public Handle PlayBgm(int index)
     {
         if (0 > index || bgmClips.Length <= index)
@@ -203,14 +197,12 @@ public class SoundManager : MonoBehaviour
         return bgmHandle;
     }
 
-    //------------------------------------------------------------------------------
     public void StopBgm()
     {
         bgmSource.Stop();
         bgmSource.clip = null;
     }
 
-    //------------------------------------------------------------------------------
     public bool IsBgmPlaying { get { return bgmSource.isPlaying; } }
 
     public bool IsSePlaying(string name)
@@ -218,13 +210,11 @@ public class SoundManager : MonoBehaviour
         return seSources[GetSeIndex(name)].isPlaying;
     }
 
-    //------------------------------------------------------------------------------
     public Handle PlaySe(string name)
     {
         return PlaySe(GetSeIndex(name));
     }
 
-    //------------------------------------------------------------------------------
     public Handle PlaySe(int index)
     {
         if (0 > index || seClips.Length <= index)
@@ -232,10 +222,6 @@ public class SoundManager : MonoBehaviour
             return null;
         }
 
-        //@memo 二回ループは一回ループにまとめられるが、
-        //可読性重視で二回ループにしておく
-        //for avoiding duplicated sounds
-        //同一フレームでの重複再生回避
         foreach (var k in seHandles)
         {
             AudioSource source = k.Value;
@@ -264,7 +250,6 @@ public class SoundManager : MonoBehaviour
         return null;
     }
 
-    //------------------------------------------------------------------------------
     public void StopSe()
     {
         foreach (AudioSource source in seSources)
@@ -277,16 +262,6 @@ public class SoundManager : MonoBehaviour
 
     public void StopSe(string name)
     {
-        //foreach(AudioSource source in seSources)
-        //{
-        //    if(source.clip.name == name)
-        //    {
-        //        source.Stop();
-        //        source.clip = null;
-        //        return;
-        //    }
-        //}
-
         for (int i = 0; i < seSources.Length; i++)
         {
             if (seSources[i].clip.name == name)

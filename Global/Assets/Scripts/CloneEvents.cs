@@ -9,12 +9,13 @@ public class CloneEvents : MonoBehaviour
 
     private Transform _shadow;
 
-    // Start is called before the first frame update
+    // 初期化
     void Start()
     {
         _shadow = transform.parent.Find("Shadow");
     }
 
+    // 当たり判定のボックスを生成する
     public void Attack()
     {
         GameObject slash = Instantiate(_slashPrefab, transform);

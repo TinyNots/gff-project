@@ -47,10 +47,12 @@ public class Character : MonoBehaviour
     {
         if(_isEnableMove)
         {
+            // 移動制御
             Vector2 movement = new Vector2(_moveInput.x, _moveInput.y * _speedPercentZ) * _speed * Time.deltaTime;
             transform.Translate(movement);
         }
 
+        // 画面外に出させない
         Collider2D moveableCollider = moveableArea.GetComponent<Collider2D>();
         Transform shadow = transform.Find("Shadow");
         Vector3 position = transform.position;
@@ -66,11 +68,13 @@ public class Character : MonoBehaviour
         transform.position = position;
     }
 
+    // 奥行きの値をゲットする
     public float GetDepth()
     {
         return _depth;
     }
 
+    // ゲットセット関連
     public bool EnableMove
     {
         get { return _isEnableMove; }

@@ -9,7 +9,6 @@ public class DrawOrder : MonoBehaviour
     [SerializeField]
     private Transform _shadow;
 
-    // Start is called before the first frame update
     void Start()
     {
         if(_sp == null)
@@ -28,7 +27,7 @@ public class DrawOrder : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // 描画順序はキャラの影に基づいて順序する
     void Update()
     {
         _sp.sortingOrder = (int)(_shadow.position.y * -100);

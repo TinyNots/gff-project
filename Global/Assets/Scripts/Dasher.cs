@@ -70,6 +70,7 @@ public class Dasher : MonoBehaviour
 
     private void Update()
     {
+        // ダッシュ状態にセットする
         _animator.SetFloat("DashVelocity", _timer);
 
        if(_timer == 0.0f)
@@ -79,19 +80,22 @@ public class Dasher : MonoBehaviour
 
         if(_timer > 0)
         {
+            // エフェクトの残像を生成する
             Transform ghost = Instantiate(_ghostPrefab, _sprite.position, _sprite.rotation);
             ghost.GetComponent<SpriteRenderer>().sprite = _sprite.GetComponent<SpriteRenderer>().sprite;
 
+            // 速度を更新する
             _rb.velocity = _stickVelocity * _velocity;
-
             _timer -= Time.deltaTime;
         }
         else
         {
+            // 待機状態に戻す
             StopDash();
         }
     }
 
+    // ダッシュの初期化
     public void StartDash()
     {
         if(_timer == 0)
@@ -108,6 +112,7 @@ public class Dasher : MonoBehaviour
                 _gamepad = GetComponent<BetterPlayerControl>().GetGamepad();
             }
 
+            // 一定の角度にダッシュできる
             if (_sprite.transform.eulerAngles.y == 180.0f)
             {
                 _stickVelocity = new Vector2(-1.0f, _gamepad.GetStickL().Y / 2.0f);
@@ -118,6 +123,7 @@ public class Dasher : MonoBehaviour
             }
             _isDashing = true;
 
+            // ジャンプダッシュはエフェクト残像を生成しない
             if(_jumpState.GetIsGrounded())
             {
                 SpawnClone();
@@ -141,6 +147,7 @@ public class Dasher : MonoBehaviour
         set { _isDashing = value; }
     }
 
+    // 残像の生成
     private void SpawnClone()
     {
         if(_clones == null)

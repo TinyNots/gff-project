@@ -67,7 +67,6 @@ public class Jumper : MonoBehaviour
                 _currentVelocity = 0;
                 _isGrounded = true;
                 _animator.SetBool("IsJumping", false);
-                //_shadowCollider.isTrigger = false;
                 _particle.Play();
                 SoundManager.Instance.PlaySe("Body Fall 1");
 

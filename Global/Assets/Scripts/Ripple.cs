@@ -67,6 +67,7 @@ public class Ripple : MonoBehaviour
     float timer;
     int dropCount;
 
+    // シェーダの変数を更新する
     void UpdateShaderParameters()
     {
         var c = GetComponent<Camera>();
@@ -87,6 +88,7 @@ public class Ripple : MonoBehaviour
         droplets[1] = new Droplet();
         droplets[2] = new Droplet();
 
+        // テクスチャを生成する
         gradTexture = new Texture2D(2048, 1, TextureFormat.Alpha8, false);
         gradTexture.wrapMode = TextureWrapMode.Clamp;
         gradTexture.filterMode = FilterMode.Bilinear;

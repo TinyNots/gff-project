@@ -29,14 +29,9 @@ public class BetterPlayerControl : MonoBehaviour
 
     private Rigidbody2D _rb;
 
-    // Debug
-    [SerializeField]
-    private Transform _tmpPrefab;
-
-    // Start is called before the first frame update
+    // 初期化
     void Start()
     {
-        //_controllerIndex = 0;
         _dust = transform.Find("Dust Particle").GetComponent<ParticleSystem>();
         _dustEmission = _dust.emission;
 
@@ -47,7 +42,7 @@ public class BetterPlayerControl : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // 更新
     void Update()
     {
         if(_controllerIndex == 0)
@@ -61,7 +56,7 @@ public class BetterPlayerControl : MonoBehaviour
             return;
         }
 
-        // 移動関連
+        // 入力の値を渡す
         _character.MoveInput = new Vector2(_gamepad.GetStickL().X, _gamepad.GetStickL().Y);
         if(_character.EnableTurn)
         {
@@ -75,7 +70,7 @@ public class BetterPlayerControl : MonoBehaviour
             }
         }
 
-        // ボタン関連
+        // 強攻撃
         if(_gamepad.GetButtonDown("Y") && _character.EnableAttack)
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
@@ -95,6 +90,7 @@ public class BetterPlayerControl : MonoBehaviour
             }
         }
 
+        // ジャンプ
         if(_gamepad.GetButtonDown("A"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_Air3_End"))
@@ -118,6 +114,7 @@ public class BetterPlayerControl : MonoBehaviour
             _character.EnableAttack = true;
         }
 
+        // ダッシュ
         if(_gamepad.GetButtonDown("B"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Die"))
@@ -131,7 +128,7 @@ public class BetterPlayerControl : MonoBehaviour
             _character.EnableAttack = true;
         }
 
-        // Debug
+        // 弱攻撃
         if(_gamepad.GetButtonDown("X"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Last"))
@@ -151,17 +148,20 @@ public class BetterPlayerControl : MonoBehaviour
             }
         }
 
+        // 残像攻撃（技）
         if(_gamepad.GetButtonDown("RB"))
         {
             _skillManager.StartSkill();
         }
 
+        // 死ぬ制御
         var health = _sprite.GetComponent<Health>();
         if (health.HP <= 0)
         {
             _character.IsDie = true;
         }
 
+        //　足元のエフェクトの制御
         if(_character.EnableMove && _jumpStatus.GetIsGrounded())
         {
             float movingSpeed = Mathf.Abs(_gamepad.GetStickL().X) + Mathf.Abs(_gamepad.GetStickL().Y);
@@ -173,16 +173,19 @@ public class BetterPlayerControl : MonoBehaviour
         }
     }
 
+    // ゲームパットのＩＤをセットする
     public void SetControllerIndex(int index)
     {
         _controllerIndex = index;
     }
 
+    // ゲームパットの振動
     public void RumbleController(float timer, float fadeTime,Vector2 power)
     {
         _gamepad.AddRumble(timer, fadeTime, power);
     }
 
+    // ゲームパットのＩＤをゲットする
     public Controller GetGamepad()
     {
         return _gamepad;

@@ -1,9 +1,8 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Sprites/Glitch"
+﻿Shader "Sprites/Glitch"
 {
 	Properties
 	{
+		// 弄る安いために、変数をＧＵＩ化する
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		
 		_Color ("Tint", Color) = (1,1,1,1)
@@ -38,7 +37,6 @@ Shader "Sprites/Glitch"
 		Pass
 		{
 		CGPROGRAM
-			// Upgrade NOTE: excluded shader from Xbox360; has structs without semantics (struct v2f members pos)
 			#pragma exclude_renderers xbox360
 			#pragma vertex vert
 			#pragma fragment frag
@@ -46,6 +44,7 @@ Shader "Sprites/Glitch"
 			#pragma multi_compile DUMMY PIXELSNAP_ON
 			#include "UnityCG.cginc"
 			
+			// スｐライトじょうの頂点座標の情報を参照する
 			struct appdata_t
 			{
 				float4 vertex   : POSITION;
@@ -53,6 +52,7 @@ Shader "Sprites/Glitch"
 				float2 texcoord : TEXCOORD0;
 			};
 
+			// 描画するための変数を構造体として定義する
 			struct v2f
 			{
 				float4 vertex   : SV_POSITION;
@@ -62,6 +62,7 @@ Shader "Sprites/Glitch"
 			
 			fixed4 _Color;
 			
+			// 参照した情報を自分が欲しい効果にする
 			v2f vert(appdata_t IN)
 			{
 				v2f OUT;
@@ -77,9 +78,9 @@ Shader "Sprites/Glitch"
 
 			sampler2D _MainTex;
 			
-			//Takes two values and returns a pseudo-random number between 0 (included) and 1 (excluded)
-			//It samples the sin function, scales it up (presumably to increase floating point error) and then takes it's fraction part (to get value between 0 and 1)
-			float rand(float x, float y){
+			// 特別乱数
+			float rand(float x, float y)
+			{
 				return frac(sin(x*12.9898 + y*78.233)*43758.5453);
 			}
 			
@@ -93,155 +94,66 @@ Shader "Sprites/Glitch"
 			float _WrapDispCoords;
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				//This ensures that the shader only generates new random variables every [_GlitchInterval] seconds, e.g. every 0.5 seconds
-				//During each interval the value wether the glitch occurs and how much the sprites glitches stays the same
+				// これは毎間隔しか更新しない時間間隔です。例えば、毎フレームが違う値としても、時間間隔を同じままになる
 				float intervalTime = floor(_Time.y / _GlitchInterval) * _GlitchInterval;
 
-				//Second value increased by arbitrary number just to get more possible different random values
+				// もっとランダムを出すために、２個目の時間間隔を作る
 				float intervalTime2 = intervalTime + 2.793;
 
-				//These values depend on time and the x/y translation of that sprite (top right and middle right value in the transformation matrix are translation)
-				//The transformation matrix values are included so sprites with differen x/y values don't glitch at the same time
-				float timePositionVal = intervalTime + UNITY_MATRIX_MV[0][3] + UNITY_MATRIX_MV[1][3];
-				float timePositionVal2 = intervalTime2 + UNITY_MATRIX_MV[0][3] + UNITY_MATRIX_MV[1][3];
+				// グリッチ効果を同時に発生しないために、時間間隔とスプライトの移動を足して自分専用のランダムを生成する
+				float3 offset = UnityObjectToViewPos(float3(0.0,0.0,0.0));
+				float timePositionVal = intervalTime + offset.x + offset.y;
+				float timePositionVal2 = intervalTime2 + offset.x + offset.y;
 
-				//Random chance that the displacement glich or color glitch occur
+				// 変位と変色のランダム値を生成する
 				float dispGlitchRandom = rand(timePositionVal, -timePositionVal);
 				float colorGlitchRandom = rand(timePositionVal, timePositionVal);
 
-				//Precalculate color channel shift
+				// ＵＶマップをＲＧＢごとにずらすために生成する
 				float rShiftRandom = (rand(-timePositionVal, timePositionVal) - 0.5) * _ColorIntensity;
 				float gShiftRandom = (rand(-timePositionVal, -timePositionVal) - 0.5) * _ColorIntensity;
 				float bShiftRandom = (rand(-timePositionVal2, -timePositionVal2) - 0.5) * _ColorIntensity;
 
-				//For the displacement glitch, the sprite is divided into strips of 0.2 * sprite height (5 stripes)
-				//This value is the random offset each of the strip boundries get either up or down
-				//Without this, each strip would be exactly a 5th of the sprite height, with this their height is slightly randomised
+				// 変位の切り戦を真ん中に置くだけじゃなくて、少しずらす
 				float shiftLineOffset = float((rand(timePositionVal2, timePositionVal2) - 0.5) / 50);
 
-				//If the randomly rolled value is below the probability boundry and the displacement effect is turned on, apply the displacement effect
-				if(dispGlitchRandom < _DispProbability && _DispGlitchOn == 1){
+				if(dispGlitchRandom < _DispProbability && _DispGlitchOn == 1)
+				{
 					IN.texcoord.x += (rand(floor(IN.texcoord.y / (0.2 + shiftLineOffset)) - timePositionVal, floor(IN.texcoord.y / (0.2 + shiftLineOffset)) + timePositionVal) - 0.5) * _DispIntensity;
-					//Prevent the texture coordinate from going into other parts of the texture, especially when using texture atlases
-					//Instead, loop the coordinate between 0 and 1
-					if(_WrapDispCoords == 1){
+					if(_WrapDispCoords == 1)
+					{
 						IN.texcoord.x = fmod(IN.texcoord.x, 1);
 					}
-					else{
+					else
+					{
 						IN.texcoord.x = clamp(IN.texcoord.x, 0, 1);
 					}
 				}
 
-				//Sample the texture at the normal position and at the shifted color channel positions
+				// テクスチャを元のスプライトとして扱う
 				fixed4 normalC = tex2D(_MainTex, IN.texcoord);
+				
+				// ＲＧＢごとにテクスチャをずらす
 				fixed4 rShifted = tex2D(_MainTex, float2(IN.texcoord.x + rShiftRandom, IN.texcoord.y + rShiftRandom));
 				fixed4 gShifted = tex2D(_MainTex, float2(IN.texcoord.x + gShiftRandom, IN.texcoord.y + gShiftRandom));
 				fixed4 bShifted = tex2D(_MainTex, float2(IN.texcoord.x + bShiftRandom, IN.texcoord.y + bShiftRandom));
 				
 				fixed4 c = fixed4(0.0,0.0,0.0,0.0);
-
-				//If the randomly rolled value is below the probability boundry and the color effect is turned on, apply the color glitch effect
-				//Sets the output color to the shifted r,g,b channels and averages their alpha
-				if(colorGlitchRandom < _ColorProbability && _ColorGlitchOn== 1){
+				if(colorGlitchRandom < _ColorProbability && _ColorGlitchOn== 1)
+				{
+					// 描画するためのＲＧＢを前にずらしたテクスチャのＲＧＢをそれぞれ入れる
 					c.r = rShifted.r;
 					c.g = gShifted.g;
 					c.b = bShifted.b;
 					c.a = (rShifted.a + gShifted.a + bShifted.a) / 3;
 				}
-				else{
+				else
+				{
 					c = normalC;
 				}
-				//Apply tint and tint color alpha
+				
+				// 色を元色と重ねて、少し透明する
 				c.rgb *= IN.color;
-				c.a *= IN.color.a;
-				c.rgb *= c.a;
-				return c;
-			}
-		ENDCG
-		}
-	}
-	SubShader
-	{
-		Tags
-		{ 
-			"Queue"="Transparent" 
-			"IgnoreProjector"="True" 
-			"RenderType"="Transparent" 
-			"PreviewType"="Plane"
-			"CanUseSpriteAtlas"="True"
-		}
-
-		Cull Off
-		Lighting Off
-		ZWrite Off
-		Fog { Mode Off }
-		Blend One OneMinusSrcAlpha
-
-		Pass
-		{
-		CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile DUMMY PIXELSNAP_ON
-			#include "UnityCG.cginc"
-			
-			struct appdata_t
-			{
-				float4 vertex   : POSITION;
-				float4 color    : COLOR;
-				float2 texcoord : TEXCOORD0;
-			};
-
-			struct v2f
-			{
-				float4 vertex   : SV_POSITION;
-				fixed4 color    : COLOR;
-				half2 texcoord  : TEXCOORD0;
-			};
-			
-			fixed4 _Color;
-			
-			v2f vert(appdata_t IN)
-			{
-				v2f OUT;
-				OUT.vertex = UnityObjectToClipPos(IN.vertex);
-				OUT.texcoord = IN.texcoord;
-				
-				OUT.color = IN.color * _Color;
-				#ifdef PIXELSNAP_ON
-				OUT.vertex = UnityPixelSnap (OUT.vertex);
-				#endif
-				return OUT;
-			}
-
-			sampler2D _MainTex;
-			
-			float rand(float x, float y){
-				return frac(sin(x*12.9898 + y*78.233)*43758.5453);
-			}
-			
-			float _DispIntensity;
-			float _DispProbability;
-			float _GlitchInterval;
-			float _DispGlitchOn;
-			float _WrapDispCoords;
-
-			fixed4 frag(v2f IN) : SV_Target
-			{
-				float intervalTime = floor(_Time.y / _GlitchInterval) * _GlitchInterval;
-				float timePositionVal = float(intervalTime + UNITY_MATRIX_MV[0][3] + UNITY_MATRIX_MV[1][3]);
-				float timeRandom = rand(timePositionVal, -timePositionVal);
-				if(timeRandom < _DispProbability && _DispGlitchOn == 1){
-					IN.texcoord.x += (rand(floor(IN.texcoord.y / 0.2) - intervalTime, floor(IN.texcoord.y / 0.2) + intervalTime) - 0.5) * _DispIntensity;
-					if(_WrapDispCoords == 1){
-						IN.texcoord.x = fmod(IN.texcoord.x, 1);
-					}
-					else{
-						IN.texcoord.x = clamp(IN.texcoord.x, 0, 1);
-					}
-				}
-				fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
-				
 				c.a *= IN.color.a;
 				c.rgb *= c.a;
 				return c;
